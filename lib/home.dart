@@ -12,6 +12,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[],
       ),
     );
