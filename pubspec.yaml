@@ -50,6 +50,7 @@ dependencies:
   firebase_storage: ^11.5.3
   cloud_firestore: ^4.13.3
   firebase_pagination: ^3.0.1
+  get: ^4.6.6
 
 dev_dependencies:
   flutter_test:
