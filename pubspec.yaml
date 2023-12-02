@@ -43,6 +43,8 @@ dependencies:
   lottie: ^2.7.0
   text_to_speech: ^0.2.3
   audio_waveforms: ^1.0.4
+  hive: ^2.2.3
+  http: ^1.1.2
 
 dev_dependencies:
   flutter_test:
