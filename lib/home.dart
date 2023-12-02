@@ -13,6 +13,7 @@ class _HomeState extends State<Home> {
     return const Scaffold(
       body: Column(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[],
       ),
     );
