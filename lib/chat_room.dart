@@ -33,14 +33,15 @@ class _ChatRoomState extends State<ChatRoom> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder(
-          stream: null,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            return ChatView(
-              chatController: _chatController,
-              currentUser: ChatUser(id: "1", name: "Hafedh"),
-              chatViewState: ChatViewState.loading,
-            );
-          }),
+        stream: null,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return ChatView(
+            chatController: _chatController,
+            currentUser: ChatUser(id: "1", name: "Hafedh"),
+            chatViewState: ChatViewState.loading,
+          );
+        },
+      ),
     );
   }
 }
