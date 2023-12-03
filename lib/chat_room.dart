@@ -10,7 +10,7 @@ class ChatRoom extends StatefulWidget {
 
 class _ChatRoomState extends State<ChatRoom> {
   late final ChatController _chatController;
-
+  final ScrollController _scrollController = ScrollController();
   @override
   void initState() {
     _chatController = ChatController(
