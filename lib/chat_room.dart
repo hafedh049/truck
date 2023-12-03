@@ -39,7 +39,7 @@ class _ChatRoomState extends State<ChatRoom> {
           return ChatView(
             chatController: _chatController,
             currentUser: ChatUser(id: "1", name: "Hafedh"),
-            chatViewState: ChatViewState.loading,
+            chatViewState:snapshot.hasError? ChatViewState.error :snapshot.connectionState == ConnectionState.waiting ?ChatViewState.loading :snapshot.data!.docs.isEmpty ? : ,
           );
         },
       ),
