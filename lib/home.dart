@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:text_to_speech/text_to_speech.dart';
 import 'package:truck/chat_room.dart';
 import 'package:truck/utils/globals.dart';
 
