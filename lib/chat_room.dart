@@ -32,16 +32,15 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<>(
-        stream: null,
-        builder: (context, snapshot) {
-          return ChatView(
-            chatController: _chatController,
-            currentUser: ChatUser(id: "1", name: "Hafedh"),
-            chatViewState: ChatViewState.loading,
-          );
-        }
-      ),
+      body: StreamBuilder<DocumentSnap>(
+          stream: null,
+          builder: (context, snapshot) {
+            return ChatView(
+              chatController: _chatController,
+              currentUser: ChatUser(id: "1", name: "Hafedh"),
+              chatViewState: ChatViewState.loading,
+            );
+          }),
     );
   }
 }
