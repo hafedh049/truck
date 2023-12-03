@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
       await _tts.speak("Hi my name is Hafedh!");
     };
     _items[1]["callback"] = () async {};
-    _items[2]["callback"] = () async {await Navigator.push(context,MaterialPageRoute(builder: (context) => const ChatRoom()) )};
+    _items[2]["callback"] = () async {await Navigator.push(context,MaterialPageRoute(builder: (context) => const ChatRoom());};
     super.initState();
   }
 
