@@ -18,6 +18,7 @@ class _ChatRoomState extends State<ChatRoom> {
       scrollController: _scrollController,
       chatUsers: <ChatUser>[
         ChatUser(id: id, name: name),
+        ChatUser(id: id, name: name),
       ],
     );
     super.initState();
