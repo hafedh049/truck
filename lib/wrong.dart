@@ -7,7 +7,7 @@ class Wait extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             LottieBuilder.asset("assets/lotties/wait.json", width: MediaQuery.sizeOf(context).width * .8),
           ],
