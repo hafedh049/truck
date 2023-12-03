@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
             margin: const EdgeInsets.all(24),
             child: Center(
               child: Row(
-                children: <Widget>[Icon(Bootstrap.)],
+                children: <Widget>[Icon(Bootstrap.arrow_repeat)],
               ),
             ),
           ),
