@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:truck/utils/globals.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
