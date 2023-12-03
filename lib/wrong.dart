@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:truck/utils/globals.dart';
 
 class Wrong extends StatelessWidget {
   const Wrong({super.key, required this.errorMessage});
@@ -10,7 +11,7 @@ class Wrong extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             LottieBuilder.asset("assets/lotties/wait.json", width: MediaQuery.sizeOf(context).width * .8),
-            Text(errorMessage),
+            Text(errorMessage, style: TextStyle(color: blue)),
           ],
         ),
       );
