@@ -11,7 +11,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final List<Map<String, dynamic>> _items = <Map<String, dynamic>>[
-    <String, dynamic>{},
+    <String, dynamic>{"title": "Repeat Last Message"},
     <String, dynamic>{},
     <String, dynamic>{},
   ];
