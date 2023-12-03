@@ -16,16 +16,19 @@ class _HomeState extends State<Home> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Container(
-            padding: const EdgeInsets.all(24),
-            margin: const EdgeInsets.all(24),
-            child: Center(
-              child: Row(
-                children: <Widget>[
-                  Icon(Bootstrap.arrow_repeat),
-                  const SizedBox(width: 10),
-                  Text("Repeat last message", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                ],
+          InkWell(
+            onTap: () {},
+            child: Container(
+              padding: const EdgeInsets.all(24),
+              margin: const EdgeInsets.all(24),
+              child: Center(
+                child: Row(
+                  children: <Widget>[
+                    Icon(Bootstrap.arrow_repeat),
+                    const SizedBox(width: 10),
+                    Text("Repeat last message", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  ],
+                ),
               ),
             ),
           ),
