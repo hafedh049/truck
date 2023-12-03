@@ -7,7 +7,7 @@ class Wait extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: LottieBuilder.asset(name)),
+      body: Center(child: LottieBuilder.asset("assets/lotties/wait.json")),
     );
   }
 }
