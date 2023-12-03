@@ -34,7 +34,7 @@ class _ChatRoomState extends State<ChatRoom> {
     return Scaffold(
       body: StreamBuilder(
           stream: null,
-          builder: (context, snapshot) {
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
             return ChatView(
               chatController: _chatController,
               currentUser: ChatUser(id: "1", name: "Hafedh"),
