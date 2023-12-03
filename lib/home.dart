@@ -17,6 +17,9 @@ class _HomeState extends State<Home> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           InkWell(
+            highlightColor: transparent,
+            splashColor: transparent,
+            hoverColor: transparent,
             onTap: () {},
             child: Container(
               padding: const EdgeInsets.all(24),
