@@ -20,7 +20,7 @@ class _HomeState extends State<Home> {
             margin: const EdgeInsets.all(24),
             child: Center(
               child: Row(
-                children: <Widget>[],
+                children: <Widget>[Icon(Bootstra)],
               ),
             ),
           ),
