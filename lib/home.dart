@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -20,7 +21,7 @@ class _HomeState extends State<Home> {
             margin: const EdgeInsets.all(24),
             child: Center(
               child: Row(
-                children: <Widget>[Icon(Bootstrap)],
+                children: <Widget>[Icon(Bootstrap.)],
               ),
             ),
           ),
