@@ -1,3 +1,4 @@
+import 'package:chatview/chatview.dart';
 import 'package:flutter/material.dart';
 
 class ChatRoom extends StatefulWidget {
@@ -10,6 +11,8 @@ class ChatRoom extends StatefulWidget {
 class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(body: ,);
+    return Scaffold(
+      body: ChatView(chatController: chatController, currentUser: currentUser, chatViewState: chatViewState),
+    );
   }
 }
