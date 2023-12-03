@@ -28,7 +28,6 @@ dependencies:
   cloud_firestore: ^4.13.3
   firebase_pagination: ^3.0.1
   get: ^4.6.6
-  tilt: ^0.0.2
 
 dev_dependencies:
   flutter_test:
