@@ -16,9 +16,7 @@ class _HomeState extends State<Home> {
     <String, dynamic>{
       "title": "Repeat Last Message",
       "icon": Bootstrap.arrow_repeat,
-      "callback": () async {
-        await _tts.speak("Hi How Are You ?.");
-      },
+      "callback": () async {},
     },
     <String, dynamic>{"title": "Message Understood", "icon": Bootstrap.check2_circle, "callback": () {}},
     <String, dynamic>{"title": "I Have A Problem", "icon": FontAwesome.circle_exclamation, "callback": () {}},
