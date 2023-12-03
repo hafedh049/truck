@@ -35,7 +35,7 @@ class _ChatRoomState extends State<ChatRoom> {
       body: ChatView(
         chatController: _chatController,
         currentUser: ChatUser(id: "1", name: "Hafedh"),
-        chatViewState: ChatViewState.hasMessages,
+        chatViewState: ChatViewState.has,
       ),
     );
   }
