@@ -35,7 +35,7 @@ class _ChatRoomState extends State<ChatRoom> {
     return Scaffold(
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance.collection("messages").snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           return ChatView(
             chatController: _chatController,
             currentUser: ChatUser(id: "1", name: "Hafedh"),
