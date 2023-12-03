@@ -10,6 +10,7 @@ class Wait extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             LottieBuilder.asset("assets/lotties/wait.json", width: MediaQuery.sizeOf(context).width * .8),
+            Text(data),
           ],
         ),
       );
