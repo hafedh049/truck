@@ -13,7 +13,8 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   void initState() {
-    _chatController = super.initState();
+    _chatController = ChatController(initialMessageList: initialMessageList, scrollController: scrollController, chatUsers: chatUsers);
+    super.initState();
   }
 
   @override
