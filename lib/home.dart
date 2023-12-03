@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
               highlightColor: transparent,
               splashColor: transparent,
               hoverColor: transparent,
-              onTap: () {},
+              onTap: item["callback"],
               child: Container(
                 padding: const EdgeInsets.all(24),
                 margin: const EdgeInsets.all(24),
