@@ -16,10 +16,7 @@ class _ChatRoomState extends State<ChatRoom> {
     _chatController = ChatController(
       initialMessageList: <Message>[],
       scrollController: _scrollController,
-      chatUsers: <ChatUser>[
-        ChatUser(id: id, name: name),
-        ChatUser(id: id, name: name),
-      ],
+      chatUsers: <ChatUser>[],
     );
     super.initState();
   }
