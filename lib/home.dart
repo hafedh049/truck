@@ -17,6 +17,7 @@ class _HomeState extends State<Home> {
         children: <Widget>[
           Container(
             padding: const EdgeInsets.all(24),
+            margin: const EdgeInsets.all(24),
             child: Center(
               child: Row(
                 children: <Widget>[],
