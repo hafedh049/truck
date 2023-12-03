@@ -15,7 +15,11 @@ class _HomeState extends State<Home> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Container(),
+          Container(
+            child: Row(
+              children: <Widget>[],
+            ),
+          ),
         ],
       ),
     );
