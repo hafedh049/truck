@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    _tts["callback"]
+    _tts["callback"] = () {};
     super.initState();
   }
 
