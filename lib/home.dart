@@ -11,12 +11,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final TextToSpeech _tts = TextToSpeech();
   final List<Map<String, dynamic>> _items = <Map<String, dynamic>>[
     <String, dynamic>{
       "title": "Repeat Last Message",
       "icon": Bootstrap.arrow_repeat,
       "callback": () async {
-        await TextToSpeech().speak("Hi How Are You ?.");
+        await _tts.speak("Hi How Are You ?.");
       },
     },
     <String, dynamic>{"title": "Message Understood", "icon": Bootstrap.check2_circle, "callback": () {}},
