@@ -11,7 +11,7 @@ class Wrong extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             LottieBuilder.asset("assets/lotties/wait.json", width: MediaQuery.sizeOf(context).width * .8),
-            Text(errorMessage, style: TextStyle(color: blue, fontSize: 16, fontWeight: FontWeight.w400)),
+            Flexible(child: Text(errorMessage, style: TextStyle(color: blue, fontSize: 16, fontWeight: FontWeight.w400))),
           ],
         ),
       );
