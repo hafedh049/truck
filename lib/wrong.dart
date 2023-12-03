@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class Wait extends StatelessWidget {
-  const Wait({super.key});
-
+class Wrong extends StatelessWidget {
+  const Wrong({super.key, required this.messageError});
+  final String messageError;
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Column(
