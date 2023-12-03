@@ -12,7 +12,11 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ChatView(chatController: chatController, currentUser: currentUser, chatViewState: chatViewState),
+      body: ChatView(
+        chatController: chatController,
+        currentUser: currentUser,
+        chatViewState: chatViewState,
+      ),
     );
   }
 }
