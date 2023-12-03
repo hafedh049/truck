@@ -33,8 +33,8 @@ class _ChatRoomState extends State<ChatRoom> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ChatView(
-        chatController: chatController,
-        currentUser: currentUser,
+        chatController: _chatController,
+        currentUser: ChatUser(id: "1", name: "Hafedh"),
         chatViewState: chatViewState,
       ),
     );
