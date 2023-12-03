@@ -32,7 +32,7 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<DocumentSnap>(
+      body: StreamBuilder(
           stream: null,
           builder: (context, snapshot) {
             return ChatView(
