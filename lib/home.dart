@@ -20,7 +20,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    _tts.first["callback"] = () {};
+    _tts.first["callback"] = () async {};
     super.initState();
   }
 
