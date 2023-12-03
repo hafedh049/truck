@@ -42,7 +42,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 ? ChatViewState.error
                 : snapshot.connectionState == ConnectionState.waiting
                     ? ChatViewState.loading
-                    : snapshot.data!.docs.isEmpty
+                    : _chatController.initialMessageList.isEmpty
                         ? ChatViewState.noData
                         : ChatViewState.hasMessages,
           );
