@@ -15,7 +15,7 @@ class _HomeState extends State<Home> {
     <String, dynamic>{
       "title": "Repeat Last Message",
       "icon": Bootstrap.arrow_repeat,
-      "callback": () {
+      "callback": () async {
         TextToSpeech().speak("Hi How Are You ?.");
       },
     },
