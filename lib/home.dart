@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:truck/chat_room.dart';
 import 'package:truck/utils/globals.dart';
@@ -11,7 +12,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final TextToSpeech _tts = TextToSpeech();
+  final FlutterTts _tts = FlutterTts();
   final List<Map<String, dynamic>> _items = <Map<String, dynamic>>[
     <String, dynamic>{"title": "Repeat Last Message", "icon": Bootstrap.arrow_repeat, "callback": () {}},
     <String, dynamic>{"title": "Message Understood", "icon": Bootstrap.check2_circle, "callback": () {}},
