@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
                     children: <Widget>[
                       Icon(item["icon"]),
                       const SizedBox(width: 10),
-                      Text("Repeat last message", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      Text(item["title"], style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
