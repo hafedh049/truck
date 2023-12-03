@@ -11,6 +11,7 @@ class ChatRoom extends StatefulWidget {
 class _ChatRoomState extends State<ChatRoom> {
   late final ChatController _chatController;
   final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     _chatController = ChatController(
@@ -19,6 +20,13 @@ class _ChatRoomState extends State<ChatRoom> {
       chatUsers: <ChatUser>[],
     );
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _chatController.dispose();
+    super.dispose();
   }
 
   @override
