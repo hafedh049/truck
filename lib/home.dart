@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
                 children: <Widget>[
                   Icon(Bootstrap.arrow_repeat),
                   const SizedBox(width: 10),
-                  Text("Repeat last message"),
+                  Text("Repeat last message", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
