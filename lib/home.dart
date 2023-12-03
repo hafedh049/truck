@@ -16,6 +16,7 @@ class _HomeState extends State<Home> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Container(
+            padding: const EdgeInsets.all(24),
             child: Center(
               child: Row(
                 children: <Widget>[],
