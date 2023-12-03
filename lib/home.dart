@@ -20,7 +20,9 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    _items[0]["callback"] = () async {await _tts.speak("Hi my name is Hafedh!")};
+    _items[0]["callback"] = () async {
+      await _tts.speak("Hi my name is Hafedh!");
+    };
     _items[1]["callback"] = () async {};
     _items[2]["callback"] = () async {};
     super.initState();
