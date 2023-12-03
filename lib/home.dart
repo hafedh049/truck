@@ -20,9 +20,9 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    _items.first["callback"] = () async {};
-    _items.first["callback"] = () async {};
-    _items.first["callback"] = () async {};
+    _items[0]["callback"] = () async {};
+    _items[1]["callback"] = () async {};
+    _items[2]["callback"] = () async {};
     super.initState();
   }
 
