@@ -46,7 +46,7 @@ class _ChatRoomState extends State<ChatRoom> {
         stream: FirebaseFirestore.instance.collection("messages").orderBy("createdAt").snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.hasData) {
-            _chatController.initialMessageList = snapshot.data!.docs.map(
+            _chatController.initialMessageList = snapshot.data!.docs.forEach(
               (QueryDocumentSnapshot<Map<String, dynamic>> e) {
                 final Map<String, dynamic> data = e.data();
                 data["createdAt"] = data["createdAt"].toDate();
@@ -69,7 +69,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
                 return Message.fromJson(data);
               },
-            ).toList();
+            );
             _noMessagesYet = 0;
           }
           return ChatView(
