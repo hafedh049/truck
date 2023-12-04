@@ -195,7 +195,10 @@ class _ChatRoomState extends State<ChatRoom> {
           "messageType": "text",
           "voiceMessageDuration": "1000",
         },
-        'reaction': reaction.toJson(),
+        'reaction': {
+          'reactions': reactions,
+          'reactedUserIds': reactedUserIds,
+        },
         'message_type': messageType,
         'voice_message_duration': "1000",
         'status': status.name,
