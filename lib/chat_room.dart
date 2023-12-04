@@ -181,6 +181,6 @@ class _ChatRoomState extends State<ChatRoom> {
 
     Future.delayed(const Duration(milliseconds: 1), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
     Future.delayed(const Duration(seconds: 2), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
-    _chatController.setTypingIndicator = true;
+    _chatController.setTypingIndicator = false;
   }
 }
