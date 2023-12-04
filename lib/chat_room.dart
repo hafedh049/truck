@@ -67,8 +67,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         : MessageType.voice;
                 data["status"] = data["status"] == "pending" ? MessageStatus.pending : MessageStatus.undelivered;
                 data["reply_message"]["voiceMessageDuration"] = data["reply_message"]["voiceMessageDuration"].milliseconds;
-                data["voice_message_duration"] = data["voice_message_duration"]
-
+                data["voice_message_duration"] = data["voice_message_duration"].milliseconds;
                 return Message.fromJson(data);
               },
             ).toList();
