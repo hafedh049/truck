@@ -50,6 +50,9 @@ class _ChatRoomState extends State<ChatRoom> {
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance.collection("messages").snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.hasData) {
+              _chatController.initialMessageList = snapshot.data!.docs.map((e) => Message.fromJson(e)).toList();
+            }
             return ChatView(
               currentUser: currentUser,
               chatController: _chatController,
