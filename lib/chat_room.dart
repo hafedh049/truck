@@ -141,7 +141,7 @@ class _ChatRoomState extends State<ChatRoom> {
                   reactedUserTextStyle: TextStyle(color: theme.inComingChatBubbleTextColor),
                   reactionWidgetDecoration: BoxDecoration(
                     color: theme.inComingChatBubbleColor,
-                    boxShadow: <BoxShadow>[BoxShadow(color: isDarkTheme ? Colors.black12 : Colors.grey.shade200, offset: const Offset(0, 20), blurRadius: 40)],
+                    boxShadow: <BoxShadow>[BoxShadow(color: Colors.black12, offset: const Offset(0, 20), blurRadius: 40)],
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
