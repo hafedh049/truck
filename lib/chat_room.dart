@@ -42,6 +42,8 @@ class _ChatRoomState extends State<ChatRoom> {
     super.dispose();
   }
 
+  final GlobalKey<State> aa = GlobalKey<State>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
