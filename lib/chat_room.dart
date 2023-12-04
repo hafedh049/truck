@@ -48,7 +48,7 @@ class _ChatRoomState extends State<ChatRoom> {
           if (snapshot.hasData) {
             _chatController.initialMessageList = snapshot.data!.docs.map(
               (QueryDocumentSnapshot<Map> e) {
-                final Map<String, dynamic> data = e.data();
+                final Map<String, dynamic> data = e.data().cast<String, dynamic>();
                 data["createdAt"] = data["createdAt"].toDate();
                 data["message_type"] = data["message_type"] == "text"
                     ? MessageType.text
