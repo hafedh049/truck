@@ -113,9 +113,6 @@ class _ChatRoomState extends State<ChatRoom> {
               textFieldBackgroundColor: theme.textFieldBackgroundColor,
               closeIconColor: theme.closeIconColor,
               textFieldConfig: TextFieldConfiguration(
-                onMessageTyping: (TypeWriterStatus status) {
-                  debugPrint(status.toString());
-                },
                 compositionThresholdTime: 1.seconds,
                 textStyle: TextStyle(color: theme.textFieldTextColor),
               ),
