@@ -80,7 +80,7 @@ class _ChatRoomState extends State<ChatRoom> {
               backGroundColor: theme.appBarColor,
               profilePicture: Data.profileImage,
               backArrowColor: theme.backArrowColor,
-              chatTitle: "Discord ",
+              chatTitle: "Discord",
               chatTitleTextStyle: TextStyle(color: theme.appBarTitleTextStyle, fontWeight: FontWeight.bold, fontSize: 18, letterSpacing: 0.25),
               userStatus: "Online",
               userStatusTextStyle: const TextStyle(color: Colors.grey),
