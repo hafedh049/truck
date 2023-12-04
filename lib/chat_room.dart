@@ -183,40 +183,28 @@ class _ChatRoomState extends State<ChatRoom> {
     Message(id: id, createdAt: DateTime.now(), message: message, sendBy: currentUser.id, replyMessage: replyMessage, messageType: messageType);
     FirebaseFirestore.instance.collection("messages").add(Message.fromJson({}));
 
- final String id;
+    final String id;
 
-  /// Used for accessing widget's render box.
-  final GlobalKey key;
+    /// Used for accessing widget's render box.
+    final GlobalKey key;
 
-  /// Provides actual message it will be text or image/audio file path.
-  final String message;
+    /// Provides actual message it will be text or image/audio file path.
+    final String message;
 
-  /// Provides message created date time.
-  final DateTime createdAt;
+    /// Provides message created date time.
+    final DateTime createdAt;
 
-  /// Provides id of sender of message.
-  final String sendBy;
+    /// Provides id of sender of message.
+    final String sendBy;
 
-  /// Provides reply message if user triggers any reply on any message.
-  final ReplyMessage replyMessage;
+    /// Provides reply message if user triggers any reply on any message.
+    final ReplyMessage replyMessage;
 
-  /// Represents reaction on message.
-  final Reaction reaction;
+    /// Represents reaction on message.
+    final Reaction reaction;
 
-  /// Provides message type.
-  final MessageType messageType;
-
-
-  {'id': id,
-        'message': message,
-        'createdAt': createdAt,
-        'sendBy': sendBy,
-        'reply_message': replyMessage.toJson(),
-        'reaction': reaction.toJson(),
-        'message_type': messageType,
-        'voice_message_duration': voiceMessageDuration,
-        'status': status.name
-      };
+    /// Provides message type.
+    final MessageType messageType;
 
     Future.delayed(const Duration(milliseconds: 300), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
     Future.delayed(const Duration(seconds: 1), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
