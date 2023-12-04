@@ -78,7 +78,7 @@ isLastPage: false,
   featureActiveConfig: FeatureActiveConfig(
     enablePagination: true,
   ),
-  loadMoreData: chatController.loadMoreData
+  loadMoreData: _loadMoreData
 
 
 
