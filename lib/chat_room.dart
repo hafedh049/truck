@@ -60,6 +60,11 @@ class _ChatRoomState extends State<ChatRoom> {
                   : data["message_type"] == "image"
                       ? MessageType.image
                       : MessageType.voice;
+              data["message_type"] = data["message_type"] == "text"
+                  ? MessageType.text
+                  : data["message_type"] == "image"
+                      ? MessageType.image
+                      : MessageType.voice;
               return Message.fromJson(data);
             }).toList();
             _noMessagesYet = 0;
