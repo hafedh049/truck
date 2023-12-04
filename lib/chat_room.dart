@@ -69,10 +69,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 loadingWidgetConfig: ChatViewStateWidgetConfiguration(loadingIndicatorColor: theme.outgoingChatBubbleColor),
                 onReloadButtonTap: () {},
               ),
-              typeIndicatorConfig: TypeIndicatorConfiguration(
-                flashingCircleBrightColor: theme.flashingCircleBrightColor,
-                flashingCircleDarkColor: theme.flashingCircleDarkColor,
-              ),
+              typeIndicatorConfig: TypeIndicatorConfiguration(flashingCircleBrightColor: theme.flashingCircleBrightColor, flashingCircleDarkColor: theme.flashingCircleDarkColor),
               appBar: ChatViewAppBar(
                 elevation: theme.elevation,
                 backGroundColor: theme.appBarColor,
