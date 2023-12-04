@@ -168,10 +168,7 @@ class _ChatRoomState extends State<ChatRoom> {
         'createdAt': Timestamp.now(),
         'sendBy': "Flutter",
         'reply_message': <String, dynamic>{"id": '', "message": '', "replyTo": '', "replyBy": '', "message_type": "text", "voiceMessageDuration": 0},
-        'reaction': <String, dynamic>{
-          'reactions': [],
-          'reactedUserIds': [],
-        },
+        'reaction': <String, dynamic>{'reactions': [], 'reactedUserIds': []},
         'message_type': "text",
         'voice_message_duration': 0,
         'status': "pending",
