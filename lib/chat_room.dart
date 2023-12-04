@@ -8,8 +8,7 @@ import 'package:truck/utils/data.dart';
 import 'package:truck/utils/themes.dart';
 
 class ChatRoom extends StatefulWidget {
-  const ChatRoom({super.key, required this.userID});
-  final String userID;
+  const ChatRoom({super.key});
   @override
   State<ChatRoom> createState() => _ChatRoomState();
 }
