@@ -73,7 +73,11 @@ class _ChatRoomState extends State<ChatRoom> {
               }
               _noMessagesYet = 0;
             }
-            return ChatView(
+            return ChatView(isLastPage: false,
+  featureActiveConfig: FeatureActiveConfig(
+    enablePagination: true,
+  ),
+  loadMoreData: chatController.loadMoreData
               currentUser: _currentUser,
               chatController: _chatController,
               onSendTap: _onSendTap,
