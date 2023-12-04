@@ -21,7 +21,6 @@ class _ChatRoomState extends State<ChatRoom> {
   final _profileImage = "https://raw.githubusercontent.com/SimformSolutionsPvtLtd/flutter_showcaseview/master/example/assets/simform.png";
 
   AppTheme theme = DarkTheme();
-  bool isDarkTheme = true;
   late final ChatUser _currentUser;
   late final ChatController _chatController;
 
