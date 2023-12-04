@@ -73,7 +73,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 return Message.fromJson(data);
               },
             ).toList();
-            print(_chatController.length);
+            print(_chatController.initialMessageList.length);
 
             _noMessagesYet = 0;
             return ChatView(
