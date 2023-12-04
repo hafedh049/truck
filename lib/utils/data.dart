@@ -3,7 +3,7 @@ import 'package:chatview/chatview.dart';
 class Data {
   static const profileImage = "https://raw.githubusercontent.com/SimformSolutionsPvtLtd/flutter_showcaseview/master/example/assets/simform.png";
   static final messageList = [
-    Message(messageType: ,reaction: ,replyMessage: ,voiceMessageDuration: ,
+    Message(messageType: MessageType.text,reaction:Reaction(reactions: [], reactedUserIds: []) ,replyMessage:ReplyMessage() ,voiceMessageDuration: ,
       id: '1',
       message: "Hi!",
       createdAt: DateTime.now(),
