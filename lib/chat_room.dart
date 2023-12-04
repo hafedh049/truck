@@ -186,7 +186,7 @@ class _ChatRoomState extends State<ChatRoom> {
         'id': id,
         'message': message,
         'createdAt': Timestamp.now(),
-        'sendBy': sendBy,
+        'sendBy': "Discord",
         'reply_message': replyMessage.toJson(),
         'reaction': reaction.toJson(),
         'message_type': messageType,
