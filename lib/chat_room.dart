@@ -114,11 +114,7 @@ class _ChatRoomState extends State<ChatRoom> {
               closeIconColor: theme.closeIconColor,
               textFieldConfig: TextFieldConfiguration(textStyle: TextStyle(color: theme.textFieldTextColor)),
               micIconColor: theme.replyMicIconColor,
-              voiceRecordingConfiguration: VoiceRecordingConfiguration(
-                backgroundColor: theme.waveformBackgroundColor,
-                recorderIconColor: theme.recordIconColor,
-                waveStyle: WaveStyle(showMiddleLine: false, waveColor: theme.waveColor ?? Colors.white, extendWaveform: true),
-              ),
+              voiceRecordingConfiguration: VoiceRecordingConfiguration(backgroundColor: theme.waveformBackgroundColor, recorderIconColor: theme.recordIconColor, waveStyle: WaveStyle(showMiddleLine: false, waveColor: theme.waveColor ?? Colors.white, extendWaveform: true)),
             ),
             chatBubbleConfig: ChatBubbleConfiguration(
               outgoingChatBubbleConfig: ChatBubble(
