@@ -159,6 +159,7 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   void _onSendTap(String message, ReplyMessage replyMessage, MessageType messageType) async {
+    _chatController.setTypingIndicator = true;
     final String id = const Uuid().v8();
     await FirebaseFirestore.instance.collection("messages").add(
       <String, dynamic>{
@@ -180,5 +181,6 @@ class _ChatRoomState extends State<ChatRoom> {
 
     Future.delayed(const Duration(milliseconds: 1), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
     Future.delayed(const Duration(seconds: 2), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
+    _chatController.setTypingIndicator = true;
   }
 }
