@@ -73,6 +73,8 @@ class _ChatRoomState extends State<ChatRoom> {
                 return Message.fromJson(data);
               },
             ).toList();
+            print(111);
+
             _noMessagesYet = 0;
             return ChatView(
               currentUser: _currentUser,
@@ -177,7 +179,6 @@ class _ChatRoomState extends State<ChatRoom> {
       },
     );
     setState(() {});
-    print(111);
 
     Future.delayed(const Duration(milliseconds: 1), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
     Future.delayed(const Duration(seconds: 2), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
