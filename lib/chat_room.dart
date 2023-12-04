@@ -23,11 +23,7 @@ class _ChatRoomState extends State<ChatRoom> {
   AppTheme theme = DarkTheme();
   bool isDarkTheme = true;
   late final ChatUser _currentUser;
-  final _chatController = ChatController(
-    initialMessageList: <Message>[],
-    scrollController: ScrollController(),
-    chatUsers: <ChatUser>[ChatUser(id: '0', name: 'Discord', profilePhoto: _profileImage)],
-  );
+  final _chatController = ChatController(initialMessageList: <Message>[], scrollController: ScrollController(), chatUsers: <ChatUser>[ChatUser(id: '0', name: 'Discord', profilePhoto: _profileImage)]);
 
   @override
   void initState() {
