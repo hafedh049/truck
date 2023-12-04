@@ -199,7 +199,7 @@ class _ChatRoomState extends State<ChatRoom> {
           'reactions': [],
           'reactedUserIds': [],
         },
-        'message_type': messageType,
+        'message_type': "text",
         'voice_message_duration': "1000",
         'status': status.name,
       },
