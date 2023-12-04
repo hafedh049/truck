@@ -55,7 +55,13 @@ class _ChatRoomState extends State<ChatRoom> {
               currentUser: currentUser,
               chatController: _chatController,
               onSendTap: _onSendTap,
-              chatViewState: ChatViewState.hasMessages,
+              chatViewState: snapshot.hasError
+                  ? ChatViewState.error
+                  : snapshot.connectionState == ConnectionState.waiting
+                      ? ChatViewState.loading
+                      : _chatController.initialMessageList.isEmpty
+                          ? ChatViewState.noData
+                          : ChatViewState.hasMessages,
               chatViewStateConfig: ChatViewStateConfiguration(
                 loadingWidgetConfig: ChatViewStateWidgetConfiguration(loadingIndicatorColor: theme.outgoingChatBubbleColor),
                 onReloadButtonTap: () {},
