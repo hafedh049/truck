@@ -67,7 +67,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         : ChatViewState.hasMessages,
             chatViewStateConfig: ChatViewStateConfiguration(
               loadingWidgetConfig: ChatViewStateWidgetConfiguration(loadingIndicatorColor: theme.outgoingChatBubbleColor),
-              onReloadButtonTap: () {},
+              onReloadButtonTap: () => setState(() {}),
             ),
             typeIndicatorConfig: TypeIndicatorConfiguration(flashingCircleBrightColor: theme.flashingCircleBrightColor, flashingCircleDarkColor: theme.flashingCircleDarkColor),
             appBar: ChatViewAppBar(
