@@ -23,7 +23,7 @@ class _ChatRoomState extends State<ChatRoom> {
   AppTheme theme = DarkTheme();
   bool isDarkTheme = true;
   late final ChatUser _currentUser;
-  final _chatController;
+  late final _chatController;
 
   @override
   void initState() {
