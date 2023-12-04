@@ -79,7 +79,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 ? ChatViewState.error
                 : snapshot.connectionState == ConnectionState.waiting
                     ? ChatViewState.loading
-                    : _chatController.initialMessageList.isEmpty
+                    : snapshot.data!.docs.isEmpty
                         ? ChatViewState.noData
                         : ChatViewState.hasMessages,
             chatViewStateConfig: ChatViewStateConfiguration(loadingWidgetConfig: ChatViewStateWidgetConfiguration(loadingIndicatorColor: theme.outgoingChatBubbleColor), onReloadButtonTap: () => setState(() {})),
