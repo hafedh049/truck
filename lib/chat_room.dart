@@ -78,7 +78,7 @@ class _ChatRoomState extends State<ChatRoom> {
             _noMessagesYet = 0;
             return StatefulBuilder(
                 key: aa,
-                builder: (context, snapshot) {
+                builder: (context, _) {
                   return ChatView(
                     currentUser: _currentUser,
                     chatController: _chatController,
@@ -182,8 +182,7 @@ class _ChatRoomState extends State<ChatRoom> {
         'status': "pending",
       },
     );
-    setState(() {});
-
+    aa.currentState!.setState(() {});
     Future.delayed(const Duration(milliseconds: 1), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
     Future.delayed(const Duration(seconds: 2), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
   }
