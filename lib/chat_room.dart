@@ -71,7 +71,6 @@ class _ChatRoomState extends State<ChatRoom> {
 
                 data["reaction"]['reactions'] = data["reaction"]['reactions'].cast<String>();
                 data["reaction"]['reactedUserIds'] = data["reaction"]['reactedUserIds'].cast<String>();
-                print("1111111111111111");
                 return Message.fromJson(data);
               },
             ).toList();
