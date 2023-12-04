@@ -36,7 +36,7 @@ class _ChatRoomState extends State<ChatRoom> {
   final currentUser = ChatUser(id: '1', name: 'Flutter', profilePhoto: Data.profileImage);
   final _chatController = ChatController(
     initialMessageList: Data.messageList,
-    scrollController: ScrollController(),
+    scrollController: ScrollController()
     chatUsers: <ChatUser>[ChatUser(id: '0', name: 'Discord', profilePhoto: Data.profileImage)],
   );
 
