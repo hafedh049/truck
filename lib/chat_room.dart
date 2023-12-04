@@ -112,9 +112,7 @@ class _ChatRoomState extends State<ChatRoom> {
               replyTitleColor: theme.replyTitleColor,
               textFieldBackgroundColor: theme.textFieldBackgroundColor,
               closeIconColor: theme.closeIconColor,
-              textFieldConfig: TextFieldConfiguration(
-                textStyle: TextStyle(color: theme.textFieldTextColor),
-              ),
+              textFieldConfig: TextFieldConfiguration(textStyle: TextStyle(color: theme.textFieldTextColor)),
               micIconColor: theme.replyMicIconColor,
               voiceRecordingConfiguration: VoiceRecordingConfiguration(
                 backgroundColor: theme.waveformBackgroundColor,
