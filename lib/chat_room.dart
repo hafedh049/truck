@@ -42,13 +42,13 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<QuerySnapshot<Map>>(
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance.collection("messages").snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map>> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.hasData) {
             _chatController.initialMessageList = snapshot.data!.docs.map(
-              (QueryDocumentSnapshot<Map> e) {
-                final Map<String, dynamic> data = e.data().cast<String, dynamic>();
+              (QueryDocumentSnapshot<Map<String, dynamic>> e) {
+                final Map<String, dynamic> data = e.data();
                 data["createdAt"] = data["createdAt"].toDate();
                 data["message_type"] = data["message_type"] == "text"
                     ? MessageType.text
