@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 //import 'package:flutter_animate/flutter_animate.dart';
 import 'package:truck/utils/themes.dart';
+import 'package:truck/wait.dart';
 import 'package:uuid/uuid.dart';
 
 class ChatRoom extends StatefulWidget {
@@ -155,6 +156,8 @@ class _ChatRoomState extends State<ChatRoom> {
               ),
               swipeToReplyConfig: SwipeToReplyConfiguration(replyIconColor: theme.swipeToReplyIconColor),
             );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Wait();
           }
         },
       ),
