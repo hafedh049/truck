@@ -166,7 +166,7 @@ class _ChatRoomState extends State<ChatRoom> {
         'id': id,
         'message': message,
         'createdAt': Timestamp.now(),
-        'sendBy': "0",
+        'sendBy': "1",
         'reply_message': <String, dynamic>{"id": '', "message": '', "replyTo": '', "replyBy": '', "message_type": "text", "voiceMessageDuration": 0},
         'reaction': <String, dynamic>{'reactions': [], 'reactedUserIds': []},
         'message_type': "text",
