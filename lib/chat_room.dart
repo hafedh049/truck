@@ -36,7 +36,7 @@ class _ChatRoomState extends State<ChatRoom> {
   final currentUser = ChatUser(id: '1', name: 'Flutter', profilePhoto: Data.profileImage);
   final _chatController = ChatController(
     initialMessageList: Data.messageList,
-    scrollController: ScrollController()
+    scrollController: ScrollController(),
     chatUsers: <ChatUser>[ChatUser(id: '0', name: 'Discord', profilePhoto: Data.profileImage)],
   );
 
@@ -52,6 +52,7 @@ class _ChatRoomState extends State<ChatRoom> {
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
             if (snapshot.hasData) {
               _chatController.initialMessageList = snapshot.data!.docs.map((QueryDocumentSnapshot<Map<String, dynamic>> e) => Message.fromJson(e.data())).toList();
+              _noMessagesYet = 0;
             }
             return ChatView(
               currentUser: currentUser,
