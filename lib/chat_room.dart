@@ -40,10 +40,6 @@ class _ChatRoomState extends State<ChatRoom> {
     super.dispose();
   }
 
-  void _showHideTypingIndicator() {
-    _chatController.setTypingIndicator = !_chatController.showTypingIndicator;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -196,17 +192,5 @@ class _ChatRoomState extends State<ChatRoom> {
 
     Future.delayed(const Duration(milliseconds: 1), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
     Future.delayed(const Duration(seconds: 2), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
-  }
-
-  void _onThemeIconTap() {
-    setState(() {
-      if (isDarkTheme) {
-        theme = LightTheme();
-        isDarkTheme = false;
-      } else {
-        theme = DarkTheme();
-        isDarkTheme = true;
-      }
-    });
   }
 }
