@@ -92,7 +92,7 @@ class _ChatRoomState extends State<ChatRoom> {
             appBar: ChatViewAppBar(
               elevation: theme.elevation,
               backGroundColor: theme.appBarColor,
-              profilePicture: Data.profileImage,
+              profilePicture: _profileImage,
               backArrowColor: theme.backArrowColor,
               chatTitle: "Discord",
               chatTitleTextStyle: TextStyle(color: theme.appBarTitleTextStyle, fontWeight: FontWeight.bold, fontSize: 18, letterSpacing: 0.25),
