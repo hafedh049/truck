@@ -25,6 +25,7 @@ dependencies:
   cloud_firestore: ^4.13.3
   firebase_pagination: ^3.0.1
   flutter_tts: ^3.8.5
+  uuid: ^4.2.1
 
 dev_dependencies:
   flutter_test:
