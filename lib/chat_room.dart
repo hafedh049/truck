@@ -213,8 +213,8 @@ class _ChatRoomState extends State<ChatRoom> {
           "voiceMessageDuration": 0,
         },
         'reaction': <String, dynamic>{
-          'reactions': <String>[],
-          'reactedUserIds': <String>[],
+          'reactions': [],
+          'reactedUserIds': [],
         },
         'message_type': "text",
         'voice_message_duration': 0,
