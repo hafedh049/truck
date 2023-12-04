@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
     };
     _items[1]["callback"] = () async {};
     _items[2]["callback"] = () async {
-      await Navigator.push(context, MaterialPageRoute(builder: (context) => const ChatRoom()));
+      await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const ChatRoom()));
     };
     super.initState();
   }
@@ -34,31 +34,36 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          for (final Map<String, dynamic> item in _items)
-            InkWell(
-              highlightColor: transparent,
-              splashColor: transparent,
-              hoverColor: transparent,
-              onTap: item["callback"],
-              child: Container(
-                padding: const EdgeInsets.all(24),
-                margin: const EdgeInsets.all(24),
-                child: Center(
-                  child: Row(
-                    children: <Widget>[
-                      Icon(item["icon"]),
-                      const SizedBox(width: 10),
-                      Text(item["title"], style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                    ],
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            for (final Map<String, dynamic> item in _items)
+              GestureDetector(
+                onTap: item["callback"],
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: blue.withOpacity(.5),
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))],
+                  ),
+                  padding: const EdgeInsets.all(24),
+                  margin: const EdgeInsets.all(24),
+                  child: Center(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Icon(item["icon"]),
+                        const SizedBox(width: 10),
+                        Text(item["title"], style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
