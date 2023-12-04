@@ -172,7 +172,7 @@ class _ChatRoomState extends State<ChatRoom> {
             : messageType == MessageType.image
                 ? "image"
                 : "voice",
-        'voice_message_duration': 0,
+        'voice_message_duration':messageType == MessageType.voice ? : 0,
         'status': "pending",
       },
     );
