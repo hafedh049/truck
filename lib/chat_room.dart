@@ -166,10 +166,9 @@ class _ChatRoomState extends State<ChatRoom> {
     _chatController.setTypingIndicator = true;
     final String id = const Uuid().v8();
 
-    if(messageType == MessageType.image){
-     await  FirebaseStorage.instance.ref("images/").child(id).putFile(File(message)).then((TaskSnapshot tasksnapshot) => null)
+    if (messageType == MessageType.image) {
+      await FirebaseStorage.instance.ref("images/").child(id).putFile(File(message)).then((TaskSnapshot tasksnapshot) => null);
     }
-
 
     await FirebaseFirestore.instance.collection("messages").add(
       <String, dynamic>{
