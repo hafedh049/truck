@@ -114,11 +114,7 @@ class _ChatRoomState extends State<ChatRoom> {
             ),
             chatBubbleConfig: ChatBubbleConfiguration(
               outgoingChatBubbleConfig: ChatBubble(
-                linkPreviewConfig: LinkPreviewConfiguration(
-                  backgroundColor: theme.linkPreviewOutgoingChatColor,
-                  bodyStyle: theme.outgoingChatLinkBodyStyle,
-                  titleStyle: theme.outgoingChatLinkTitleStyle,
-                ),
+                linkPreviewConfig: LinkPreviewConfiguration(backgroundColor: theme.linkPreviewOutgoingChatColor, bodyStyle: theme.outgoingChatLinkBodyStyle, titleStyle: theme.outgoingChatLinkTitleStyle),
                 receiptsWidgetConfig: const ReceiptsWidgetConfig(showReceiptsIn: ShowReceiptsIn.all),
                 color: theme.outgoingChatBubbleColor,
               ),
