@@ -129,7 +129,7 @@ class _ChatRoomState extends State<ChatRoom> {
               ),
             ),
             replyPopupConfig: ReplyPopupConfiguration(backgroundColor: theme.replyPopupColor, buttonTextStyle: TextStyle(color: theme.replyPopupButtonColor), topBorderColor: theme.replyPopupTopBorderColor),
-            reactionPopupConfig: ReactionPopupConfiguration(shadow: BoxShadow(color: isDarkTheme ? Colors.black54 : Colors.grey.shade400, blurRadius: 20), backgroundColor: theme.reactionPopupColor),
+            reactionPopupConfig: ReactionPopupConfiguration(shadow: const BoxShadow(color:  Colors.black54 :, blurRadius: 20), backgroundColor: theme.reactionPopupColor),
             messageConfig: MessageConfiguration(
               messageReactionConfig: MessageReactionConfiguration(
                 backgroundColor: theme.messageReactionBackGroundColor,
@@ -141,7 +141,7 @@ class _ChatRoomState extends State<ChatRoom> {
                   reactedUserTextStyle: TextStyle(color: theme.inComingChatBubbleTextColor),
                   reactionWidgetDecoration: BoxDecoration(
                     color: theme.inComingChatBubbleColor,
-                    boxShadow: const <BoxShadow>[BoxShadow(color: Colors.black12, offset: const Offset(0, 20), blurRadius: 40)],
+                    boxShadow: const <BoxShadow>[BoxShadow(color: Colors.black12, offset:  Offset(0, 20), blurRadius: 40)],
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
