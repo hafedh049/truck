@@ -127,6 +127,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         textStyle: TextStyle(color: theme.inComingChatBubbleTextColor),
                         senderNameTextStyle: TextStyle(color: theme.inComingChatBubbleTextColor),
                         color: theme.inComingChatBubbleColor,
+                        onMessageRead: (message) {},
                       ),
                     ),
                     replyPopupConfig: ReplyPopupConfiguration(backgroundColor: theme.replyPopupColor, buttonTextStyle: TextStyle(color: theme.replyPopupButtonColor), topBorderColor: theme.replyPopupTopBorderColor),
