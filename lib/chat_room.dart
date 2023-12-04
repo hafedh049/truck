@@ -75,9 +75,7 @@ class _ChatRoomState extends State<ChatRoom> {
             }
             return ChatView(
               isLastPage: false,
-              featureActiveConfig: FeatureActiveConfig(
-                enablePagination: true,
-              ),
+              featureActiveConfig: FeatureActiveConfig(enablePagination: true),
               loadMoreData: _loadMoreData,
               currentUser: _currentUser,
               chatController: _chatController,
