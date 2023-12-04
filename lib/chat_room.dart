@@ -187,7 +187,7 @@ class _ChatRoomState extends State<ChatRoom> {
         'message': message,
         'createdAt': Timestamp.now(),
         'sendBy': "Discord",
-        'reply_message': {
+        'reply_message': <String, dynamic>{
           this.messageId = '',
           this.message = '',
           this.replyTo = '',
