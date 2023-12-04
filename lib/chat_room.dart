@@ -159,8 +159,9 @@ class _ChatRoomState extends State<ChatRoom> {
             );
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const Wait();
-          } else
-            return const Wrong(errorMessage: snapshot.error.toString());
+          } else {
+            return Wrong(errorMessage: snapshot.error.toString());
+          }
         },
       ),
     );
