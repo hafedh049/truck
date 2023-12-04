@@ -17,11 +17,12 @@ class _ChatRoomState extends State<ChatRoom> {
   late final Timer _timer;
 
   int _noMessagesYet = 0;
+
   final _profileImage = "https://raw.githubusercontent.com/SimformSolutionsPvtLtd/flutter_showcaseview/master/example/assets/simform.png";
 
   AppTheme theme = DarkTheme();
   bool isDarkTheme = true;
-  final currentUser = ChatUser(id: '1', name: 'Flutter', profilePhoto: _profileImage);
+  late final ChatUser currentUser;
   final _chatController = ChatController(
     initialMessageList: <Message>[],
     scrollController: ScrollController(),
@@ -31,6 +32,8 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   void initState() {
     _timer = Timer.periodic(1.seconds, (Timer timer) => _noMessagesYet == 60 ? Navigator.pop(context) : _noMessagesYet += 1);
+    _currentUser = ChatUser(id: '1', name: 'Flutter', profilePhoto: _profileImage);
+    ;
     super.initState();
   }
 
