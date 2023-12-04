@@ -46,30 +46,28 @@ class _ChatRoomState extends State<ChatRoom> {
         stream: FirebaseFirestore.instance.collection("messages").orderBy("createdAt").snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.hasData) {
-            snapshot.data!.docs.forEach(
-              (QueryDocumentSnapshot<Map<String, dynamic>> e) {
-                final Map<String, dynamic> data = e.data();
-                data["createdAt"] = data["createdAt"].toDate();
-                data["message_type"] = data["message_type"] == "text"
-                    ? MessageType.text
-                    : data["message_type"] == "image"
-                        ? MessageType.image
-                        : MessageType.voice;
-                data["reply_message"]["message_type"] = data["reply_message"]["message_type"] == "text"
-                    ? MessageType.text
-                    : data["reply_message"]["message_type"] == "image"
-                        ? MessageType.image
-                        : MessageType.voice;
-                data["status"] = data["status"] == "pending" ? MessageStatus.pending : MessageStatus.undelivered;
-                data["reply_message"]["voiceMessageDuration"] = Duration(milliseconds: data["reply_message"]["voiceMessageDuration"]);
-                data["voice_message_duration"] = Duration(milliseconds: data["voice_message_duration"]);
+            for (QueryDocumentSnapshot e in snapshot.data!.docs) {
+              final Map<String, dynamic> data = e.data();
+              data["createdAt"] = data["createdAt"].toDate();
+              data["message_type"] = data["message_type"] == "text"
+                  ? MessageType.text
+                  : data["message_type"] == "image"
+                      ? MessageType.image
+                      : MessageType.voice;
+              data["reply_message"]["message_type"] = data["reply_message"]["message_type"] == "text"
+                  ? MessageType.text
+                  : data["reply_message"]["message_type"] == "image"
+                      ? MessageType.image
+                      : MessageType.voice;
+              data["status"] = data["status"] == "pending" ? MessageStatus.pending : MessageStatus.undelivered;
+              data["reply_message"]["voiceMessageDuration"] = Duration(milliseconds: data["reply_message"]["voiceMessageDuration"]);
+              data["voice_message_duration"] = Duration(milliseconds: data["voice_message_duration"]);
 
-                data["reaction"]['reactions'] = data["reaction"]['reactions'].cast<String>();
-                data["reaction"]['reactedUserIds'] = data["reaction"]['reactedUserIds'].cast<String>();
+              data["reaction"]['reactions'] = data["reaction"]['reactions'].cast<String>();
+              data["reaction"]['reactedUserIds'] = data["reaction"]['reactedUserIds'].cast<String>();
 
-                _chatController.addMessage(Message.fromJson(data));
-              },
-            );
+              _chatController.addMessage(Message.fromJson(data));
+            }
             _noMessagesYet = 0;
           }
           return ChatView(
