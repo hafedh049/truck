@@ -71,6 +71,7 @@ class _ChatRoomState extends State<ChatRoom> {
               },
             ).toList();
             _noMessagesYet = 0;
+            print(1);
           }
           return ChatView(
             currentUser: _currentUser,
