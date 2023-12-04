@@ -17,6 +17,16 @@ class _ChatRoomState extends State<ChatRoom> {
   late final Timer _timer;
 
   int _noMessagesYet = 0;
+  final _profileImage = "https://raw.githubusercontent.com/SimformSolutionsPvtLtd/flutter_showcaseview/master/example/assets/simform.png";
+
+  AppTheme theme = DarkTheme();
+  bool isDarkTheme = true;
+  final currentUser = ChatUser(id: '1', name: 'Flutter', profilePhoto: _profileImage);
+  final _chatController = ChatController(
+    initialMessageList: <Message>[],
+    scrollController: ScrollController(),
+    chatUsers: <ChatUser>[ChatUser(id: '0', name: 'Discord', profilePhoto: _profileImage)],
+  );
 
   @override
   void initState() {
@@ -30,17 +40,6 @@ class _ChatRoomState extends State<ChatRoom> {
     _chatController.dispose();
     super.dispose();
   }
-
-  final _profileImage = "https://raw.githubusercontent.com/SimformSolutionsPvtLtd/flutter_showcaseview/master/example/assets/simform.png";
-
-  AppTheme theme = DarkTheme();
-  bool isDarkTheme = true;
-  final currentUser = ChatUser(id: '1', name: 'Flutter', profilePhoto: _profileImage);
-  final _chatController = ChatController(
-    initialMessageList: <Message>[],
-    scrollController: ScrollController(),
-    chatUsers: <ChatUser>[ChatUser(id: '0', name: 'Discord', profilePhoto: _profileImage)],
-  );
 
   void _showHideTypingIndicator() {
     _chatController.setTypingIndicator = !_chatController.showTypingIndicator;
