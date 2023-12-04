@@ -128,10 +128,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 ),
                 inComingChatBubbleConfig: ChatBubble(
                   linkPreviewConfig: LinkPreviewConfiguration(
-                    linkStyle: TextStyle(
-                      color: theme.inComingChatBubbleTextColor,
-                      decoration: TextDecoration.underline,
-                    ),
+                    linkStyle: TextStyle(color: theme.inComingChatBubbleTextColor, decoration: TextDecoration.underline),
                     backgroundColor: theme.linkPreviewIncomingChatColor,
                     bodyStyle: theme.incomingChatLinkBodyStyle,
                     titleStyle: theme.incomingChatLinkTitleStyle,
