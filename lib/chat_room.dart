@@ -67,7 +67,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 data["reaction"]['reactions'] = data["reaction"]['reactions'].cast<String>();
                 data["reaction"]['reactedUserIds'] = data["reaction"]['reactedUserIds'].cast<String>();
 
-                Message.fromJson(data);
+                _chatController.addMessage(Message.fromJson(data));
               },
             );
             _noMessagesYet = 0;
