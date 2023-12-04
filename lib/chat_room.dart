@@ -179,9 +179,7 @@ class _ChatRoomState extends State<ChatRoom> {
   void _onSendTap(String message, ReplyMessage replyMessage, MessageType messageType) {
     final int id = int.parse(Data.messageList.last.id) + 1;
     _chatController.addMessage(Message(id: id.toString(), createdAt: DateTime.now(), message: message, sendBy: currentUser.id, replyMessage: replyMessage, messageType: messageType));
-    Future.delayed(const Duration(milliseconds: 300), () {
-      _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered;
-    });
+    Future.delayed(const Duration(milliseconds: 300), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
     Future.delayed(const Duration(seconds: 1), () {
       _chatController.initialMessageList.last.setStatus = MessageStatus.read;
     });
