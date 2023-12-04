@@ -185,7 +185,7 @@ class _ChatRoomState extends State<ChatRoom> {
       <String, dynamic>{
         'id': id,
         'message': message,
-        'createdAt': createdAt,
+        'createdAt': DateTime.now(),
         'sendBy': sendBy,
         'reply_message': replyMessage.toJson(),
         'reaction': reaction.toJson(),
@@ -194,14 +194,6 @@ class _ChatRoomState extends State<ChatRoom> {
         'status': status.name,
       },
     );
-
-    final String id;
-
-    /// Used for accessing widget's render box.
-    final GlobalKey key;
-
-    /// Provides actual message it will be text or image/audio file path.
-    final String message;
 
     /// Provides message created date time.
     final DateTime createdAt;
