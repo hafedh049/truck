@@ -209,7 +209,7 @@ class _ChatRoomState extends State<ChatRoom> {
           "message": '',
           "replyTo": '',
           "replyBy": '',
-          "messageType": "text",
+          "message_type": "text",
           "voiceMessageDuration": 0,
         },
         'reaction': <String, dynamic>{
