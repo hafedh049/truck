@@ -74,7 +74,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 return Message.fromJson(data);
               },
             ).toList();
-            voiceMessageDuration _noMessagesYet = 0;
+            _noMessagesYet = 0;
           }
           return ChatView(
             currentUser: _currentUser,
