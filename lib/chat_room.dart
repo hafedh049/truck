@@ -205,8 +205,6 @@ class _ChatRoomState extends State<ChatRoom> {
       },
     );
 
-    /// Provides message created date time.
-
     Future.delayed(const Duration(milliseconds: 300), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
     Future.delayed(const Duration(seconds: 1), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
   }
