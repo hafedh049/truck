@@ -201,24 +201,11 @@ class _ChatRoomState extends State<ChatRoom> {
         },
         'message_type': "text",
         'voice_message_duration': 1000,
-        'status': status.name,
+        'status': MessageStatus.pending,
       },
     );
 
     /// Provides message created date time.
-    final DateTime createdAt;
-
-    /// Provides id of sender of message.
-    final String sendBy;
-
-    /// Provides reply message if user triggers any reply on any message.
-    final ReplyMessage replyMessage;
-
-    /// Represents reaction on message.
-    final Reaction reaction;
-
-    /// Provides message type.
-    final MessageType messageType;
 
     Future.delayed(const Duration(milliseconds: 300), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
     Future.delayed(const Duration(seconds: 1), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
