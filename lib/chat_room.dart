@@ -35,7 +35,7 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   void dispose() {
     _timer.cancel();
-    _chatController.dispose();
+    // _chatController.dispose();
     super.dispose();
   }
 
