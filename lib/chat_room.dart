@@ -98,10 +98,6 @@ class _ChatRoomState extends State<ChatRoom> {
               chatTitleTextStyle: TextStyle(color: theme.appBarTitleTextStyle, fontWeight: FontWeight.bold, fontSize: 18, letterSpacing: 0.25),
               userStatus: "Online",
               userStatusTextStyle: const TextStyle(color: Colors.grey),
-              actions: <IconButton>[
-                IconButton(onPressed: _onThemeIconTap, icon: Icon(isDarkTheme ? Icons.brightness_4_outlined : Icons.dark_mode_outlined, color: theme.themeIconColor)),
-                IconButton(tooltip: 'Toggle Typing Indicator', onPressed: _showHideTypingIndicator, icon: Icon(Icons.keyboard, color: theme.themeIconColor)),
-              ],
             ),
             chatBackgroundConfig: ChatBackgroundConfiguration(
               messageTimeIconColor: theme.messageTimeIconColor,
