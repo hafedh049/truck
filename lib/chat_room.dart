@@ -49,7 +49,7 @@ class _ChatRoomState extends State<ChatRoom> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<>(
-        stream: FirebaseFirestore.instance.collection(""),
+        stream: FirebaseFirestore.instance.collection("messages"),
         builder: (context, snapshot) {
           return ChatView(
             currentUser: currentUser,
