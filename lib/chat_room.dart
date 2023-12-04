@@ -182,6 +182,18 @@ class _ChatRoomState extends State<ChatRoom> {
     final String id = const Uuid().v8();
     Message(id: id, createdAt: DateTime.now(), message: message, sendBy: currentUser.id, replyMessage: replyMessage, messageType: messageType);
     FirebaseFirestore.instance.collection("messages").add(Message.fromJson({}));
+
+  'id': id,
+        'message': message,
+        'createdAt': createdAt,
+        'sendBy': sendBy,
+        'reply_message': replyMessage.toJson(),
+        'reaction': reaction.toJson(),
+        'message_type': messageType,
+        'voice_message_duration': voiceMessageDuration,
+        'status': status.name
+      };
+
     Future.delayed(const Duration(milliseconds: 300), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
     Future.delayed(const Duration(seconds: 1), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
   }
