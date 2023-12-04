@@ -167,7 +167,7 @@ class _ChatRoomState extends State<ChatRoom> {
     final String id = const Uuid().v8();
 
     if (messageType == MessageType.image) {
-      await FirebaseStorage.instance.ref("images/").child(id).putFile(File(message)).then((TaskSnapshot tasksnapshot) => null);
+      await FirebaseStorage.instance.ref("images/").child(id).putFile(File(message)).then((TaskSnapshot tasksnapshot) async => message = await tasksnapshot.ref.getDownloadURL());
     }
 
     await FirebaseFirestore.instance.collection("messages").add(
