@@ -66,6 +66,8 @@ class _ChatRoomState extends State<ChatRoom> {
                     : data["reply_message"]["messageType"] == "image"
                         ? MessageType.image
                         : MessageType.voice;
+                print(1);
+
                 data["status"] = data["status"] == "pending" ? MessageStatus.pending : MessageStatus.undelivered;
                 return Message.fromJson(data);
               },
