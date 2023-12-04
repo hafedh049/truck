@@ -39,7 +39,7 @@ class _ChatRoomState extends State<ChatRoom> {
   final _chatController = ChatController(
     initialMessageList: <Message>[],
     scrollController: ScrollController(),
-    chatUsers: <ChatUser>[ChatUser(id: '0', name: 'Discord', profilePhoto: Data.profileImage)],
+    chatUsers: <ChatUser>[ChatUser(id: '0', name: 'Discord', profilePhoto: _profileImage)],
   );
 
   void _showHideTypingIndicator() {
