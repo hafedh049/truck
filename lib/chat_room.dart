@@ -4,10 +4,7 @@ import 'package:chatview/chatview.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-//import 'package:flutter_animate/flutter_animate.dart';
 import 'package:truck/utils/themes.dart';
-import 'package:truck/wait.dart';
-import 'package:truck/wrong.dart';
 import 'package:uuid/uuid.dart';
 
 class ChatRoom extends StatefulWidget {
