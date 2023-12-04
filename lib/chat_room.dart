@@ -169,9 +169,9 @@ class _ChatRoomState extends State<ChatRoom> {
     final String id = const Uuid().v8();
 
     if (messageType == MessageType.image) {
-      await FirebaseStorage.instance.ref("images/").child(id).putData(File(message).readAsBytesSync()).then((TaskSnapshot tasksnapshot) async => message = await tasksnapshot.ref.getDownloadURL());
+      await FirebaseStorage.instance.ref("images/").child(id).putFile(File(message)).then((TaskSnapshot tasksnapshot) async => message = await tasksnapshot.ref.getDownloadURL());
     } else if (messageType == MessageType.voice) {
-      await FirebaseStorage.instance.ref("voices/").child(id).putData(File(message).readAsBytesSync()).then((TaskSnapshot tasksnapshot) async => message = await tasksnapshot.ref.getDownloadURL());
+      await FirebaseStorage.instance.ref("voices/").child(id).putFile(File(message)).then((TaskSnapshot tasksnapshot) async => message = await tasksnapshot.ref.getDownloadURL());
     }
 
     await FirebaseFirestore.instance.collection("messages").add(
