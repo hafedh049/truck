@@ -193,11 +193,11 @@ class _ChatRoomState extends State<ChatRoom> {
           "replyTo": '',
           "replyBy": '',
           "messageType": MessageType.text,
-          "voiceMessageDuration": 1000,
+          "voiceMessageDuration": "1000",
         },
         'reaction': reaction.toJson(),
         'message_type': messageType,
-        'voice_message_duration': voiceMessageDuration,
+        'voice_message_duration': "1000",
         'status': status.name,
       },
     );
