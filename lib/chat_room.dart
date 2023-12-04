@@ -181,7 +181,7 @@ class _ChatRoomState extends State<ChatRoom> {
               ),
               imageMessageConfig: ImageMessageConfiguration(margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 15), shareIconConfig: ShareIconConfiguration(defaultIconBackgroundColor: theme.shareIconBackgroundColor, defaultIconColor: theme.shareIconColor)),
             ),
-            profileCircleConfig: const ProfileCircleConfiguration(profileImageUrl: _profileImage),
+            profileCircleConfig: ProfileCircleConfiguration(profileImageUrl: _profileImage),
             repliedMessageConfig: RepliedMessageConfiguration(
               backgroundColor: theme.repliedMessageColor,
               verticalBarColor: theme.verticalBarColor,
