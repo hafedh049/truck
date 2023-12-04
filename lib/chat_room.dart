@@ -33,7 +33,7 @@ class _ChatRoomState extends State<ChatRoom> {
   void initState() {
     _timer = Timer.periodic(1.seconds, (Timer timer) => _noMessagesYet == 60 ? Navigator.pop(context) : _noMessagesYet += 1);
     _currentUser = ChatUser(id: '1', name: 'Flutter', profilePhoto: _profileImage);
-    ;
+
     super.initState();
   }
 
