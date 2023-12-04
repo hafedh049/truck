@@ -54,6 +54,7 @@ class _ChatRoomState extends State<ChatRoom> {
             _chatController.initialMessageList = snapshot.data!.docs.map((QueryDocumentSnapshot<Map<String, dynamic>> e) => Message.fromJson(e.data())).toList();
             _noMessagesYet = 0;
           }
+          print(snapshot.error.toString());
           return ChatView(
             currentUser: currentUser,
             chatController: _chatController,
