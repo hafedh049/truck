@@ -60,9 +60,9 @@ class _ChatRoomState extends State<ChatRoom> {
                     : data["message_type"] == "image"
                         ? MessageType.image
                         : MessageType.voice;
-                data["reply_message"]["messageType"] = data["reply_message"]["messageType"] == "text"
+                data["reply_message"]["message_type"] = data["reply_message"]["message_type"] == "text"
                     ? MessageType.text
-                    : data["reply_message"]["messageType"] == "image"
+                    : data["reply_message"]["message_type"] == "image"
                         ? MessageType.image
                         : MessageType.voice;
                 print(data);
