@@ -74,7 +74,7 @@ class _ChatRoomState extends State<ChatRoom> {
             _noMessagesYet = 0;
           }
           return ChatView(
-            currentUser: currentUser,
+            currentUser: _currentUser,
             chatController: _chatController,
             onSendTap: _onSendTap,
             chatViewState: snapshot.hasError
