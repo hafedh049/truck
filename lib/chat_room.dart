@@ -7,6 +7,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 //import 'package:flutter_animate/flutter_animate.dart';
 import 'package:truck/utils/themes.dart';
 import 'package:truck/wait.dart';
+import 'package:truck/wrong.dart';
 import 'package:uuid/uuid.dart';
 
 class ChatRoom extends StatefulWidget {
@@ -158,7 +159,8 @@ class _ChatRoomState extends State<ChatRoom> {
             );
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const Wait();
-          }
+          } else
+            return Wrong(errorMessage: snapshot.error.toString());
         },
       ),
     );
