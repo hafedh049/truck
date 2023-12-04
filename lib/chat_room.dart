@@ -197,14 +197,14 @@ class _ChatRoomState extends State<ChatRoom> {
           "replyTo": '',
           "replyBy": '',
           "messageType": "text",
-          "voiceMessageDuration": 1000,
+          "voiceMessageDuration": 0,
         },
         'reaction': <String, dynamic>{
           'reactions': <String>[],
           'reactedUserIds': <String>[],
         },
         'message_type': "text",
-        'voice_message_duration': 1000,
+        'voice_message_duration': 0,
         'status': "pending",
       },
     );
