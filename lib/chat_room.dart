@@ -182,7 +182,7 @@ class _ChatRoomState extends State<ChatRoom> {
     final String id = const Uuid().v8();
     Message(id: id, createdAt: DateTime.now(), message: message, sendBy: currentUser.id, replyMessage: replyMessage, messageType: messageType);
     FirebaseFirestore.instance.collection("messages").add(
-      {
+      <String, dynamic>{
         'id': id,
         'message': message,
         'createdAt': createdAt,
