@@ -188,14 +188,12 @@ class _ChatRoomState extends State<ChatRoom> {
         'createdAt': Timestamp.now(),
         'sendBy': "Discord",
         'reply_message': {
-          {
-            this.messageId = '',
-            this.message = '',
-            this.replyTo = '',
-            this.replyBy = '',
-            this.messageType = MessageType.text,
-            this.voiceMessageDuration,
-          }
+          this.messageId = '',
+          this.message = '',
+          this.replyTo = '',
+          this.replyBy = '',
+          this.messageType = MessageType.text,
+          this.voiceMessageDuration,
         },
         'reaction': reaction.toJson(),
         'message_type': messageType,
