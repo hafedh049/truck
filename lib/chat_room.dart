@@ -31,11 +31,11 @@ class _ChatRoomState extends State<ChatRoom> {
     super.dispose();
   }
 
-  const profileImage = "https://raw.githubusercontent.com/SimformSolutionsPvtLtd/flutter_showcaseview/master/example/assets/simform.png";
+  final _profileImage = "https://raw.githubusercontent.com/SimformSolutionsPvtLtd/flutter_showcaseview/master/example/assets/simform.png";
 
   AppTheme theme = DarkTheme();
   bool isDarkTheme = true;
-  final currentUser = ChatUser(id: '1', name: 'Flutter', profilePhoto: Data.profileImage);
+  final currentUser = ChatUser(id: '1', name: 'Flutter', profilePhoto: _profileImage);
   final _chatController = ChatController(
     initialMessageList: <Message>[],
     scrollController: ScrollController(),
