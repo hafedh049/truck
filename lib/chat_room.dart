@@ -16,7 +16,7 @@ class ChatRoom extends StatefulWidget {
 class _ChatRoomState extends State<ChatRoom> {
   //late final Timer _timer;
 
-  int _noMessagesYet = 0;
+  //int _noMessagesYet = 0;
 
   final _profileImage = "https://raw.githubusercontent.com/SimformSolutionsPvtLtd/flutter_showcaseview/master/example/assets/simform.png";
 
