@@ -17,26 +17,5 @@ class Data {
       sendBy: '0',
       status: MessageStatus.read,
     ),
-    Message(
-      id: '3',
-      message: "We can meet?I am free",
-      createdAt: DateTime.now(),
-      sendBy: '1',
-      status: MessageStatus.read,
-    ),
-    Message(
-      id: '4',
-      message: "Can you write the time and place of the meeting?",
-      createdAt: DateTime.now(),
-      sendBy: '1',
-      status: MessageStatus.read,
-    ),
-    Message(
-      id: '12',
-      message: "🤩🤩",
-      createdAt: DateTime.now(),
-      sendBy: '0',
-      status: MessageStatus.read,
-    ),
   ];
 }
