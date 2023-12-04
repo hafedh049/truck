@@ -185,7 +185,7 @@ class _ChatRoomState extends State<ChatRoom> {
       <String, dynamic>{
         'id': id,
         'message': message,
-        'createdAt': DateTime.now(),
+        'createdAt': Timestamp.now(),
         'sendBy': sendBy,
         'reply_message': replyMessage.toJson(),
         'reaction': reaction.toJson(),
