@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:chatview/chatview.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:truck/utils/themes.dart';
@@ -163,6 +165,12 @@ class _ChatRoomState extends State<ChatRoom> {
   void _onSendTap(String message, ReplyMessage replyMessage, MessageType messageType) async {
     _chatController.setTypingIndicator = true;
     final String id = const Uuid().v8();
+
+    if(messageType == MessageType.image){
+     await  FirebaseStorage.instance.ref("images/").child(id).putFile(File(message)).then((TaskSnapshot tasksnapshot) => null)
+    }
+
+
     await FirebaseFirestore.instance.collection("messages").add(
       <String, dynamic>{
         'id': id,
