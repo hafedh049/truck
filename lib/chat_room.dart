@@ -158,7 +158,7 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   void _onSendTap(String message, ReplyMessage replyMessage, MessageType messageType) async {
-    print(messageType)
+    print(messageType);
     final String id = const Uuid().v8();
     await FirebaseFirestore.instance.collection("messages").add(
       <String, dynamic>{
