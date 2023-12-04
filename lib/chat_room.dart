@@ -4,7 +4,6 @@ import 'package:chatview/chatview.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:truck/utils/data.dart';
 import 'package:truck/utils/themes.dart';
 import 'package:uuid/uuid.dart';
 
@@ -36,7 +35,7 @@ class _ChatRoomState extends State<ChatRoom> {
   bool isDarkTheme = true;
   final currentUser = ChatUser(id: '1', name: 'Flutter', profilePhoto: Data.profileImage);
   final _chatController = ChatController(
-    initialMessageList: Data.messageList,
+    initialMessageList: <Message>[],
     scrollController: ScrollController(),
     chatUsers: <ChatUser>[ChatUser(id: '0', name: 'Discord', profilePhoto: Data.profileImage)],
   );
