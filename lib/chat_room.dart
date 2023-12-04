@@ -69,16 +69,8 @@ class _ChatRoomState extends State<ChatRoom> {
                 data["reply_message"]["voiceMessageDuration"] = Duration(milliseconds: data["reply_message"]["voiceMessageDuration"]);
                 data["voice_message_duration"] = Duration(milliseconds: data["voice_message_duration"]);
 
-
- 'reaction': <String, dynamic>{
-          'reactions': [],
-          'reactedUserIds': [],
-        },
-
-
- data["reaction"]['reactions'] =  data["reaction"]['reactions'].cast<String>();
- data["reaction"]['reactedUserIds'] =  data["reaction"]['reactedUserIds'].cast<String>();
-
+                data["reaction"]['reactions'] = data["reaction"]['reactions'].cast<String>();
+                data["reaction"]['reactedUserIds'] = data["reaction"]['reactedUserIds'].cast<String>();
 
                 return Message.fromJson(data);
               },
