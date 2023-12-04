@@ -201,7 +201,7 @@ class _ChatRoomState extends State<ChatRoom> {
         },
         'message_type': "text",
         'voice_message_duration': 1000,
-        'status': MessageStatus.pending,
+        'status': "pending",
       },
     );
 
