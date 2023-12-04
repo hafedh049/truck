@@ -22,7 +22,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
   AppTheme theme = DarkTheme();
   bool isDarkTheme = true;
-  late final ChatUser currentUser;
+  late final ChatUser _currentUser;
   final _chatController = ChatController(
     initialMessageList: <Message>[],
     scrollController: ScrollController(),
