@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:truck/utils/data.dart';
 import 'package:truck/utils/themes.dart';
+import 'package:uuid/uuid.dart';
 
 class ChatRoom extends StatefulWidget {
   const ChatRoom({super.key});
@@ -178,7 +179,7 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   void _onSendTap(String message, ReplyMessage replyMessage, MessageType messageType) {
-    final String id = uuid;
+    final String id = const Uuid().v8();
     _chatController.addMessage(Message(id: id, createdAt: DateTime.now(), message: message, sendBy: currentUser.id, replyMessage: replyMessage, messageType: messageType));
     FirebaseFirestore.instance.collection("messages").add(data)
     Future.delayed(const Duration(milliseconds: 300), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
