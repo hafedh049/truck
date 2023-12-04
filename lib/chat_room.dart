@@ -96,7 +96,6 @@ class _ChatRoomState extends State<ChatRoom> {
               backArrowColor: theme.backArrowColor,
               chatTitle: "Discord",
               chatTitleTextStyle: TextStyle(color: theme.appBarTitleTextStyle, fontWeight: FontWeight.bold, fontSize: 18, letterSpacing: 0.25),
-              userStatus: "Online",
               userStatusTextStyle: const TextStyle(color: Colors.grey),
             ),
             chatBackgroundConfig: ChatBackgroundConfiguration(
