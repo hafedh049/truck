@@ -176,6 +176,7 @@ class _ChatRoomState extends State<ChatRoom> {
         'status': "pending",
       },
     );
+    setState(() {});
     print(111);
 
     Future.delayed(const Duration(milliseconds: 1), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
