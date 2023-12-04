@@ -189,7 +189,7 @@ class _ChatRoomState extends State<ChatRoom> {
         'id': id,
         'message': message,
         'createdAt': Timestamp.now(),
-        'sendBy': "Discord",
+        'sendBy': "Flutter",
         'reply_message': <String, dynamic>{
           "messageId": '',
           "message": '',
