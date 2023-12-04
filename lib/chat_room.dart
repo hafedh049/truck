@@ -161,12 +161,13 @@ class _ChatRoomState extends State<ChatRoom> {
 
   void _onSendTap(String message, ReplyMessage replyMessage, MessageType messageType) async {
     final String id = const Uuid().v8();
+    Message(message: message, createdAt: createdAt, sendBy: sendBy)
     await FirebaseFirestore.instance.collection("messages").add(
       <String, dynamic>{
         'id': id,
         'message': message,
         'createdAt': Timestamp.now(),
-        'sendBy': "Flutter",
+        'sendBy': "0",
         'reply_message': <String, dynamic>{"id": '', "message": '', "replyTo": '', "replyBy": '', "message_type": "text", "voiceMessageDuration": 0},
         'reaction': <String, dynamic>{'reactions': [], 'reactedUserIds': []},
         'message_type': "text",
