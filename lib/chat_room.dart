@@ -127,12 +127,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 color: theme.outgoingChatBubbleColor,
               ),
               inComingChatBubbleConfig: ChatBubble(
-                linkPreviewConfig: LinkPreviewConfiguration(
-                  linkStyle: TextStyle(color: theme.inComingChatBubbleTextColor, decoration: TextDecoration.underline),
-                  backgroundColor: theme.linkPreviewIncomingChatColor,
-                  bodyStyle: theme.incomingChatLinkBodyStyle,
-                  titleStyle: theme.incomingChatLinkTitleStyle,
-                ),
+                linkPreviewConfig: LinkPreviewConfiguration(linkStyle: TextStyle(color: theme.inComingChatBubbleTextColor, decoration: TextDecoration.underline), backgroundColor: theme.linkPreviewIncomingChatColor, bodyStyle: theme.incomingChatLinkBodyStyle, titleStyle: theme.incomingChatLinkTitleStyle),
                 textStyle: TextStyle(color: theme.inComingChatBubbleTextColor),
                 onMessageRead: (Message message) {
                   /// send your message reciepts to the other client
