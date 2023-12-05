@@ -65,7 +65,7 @@ class _ChatRoomState extends State<ChatRoom> {
                       } else if (data["message_type"] == "image") {
                         data["message_type"] = MessageType.image;
                       } else {
-                        data["message_type"] = MessageType.text;
+                        data["message_type"] = MessageType.voice;
                       }
 
                       if (data['reply_message'] == null) {
