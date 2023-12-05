@@ -69,7 +69,7 @@ class _ChatRoomState extends State<ChatRoom> {
                   data["message"] = file.path;
                 }
                 if (data['reply_message'] == null) {
-                  data['reply_message'] = {"message": '', "replyBy": '', "replyTo": '', "messageType": '', "messageId": '', "voiceMessageDuration": null};
+                  data['reply_message'] = {"message": '', "replyBy": '', "replyTo": '', "messageType": MessageType.text, "messageId": '', "voiceMessageDuration": null};
                 }
                 _chatController.addMessage(Message.fromJson(data));
                 Future.delayed(const Duration(milliseconds: 500), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
