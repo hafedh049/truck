@@ -69,6 +69,14 @@ class _ChatRoomState extends State<ChatRoom> {
                   data["message"] = file.path;
                 }
                 if (data['reply_message'] == null) {
+                  ReplyMessage(
+                    message: json['message'],
+                    replyBy: json['replyBy'],
+                    replyTo: json['replyTo'],
+                    messageType: json["message_type"],
+                    messageId: json["id"],
+                    voiceMessageDuration: json["voiceMessageDuration"],
+                  );
                   data['reply_message'] = {};
                 }
                 _chatController.addMessage(Message.fromJson(data));
