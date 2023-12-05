@@ -11,6 +11,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:truck/utils/themes.dart';
+import 'package:truck/wait.dart';
 
 class ChatRoom extends StatefulWidget {
   const ChatRoom({super.key});
@@ -172,7 +173,9 @@ class _ChatRoomState extends State<ChatRoom> {
                   );
                 },
               );
-            }
+            } else if (streamSnapshot.connectionState == ConnectionState.waiting) {
+              return const Wait();
+            } else {}
           },
         ),
       ),
