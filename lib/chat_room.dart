@@ -172,7 +172,7 @@ class _ChatRoomState extends State<ChatRoom> {
     if (messageType == MessageType.image) {
       await FirebaseStorage.instance.ref().child("images/$id").putFile(File(message)).then((TaskSnapshot tasksnapshot) async => msg = await tasksnapshot.ref.getDownloadURL());
     } else if (messageType == MessageType.voice) {
-      await FirebaseStorage.instance.ref().child("voices/$id").putFile(File(message)).then((TaskSnapshot tasksnapshot) async => msg = await tasksnapshot.ref.getDownloadURL());
+      msg = File(message).readAsBytesSync();
     }
 
     await FirebaseFirestore.instance.collection("messages").add(
