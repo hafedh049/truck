@@ -42,7 +42,7 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   void dispose() {
     _timer.cancel();
-    _chatController.dispose();
+    //_chatController.dispose();
     super.dispose();
   }
 
@@ -73,13 +73,11 @@ class _ChatRoomState extends State<ChatRoom> {
                         data["message_type"] = MessageType.voice;
                         final String dir = (await getApplicationDocumentsDirectory()).path;
                         final File file = File('$dir/${data["message"]}');
-                        final Response request = await get(data["message"]);
+                        final Response request = await get(Uri.parse(data["message"]));
                         final Uint8List bytes = request.bodyBytes;
                         await file.writeAsBytes(bytes);
                         data["message"] = file.path;
                       }
-                      print(1);
-
                       if (data['reply_message'] == null) {
                         data['reply_message'] = const ReplyMessage();
                       }
