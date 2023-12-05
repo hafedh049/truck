@@ -12,6 +12,7 @@ import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:truck/utils/themes.dart';
 import 'package:truck/wait.dart';
+import 'package:truck/wrong.dart';
 
 class ChatRoom extends StatefulWidget {
   const ChatRoom({super.key});
@@ -175,7 +176,9 @@ class _ChatRoomState extends State<ChatRoom> {
               );
             } else if (streamSnapshot.connectionState == ConnectionState.waiting) {
               return const Wait();
-            } else {}
+            } else {
+              return Wrong(errorMessage: streamSnapshot.error.toString());
+            }
           },
         ),
       ),
