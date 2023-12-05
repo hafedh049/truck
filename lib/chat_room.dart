@@ -170,15 +170,15 @@ class _ChatRoomState extends State<ChatRoom> {
     final String id = Random().nextInt(4000).toString();
     dynamic msg;
     if (messageType == MessageType.image) {
-      await FirebaseStorage.instance.ref().child("images/$id").putFile(File(message)).then((TaskSnapshot tasksnapshot) async => message = await tasksnapshot.ref.getDownloadURL());
+      await FirebaseStorage.instance.ref().child("images/$id").putFile(File(message)).then((TaskSnapshot tasksnapshot) async => msg = await tasksnapshot.ref.getDownloadURL());
     } else if (messageType == MessageType.voice) {
-      await FirebaseStorage.instance.ref().child("voices/$id").putFile(File(message)).then((TaskSnapshot tasksnapshot) async => message = await tasksnapshot.ref.getDownloadURL());
+      await FirebaseStorage.instance.ref().child("voices/$id").putFile(File(message)).then((TaskSnapshot tasksnapshot) async => msg = await tasksnapshot.ref.getDownloadURL());
     }
 
     await FirebaseFirestore.instance.collection("messages").add(
       <String, dynamic>{
         'id': id,
-        'message': message,
+        'message': msg,
         'createdAt': Timestamp.now(),
         'sendBy': "1",
         'message_type': messageType == MessageType.text
