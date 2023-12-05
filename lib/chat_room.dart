@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:truck/utils/themes.dart';
 
 class ChatRoom extends StatefulWidget {
@@ -67,10 +68,8 @@ class _ChatRoomState extends State<ChatRoom> {
                       } else {
                         data["message_type"] = MessageType.voice;
                         String dir = (await getApplicationDocumentsDirectory()).path;
-                        File file = new File('$dir/$filename');
-                        var request = await http.get(
-                          url,
-                        );
+                        File file = File('$dir/$filename');
+                        var request = await http.get(url);
                         var bytes = await request.bodyBytes; //close();
                         await file.writeAsBytes(bytes);
                         print(file.path);
