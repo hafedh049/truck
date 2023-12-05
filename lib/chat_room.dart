@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:truck/utils/themes.dart';
 
@@ -70,7 +71,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         String dir = (await getApplicationDocumentsDirectory()).path;
                         File file = File('$dir/$filename');
                         var request = await get(url);
-                        var bytes = await request.bodyBytes; //close();
+                        final Uint8List bytes = request.bodyBytes; //close();
                         await file.writeAsBytes(bytes);
                         print(file.path);
                       }
