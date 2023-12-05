@@ -71,7 +71,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 if (data['reply_message'] == null) {
                   data['reply_message'] = const ReplyMessage().toJson();
                 }
-                _chatController.addMessage(Message(message: data["message"], createdAt: data["createdAt"], sendBy: data["sendBy"], messageType: data["message_type"]));
+                _chatController.addMessage(Message(message: data["message"], createdAt: data["createdAt"], sendBy: data["sendBy"], messageType: data["message_type"], id: data["id"]));
                 Future.delayed(const Duration(milliseconds: 500), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
                 Future.delayed(const Duration(seconds: 1), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
               }
