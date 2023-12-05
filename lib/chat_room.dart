@@ -83,9 +83,9 @@ class _ChatRoomState extends State<ChatRoom> {
                   currentUser: _currentUser,
                   chatController: _chatController,
                   onSendTap: _onSendTap,
-                  chatViewState: streamSnapshot.hasError || futureSnapshot.hasError
+                  chatViewState: futureSnapshot.hasError
                       ? ChatViewState.error
-                      : streamSnapshot.connectionState == ConnectionState.waiting || futureSnapshot.connectionState == ConnectionState.waiting
+                      : futureSnapshot.connectionState == ConnectionState.waiting
                           ? ChatViewState.loading
                           : streamSnapshot.data!.docs.isEmpty
                               ? ChatViewState.noData
