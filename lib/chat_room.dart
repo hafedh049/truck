@@ -46,22 +46,9 @@ class _ChatRoomState extends State<ChatRoom> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        _noMessagesYet = 0;
-      },
-      child: Scaffold(
-        body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          stream: FirebaseFirestore.instance.collection("messages").orderBy("createdAt").snapshots(),
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> streamSnapshot) {
-            if (streamSnapshot.hasData) {
-              return FutureBuilder(
-                future: (() async {
-                  try {
-                    _chatController.initialMessageList.clear();
+
+
+ _chatController.initialMessageList.clear();
                     for (QueryDocumentSnapshot<Map<String, dynamic>> e in streamSnapshot.data!.docs) {
                       final Map<String, dynamic> data = e.data();
                       data["createdAt"] = data["createdAt"].toDate();
@@ -85,6 +72,24 @@ class _ChatRoomState extends State<ChatRoom> {
                       Future.delayed(const Duration(milliseconds: 500), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
                       Future.delayed(const Duration(seconds: 1), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
                     }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        _noMessagesYet = 0;
+      },
+      child: Scaffold(
+        body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          stream: FirebaseFirestore.instance.collection("messages").orderBy("createdAt").snapshots(),
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> streamSnapshot) {
+            if (streamSnapshot.hasData) {
+              return FutureBuilder(
+                future: (() async {
+                  try {
+
                   } catch (e) {
                     debugPrint(e.toString());
                   }
