@@ -85,7 +85,9 @@ class _ChatRoomState extends State<ChatRoom> {
                       Future.delayed(const Duration(seconds: 1), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
                     }
                   }
-                } catch (e) {}
+                } catch (e) {
+                  debugPrint(e.toString());
+                }
               })(),
               builder: (BuildContext context, AsyncSnapshot futureSnapshot) {
                 return ChatView(
