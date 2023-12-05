@@ -165,7 +165,7 @@ class _ChatRoomState extends State<ChatRoom> {
   void _onSendTap(String message, ReplyMessage replyMessage, MessageType messageType) async {
     _chatController.setTypingIndicator = true;
     final String id = Random().nextInt(4000).toString();
-    dynamic msg;
+    dynamic msg = message;
     if (messageType == MessageType.image) {
       await FirebaseStorage.instance.ref().child("images/$id").putFile(File(message)).then((TaskSnapshot tasksnapshot) async => msg = await tasksnapshot.ref.getDownloadURL());
     } else if (messageType == MessageType.voice) {
