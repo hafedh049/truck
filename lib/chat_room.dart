@@ -86,95 +86,84 @@ class _ChatRoomState extends State<ChatRoom> {
           stream: FirebaseFirestore.instance.collection("messages").orderBy("createdAt").snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> streamSnapshot) {
             if (streamSnapshot.hasData) {
-              return FutureBuilder(
-                future: (() async {
-                  try {
-
-                  } catch (e) {
-                    debugPrint(e.toString());
-                  }
-                })(),
-                builder: (BuildContext context, AsyncSnapshot futureSnapshot) {
-                  return ChatView(
-                    currentUser: _currentUser,
-                    chatController: _chatController,
-                    onSendTap: _onSendTap,
-                    chatViewState: futureSnapshot.hasError
-                        ? ChatViewState.error
-                        : futureSnapshot.connectionState == ConnectionState.waiting
-                            ? ChatViewState.loading
-                            : streamSnapshot.data!.docs.isEmpty
-                                ? ChatViewState.noData
-                                : ChatViewState.hasMessages,
-                    chatViewStateConfig: ChatViewStateConfiguration(loadingWidgetConfig: ChatViewStateWidgetConfiguration(loadingIndicatorColor: theme.outgoingChatBubbleColor), onReloadButtonTap: () => setState(() {})),
-                    typeIndicatorConfig: TypeIndicatorConfiguration(flashingCircleBrightColor: theme.flashingCircleBrightColor, flashingCircleDarkColor: theme.flashingCircleDarkColor),
-                    appBar: ChatViewAppBar(
-                      elevation: theme.elevation,
-                      backGroundColor: theme.appBarColor,
-                      profilePicture: _profileImage,
-                      backArrowColor: theme.backArrowColor,
-                      chatTitle: "Discord",
-                      chatTitleTextStyle: TextStyle(color: theme.appBarTitleTextStyle, fontWeight: FontWeight.bold, fontSize: 18, letterSpacing: 0.25),
-                      userStatusTextStyle: const TextStyle(color: Colors.grey),
-                    ),
-                    chatBackgroundConfig: ChatBackgroundConfiguration(
-                      messageTimeIconColor: theme.messageTimeIconColor,
-                      messageTimeTextStyle: TextStyle(color: theme.messageTimeTextColor),
-                      defaultGroupSeparatorConfig: DefaultGroupSeparatorConfiguration(textStyle: TextStyle(color: theme.chatHeaderColor, fontSize: 17)),
+              return ChatView(
+                currentUser: _currentUser,
+                chatController: _chatController,
+                onSendTap: _onSendTap,
+                chatViewState: streamSnapshot.hasError
+                    ? ChatViewState.error
+                    : streamSnapshot.connectionState == ConnectionState.waiting
+                        ? ChatViewState.loading
+                        : streamSnapshot.data!.docs.isEmpty
+                            ? ChatViewState.noData
+                            : ChatViewState.hasMessages,
+                chatViewStateConfig: ChatViewStateConfiguration(loadingWidgetConfig: ChatViewStateWidgetConfiguration(loadingIndicatorColor: theme.outgoingChatBubbleColor), onReloadButtonTap: () => setState(() {})),
+                typeIndicatorConfig: TypeIndicatorConfiguration(flashingCircleBrightColor: theme.flashingCircleBrightColor, flashingCircleDarkColor: theme.flashingCircleDarkColor),
+                appBar: ChatViewAppBar(
+                  elevation: theme.elevation,
+                  backGroundColor: theme.appBarColor,
+                  profilePicture: _profileImage,
+                  backArrowColor: theme.backArrowColor,
+                  chatTitle: "Discord",
+                  chatTitleTextStyle: TextStyle(color: theme.appBarTitleTextStyle, fontWeight: FontWeight.bold, fontSize: 18, letterSpacing: 0.25),
+                  userStatusTextStyle: const TextStyle(color: Colors.grey),
+                ),
+                chatBackgroundConfig: ChatBackgroundConfiguration(
+                  messageTimeIconColor: theme.messageTimeIconColor,
+                  messageTimeTextStyle: TextStyle(color: theme.messageTimeTextColor),
+                  defaultGroupSeparatorConfig: DefaultGroupSeparatorConfiguration(textStyle: TextStyle(color: theme.chatHeaderColor, fontSize: 17)),
+                  backgroundColor: theme.backgroundColor,
+                ),
+                sendMessageConfig: SendMessageConfiguration(
+                  imagePickerIconsConfig: ImagePickerIconsConfiguration(cameraIconColor: theme.cameraIconColor, galleryIconColor: theme.galleryIconColor),
+                  replyMessageColor: theme.replyMessageColor,
+                  defaultSendButtonColor: theme.sendButtonColor,
+                  replyDialogColor: theme.replyDialogColor,
+                  replyTitleColor: theme.replyTitleColor,
+                  textFieldBackgroundColor: theme.textFieldBackgroundColor,
+                  closeIconColor: theme.closeIconColor,
+                  textFieldConfig: TextFieldConfiguration(textStyle: TextStyle(color: theme.textFieldTextColor)),
+                  micIconColor: theme.replyMicIconColor,
+                  voiceRecordingConfiguration: VoiceRecordingConfiguration(backgroundColor: theme.waveformBackgroundColor, recorderIconColor: theme.recordIconColor, waveStyle: WaveStyle(showMiddleLine: false, waveColor: theme.waveColor ?? Colors.white, extendWaveform: true)),
+                ),
+                chatBubbleConfig: ChatBubbleConfiguration(
+                  outgoingChatBubbleConfig: ChatBubble(
+                    linkPreviewConfig: LinkPreviewConfiguration(backgroundColor: theme.linkPreviewOutgoingChatColor, bodyStyle: theme.outgoingChatLinkBodyStyle, titleStyle: theme.outgoingChatLinkTitleStyle),
+                    receiptsWidgetConfig: const ReceiptsWidgetConfig(showReceiptsIn: ShowReceiptsIn.all),
+                    color: theme.outgoingChatBubbleColor,
+                  ),
+                  inComingChatBubbleConfig: ChatBubble(
+                    linkPreviewConfig: LinkPreviewConfiguration(linkStyle: TextStyle(color: theme.inComingChatBubbleTextColor, decoration: TextDecoration.underline), backgroundColor: theme.linkPreviewIncomingChatColor, bodyStyle: theme.incomingChatLinkBodyStyle, titleStyle: theme.incomingChatLinkTitleStyle),
+                    textStyle: TextStyle(color: theme.inComingChatBubbleTextColor),
+                    senderNameTextStyle: TextStyle(color: theme.inComingChatBubbleTextColor),
+                    color: theme.inComingChatBubbleColor,
+                  ),
+                ),
+                replyPopupConfig: ReplyPopupConfiguration(backgroundColor: theme.replyPopupColor, buttonTextStyle: TextStyle(color: theme.replyPopupButtonColor), topBorderColor: theme.replyPopupTopBorderColor),
+                reactionPopupConfig: ReactionPopupConfiguration(shadow: const BoxShadow(color: Colors.black54, blurRadius: 20), backgroundColor: theme.reactionPopupColor),
+                messageConfig: MessageConfiguration(
+                  messageReactionConfig: MessageReactionConfiguration(
+                    backgroundColor: theme.messageReactionBackGroundColor,
+                    borderColor: theme.messageReactionBackGroundColor,
+                    reactedUserCountTextStyle: TextStyle(color: theme.inComingChatBubbleTextColor),
+                    reactionCountTextStyle: TextStyle(color: theme.inComingChatBubbleTextColor),
+                    reactionsBottomSheetConfig: ReactionsBottomSheetConfiguration(
                       backgroundColor: theme.backgroundColor,
+                      reactedUserTextStyle: TextStyle(color: theme.inComingChatBubbleTextColor),
+                      reactionWidgetDecoration: BoxDecoration(color: theme.inComingChatBubbleColor, boxShadow: const <BoxShadow>[BoxShadow(color: Colors.black12, offset: Offset(0, 20), blurRadius: 40)], borderRadius: BorderRadius.circular(10)),
                     ),
-                    sendMessageConfig: SendMessageConfiguration(
-                      imagePickerIconsConfig: ImagePickerIconsConfiguration(cameraIconColor: theme.cameraIconColor, galleryIconColor: theme.galleryIconColor),
-                      replyMessageColor: theme.replyMessageColor,
-                      defaultSendButtonColor: theme.sendButtonColor,
-                      replyDialogColor: theme.replyDialogColor,
-                      replyTitleColor: theme.replyTitleColor,
-                      textFieldBackgroundColor: theme.textFieldBackgroundColor,
-                      closeIconColor: theme.closeIconColor,
-                      textFieldConfig: TextFieldConfiguration(textStyle: TextStyle(color: theme.textFieldTextColor)),
-                      micIconColor: theme.replyMicIconColor,
-                      voiceRecordingConfiguration: VoiceRecordingConfiguration(backgroundColor: theme.waveformBackgroundColor, recorderIconColor: theme.recordIconColor, waveStyle: WaveStyle(showMiddleLine: false, waveColor: theme.waveColor ?? Colors.white, extendWaveform: true)),
-                    ),
-                    chatBubbleConfig: ChatBubbleConfiguration(
-                      outgoingChatBubbleConfig: ChatBubble(
-                        linkPreviewConfig: LinkPreviewConfiguration(backgroundColor: theme.linkPreviewOutgoingChatColor, bodyStyle: theme.outgoingChatLinkBodyStyle, titleStyle: theme.outgoingChatLinkTitleStyle),
-                        receiptsWidgetConfig: const ReceiptsWidgetConfig(showReceiptsIn: ShowReceiptsIn.all),
-                        color: theme.outgoingChatBubbleColor,
-                      ),
-                      inComingChatBubbleConfig: ChatBubble(
-                        linkPreviewConfig: LinkPreviewConfiguration(linkStyle: TextStyle(color: theme.inComingChatBubbleTextColor, decoration: TextDecoration.underline), backgroundColor: theme.linkPreviewIncomingChatColor, bodyStyle: theme.incomingChatLinkBodyStyle, titleStyle: theme.incomingChatLinkTitleStyle),
-                        textStyle: TextStyle(color: theme.inComingChatBubbleTextColor),
-                        senderNameTextStyle: TextStyle(color: theme.inComingChatBubbleTextColor),
-                        color: theme.inComingChatBubbleColor,
-                      ),
-                    ),
-                    replyPopupConfig: ReplyPopupConfiguration(backgroundColor: theme.replyPopupColor, buttonTextStyle: TextStyle(color: theme.replyPopupButtonColor), topBorderColor: theme.replyPopupTopBorderColor),
-                    reactionPopupConfig: ReactionPopupConfiguration(shadow: const BoxShadow(color: Colors.black54, blurRadius: 20), backgroundColor: theme.reactionPopupColor),
-                    messageConfig: MessageConfiguration(
-                      messageReactionConfig: MessageReactionConfiguration(
-                        backgroundColor: theme.messageReactionBackGroundColor,
-                        borderColor: theme.messageReactionBackGroundColor,
-                        reactedUserCountTextStyle: TextStyle(color: theme.inComingChatBubbleTextColor),
-                        reactionCountTextStyle: TextStyle(color: theme.inComingChatBubbleTextColor),
-                        reactionsBottomSheetConfig: ReactionsBottomSheetConfiguration(
-                          backgroundColor: theme.backgroundColor,
-                          reactedUserTextStyle: TextStyle(color: theme.inComingChatBubbleTextColor),
-                          reactionWidgetDecoration: BoxDecoration(color: theme.inComingChatBubbleColor, boxShadow: const <BoxShadow>[BoxShadow(color: Colors.black12, offset: Offset(0, 20), blurRadius: 40)], borderRadius: BorderRadius.circular(10)),
-                        ),
-                      ),
-                      imageMessageConfig: ImageMessageConfiguration(margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 15), shareIconConfig: ShareIconConfiguration(defaultIconBackgroundColor: theme.shareIconBackgroundColor, defaultIconColor: theme.shareIconColor)),
-                    ),
-                    profileCircleConfig: ProfileCircleConfiguration(profileImageUrl: _profileImage),
-                    repliedMessageConfig: RepliedMessageConfiguration(
-                      backgroundColor: theme.repliedMessageColor,
-                      verticalBarColor: theme.verticalBarColor,
-                      repliedMsgAutoScrollConfig: RepliedMsgAutoScrollConfig(enableHighlightRepliedMsg: true, highlightColor: Colors.pinkAccent.shade100, highlightScale: 1.1),
-                      textStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: .25),
-                      replyTitleTextStyle: TextStyle(color: theme.repliedTitleTextColor),
-                    ),
-                    swipeToReplyConfig: SwipeToReplyConfiguration(replyIconColor: theme.swipeToReplyIconColor),
-                  );
-                },
+                  ),
+                  imageMessageConfig: ImageMessageConfiguration(margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 15), shareIconConfig: ShareIconConfiguration(defaultIconBackgroundColor: theme.shareIconBackgroundColor, defaultIconColor: theme.shareIconColor)),
+                ),
+                profileCircleConfig: ProfileCircleConfiguration(profileImageUrl: _profileImage),
+                repliedMessageConfig: RepliedMessageConfiguration(
+                  backgroundColor: theme.repliedMessageColor,
+                  verticalBarColor: theme.verticalBarColor,
+                  repliedMsgAutoScrollConfig: RepliedMsgAutoScrollConfig(enableHighlightRepliedMsg: true, highlightColor: Colors.pinkAccent.shade100, highlightScale: 1.1),
+                  textStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: .25),
+                  replyTitleTextStyle: TextStyle(color: theme.repliedTitleTextColor),
+                ),
+                swipeToReplyConfig: SwipeToReplyConfiguration(replyIconColor: theme.swipeToReplyIconColor),
               );
             } else if (streamSnapshot.connectionState == ConnectionState.waiting) {
               return const Wait();
