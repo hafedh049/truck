@@ -78,6 +78,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         await file.writeAsBytes(bytes);
                         data["message"] = file.path;
                       }
+                      print(1)
 
                       if (data['reply_message'] == null) {
                         data['reply_message'] = const ReplyMessage();
