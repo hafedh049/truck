@@ -141,7 +141,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     reactionWidgetDecoration: BoxDecoration(color: theme.inComingChatBubbleColor, boxShadow: const <BoxShadow>[BoxShadow(color: Colors.black12, offset: Offset(0, 20), blurRadius: 40)], borderRadius: BorderRadius.circular(10)),
                   ),
                 ),
-                imageMessageConfig: ImageMessageConfiguration(margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 15), shareIconConfig: ShareIconConfiguration(defaultIconBackgroundColor: theme.shareIconBackgroundColor, defaultIconColor: theme.shareIconColor)),
+                imageMessageConfig: ImageMessageConfiguration(onTap: (String path) {}, margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 15), shareIconConfig: ShareIconConfiguration(defaultIconBackgroundColor: theme.shareIconBackgroundColor, defaultIconColor: theme.shareIconColor)),
               ),
               profileCircleConfig: ProfileCircleConfiguration(profileImageUrl: _profileImage),
               repliedMessageConfig: RepliedMessageConfiguration(
