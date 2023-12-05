@@ -199,14 +199,11 @@ class _ChatRoomState extends State<ChatRoom> {
         'message': message,
         'createdAt': Timestamp.now(),
         'sendBy': "1",
-        'reply_message': null,
-        'reaction': null,
         'message_type': messageType == MessageType.text
             ? "text"
             : messageType == MessageType.image
                 ? "image"
                 : "voice",
-        'voice_message_duration': null,
         'status': "pending",
       },
     );
