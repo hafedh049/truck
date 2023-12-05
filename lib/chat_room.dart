@@ -1,18 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:chatview/chatview.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:http/http.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:truck/utils/themes.dart';
-import 'package:truck/wait.dart';
-import 'package:truck/wrong.dart';
 
 class ChatRoom extends StatefulWidget {
   const ChatRoom({super.key});
