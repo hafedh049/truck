@@ -127,7 +127,11 @@ class _ChatRoomState extends State<ChatRoom> {
                   color: theme.inComingChatBubbleColor,
                 ),
               ),
-              replyPopupConfig: ReplyPopupConfiguration(backgroundColor: theme.replyPopupColor, buttonTextStyle: TextStyle(color: theme.replyPopupButtonColor), topBorderColor: theme.replyPopupTopBorderColor),
+              replyPopupConfig: ReplyPopupConfiguration(
+                backgroundColor: theme.replyPopupColor,
+                buttonTextStyle: TextStyle(color: theme.replyPopupButtonColor),
+                topBorderColor: theme.replyPopupTopBorderColor,
+              ),
               reactionPopupConfig: ReactionPopupConfiguration(userReactionCallback: (Message message, String emoji) {}, shadow: const BoxShadow(color: Colors.black54, blurRadius: 20), backgroundColor: theme.reactionPopupColor),
               messageConfig: MessageConfiguration(
                 messageReactionConfig: MessageReactionConfiguration(
