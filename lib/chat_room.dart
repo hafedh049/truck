@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:truck/utils/globals.dart';
 import 'package:truck/utils/themes.dart';
 
 class ChatRoom extends StatefulWidget {
