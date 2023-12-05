@@ -72,7 +72,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         final String dir = (await getApplicationDocumentsDirectory()).path;
                         final File file = File('$dir/${data["message"]}');
                         final Response request = await get(data["message"]);
-                        final Uint8List bytes = request.bodyBytes; //close();
+                        final Uint8List bytes = request.bodyBytes;
                         await file.writeAsBytes(bytes);
                         data["message"] = file.path;
                       }
