@@ -204,7 +204,7 @@ class _ChatRoomState extends State<ChatRoom> {
             : messageType == MessageType.image
                 ? "image"
                 : "voice",
-        'status': "pending"
+        'status': "pending",
       },
     );
 
