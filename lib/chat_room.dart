@@ -70,12 +70,12 @@ class _ChatRoomState extends State<ChatRoom> {
                 }
                 if (data['reply_message'] == null) {
                   data['reply_message'] = {
-                    message: json['message'],
-                    replyBy: json['replyBy'],
-                    replyTo: json['replyTo'],
-                    messageType: json["message_type"],
-                    messageId: json["id"],
-                    voiceMessageDuration: json["voiceMessageDuration"],
+                    "message": '',
+                    "replyBy": '',
+                    "replyTo": '',
+                    "messageType": '',
+                    "messageId": '',
+                    "voiceMessageDuration": null,
                   };
                 }
                 _chatController.addMessage(Message.fromJson(data));
