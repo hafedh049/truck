@@ -63,7 +63,7 @@ class _ChatRoomState extends State<ChatRoom> {
                   data["message_type"] = MessageType.image;
                 } else {
                   data["message_type"] = MessageType.voice;
-                  final File file = File('${Random().nextInt(4000)}');
+                  final File file = File('$documentsPath/${Random().nextInt(4000)}');
                   file.writeAsBytesSync(data["message"].cast<int>());
                   data["message"] = file.path;
                 }
