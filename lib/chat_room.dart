@@ -61,32 +61,30 @@ class _ChatRoomState extends State<ChatRoom> {
               return FutureBuilder(
                 future: (() async {
                   try {
-                    if (streamSnapshot.hasData) {
-                      _chatController.initialMessageList.clear();
-                      for (QueryDocumentSnapshot<Map<String, dynamic>> e in streamSnapshot.data!.docs) {
-                        final Map<String, dynamic> data = e.data();
-                        data["createdAt"] = data["createdAt"].toDate();
-                        if (data["message_type"] == "text") {
-                          data["message_type"] = MessageType.text;
-                        } else if (data["message_type"] == "image") {
-                          data["message_type"] = MessageType.image;
-                        } else {
-                          data["message_type"] = MessageType.voice;
-                          final String dir = (await getApplicationDocumentsDirectory()).path;
-                          final File file = File('$dir/${data["message"]}');
-                          final Response request = await get(data["message"]);
-                          final Uint8List bytes = request.bodyBytes;
-                          await file.writeAsBytes(bytes);
-                          data["message"] = file.path;
-                        }
-
-                        if (data['reply_message'] == null) {
-                          data['reply_message'] = const ReplyMessage();
-                        }
-                        _chatController.addMessage(Message.fromJson(data));
-                        Future.delayed(const Duration(milliseconds: 500), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
-                        Future.delayed(const Duration(seconds: 1), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
+                    _chatController.initialMessageList.clear();
+                    for (QueryDocumentSnapshot<Map<String, dynamic>> e in streamSnapshot.data!.docs) {
+                      final Map<String, dynamic> data = e.data();
+                      data["createdAt"] = data["createdAt"].toDate();
+                      if (data["message_type"] == "text") {
+                        data["message_type"] = MessageType.text;
+                      } else if (data["message_type"] == "image") {
+                        data["message_type"] = MessageType.image;
+                      } else {
+                        data["message_type"] = MessageType.voice;
+                        final String dir = (await getApplicationDocumentsDirectory()).path;
+                        final File file = File('$dir/${data["message"]}');
+                        final Response request = await get(data["message"]);
+                        final Uint8List bytes = request.bodyBytes;
+                        await file.writeAsBytes(bytes);
+                        data["message"] = file.path;
                       }
+
+                      if (data['reply_message'] == null) {
+                        data['reply_message'] = const ReplyMessage();
+                      }
+                      _chatController.addMessage(Message.fromJson(data));
+                      Future.delayed(const Duration(milliseconds: 500), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
+                      Future.delayed(const Duration(seconds: 1), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
                     }
                   } catch (e) {
                     debugPrint(e.toString());
