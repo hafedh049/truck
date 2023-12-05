@@ -66,6 +66,14 @@ class _ChatRoomState extends State<ChatRoom> {
                         data["message_type"] = MessageType.image;
                       } else {
                         data["message_type"] = MessageType.voice;
+                        String dir = (await getApplicationDocumentsDirectory()).path;
+                        File file = new File('$dir/$filename');
+                        var request = await http.get(
+                          url,
+                        );
+                        var bytes = await request.bodyBytes; //close();
+                        await file.writeAsBytes(bytes);
+                        print(file.path);
                       }
 
                       if (data['reply_message'] == null) {
