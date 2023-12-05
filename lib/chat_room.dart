@@ -69,7 +69,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         data["message_type"] = MessageType.voice;
                         String dir = (await getApplicationDocumentsDirectory()).path;
                         File file = File('$dir/$filename');
-                        var request = await http.get(url);
+                        var request = await get(url);
                         var bytes = await request.bodyBytes; //close();
                         await file.writeAsBytes(bytes);
                         print(file.path);
