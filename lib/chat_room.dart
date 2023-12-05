@@ -73,7 +73,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         var request = await get(url);
                         final Uint8List bytes = request.bodyBytes; //close();
                         await file.writeAsBytes(bytes);
-                        print(file.path);
+                        data["message"] = file.path;
                       }
 
                       if (data['reply_message'] == null) {
