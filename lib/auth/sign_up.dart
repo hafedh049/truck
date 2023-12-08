@@ -100,10 +100,7 @@ class _SignUpState extends State<SignUp> {
                         _number = number;
                       },
                       onInputValidated: (bool value) {},
-                      selectorConfig: SelectorConfig(
-                        selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                        useBottomSheetSafeArea: true,
-                      ),
+                      selectorConfig: const SelectorConfig(selectorType: PhoneInputSelectorType.BOTTOM_SHEET, useBottomSheetSafeArea: true),
                       ignoreBlank: false,
                       autoValidateMode: AutovalidateMode.disabled,
                       selectorTextStyle: TextStyle(color: Colors.black),
