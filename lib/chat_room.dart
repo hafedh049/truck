@@ -70,7 +70,7 @@ class _ChatRoomState extends State<ChatRoom> {
                   data["message"] = file.path;
                 }
 
-                _chatController.addMessage(Message(message: data["message"], createdAt: data["createdAt"], sendBy: data["sendBy"], messageType: data["message_type"], id: data["id"]));
+                _chatController.addMessage(Message(message: e.value["message"], createdAt: e.value["createdAt"], sendBy: e.value["sendBy"], messageType: e.value["message_type"], id: e.key));
                 Future.delayed(const Duration(milliseconds: 500), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
                 Future.delayed(const Duration(seconds: 700), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
               }
