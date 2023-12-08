@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:truck/utils/globals.dart';
 
 class SignUp extends StatefulWidget {
