@@ -56,7 +56,8 @@ class _ChatRoomState extends State<ChatRoom> {
           builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> streamSnapshot) {
             if (streamSnapshot.hasData) {
               _chatController.initialMessageList.clear();
-              for (MapEntry<String, dynamic> e in streamSnapshot.data!.get("messages").entries) {
+              if(){
+                for (MapEntry<String, dynamic> e in streamSnapshot.data!.get("messages").entries) {
                 e.value["createdAt"] = e.value["createdAt"].toDate();
                 if (e.value["message_type"] == "text") {
                   e.value["message_type"] = MessageType.text;
@@ -72,6 +73,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 _chatController.addMessage(Message(message: e.value["message"], createdAt: e.value["createdAt"], sendBy: e.value["sendBy"], messageType: e.value["message_type"], id: e.key));
                 Future.delayed(const Duration(milliseconds: 500), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
                 Future.delayed(const Duration(seconds: 700), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
+              }
               }
             }
             return ChatView(
