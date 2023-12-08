@@ -27,6 +27,7 @@ Future<bool> load() async {
       ),
     );
     if (await loadUserLocalSettings()) {
+      print(true);
       if (userLocalSettings!.get("first_time") == null) {
         await userLocalSettings!.put("first_time", true);
       }
