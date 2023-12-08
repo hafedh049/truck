@@ -103,9 +103,6 @@ class _SignUpState extends State<SignUp> {
                       builder: (BuildContext context, void Function(void Function()) _) {
                         return TextFormField(
                           controller: _phoneNumberController,
-                          validator: (String? value) {
-                            return null;
-                          },
                           style: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
                           decoration: InputDecoration(
                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
