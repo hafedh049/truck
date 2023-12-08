@@ -5,6 +5,7 @@ import 'package:footy_shorts/utils/globals.dart';
 import 'package:footy_shorts/views/auth/sign_up.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:truck/utils/globals.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
