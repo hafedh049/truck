@@ -176,7 +176,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
     await FirebaseFirestore.instance.collection("trucks").doc(FirebaseAuth.instance.currentUser!.uid).update(
       {
-        "": <String, dynamic>{
+        "messages": <String, dynamic>{
           'id': id,
           'message': msg,
           'createdAt': Timestamp.now(),
