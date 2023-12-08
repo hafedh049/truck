@@ -99,13 +99,12 @@ class _SignUpState extends State<SignUp> {
                       onInputChanged: (PhoneNumber number) {
                         _number = number;
                       },
-                      onInputValidated: (bool value) {},
                       selectorConfig: const SelectorConfig(selectorType: PhoneInputSelectorType.BOTTOM_SHEET, useBottomSheetSafeArea: true),
                       ignoreBlank: false,
                       autoValidateMode: AutovalidateMode.disabled,
                       selectorTextStyle: TextStyle(color: Colors.black),
-                      initialValue: number,
-                      textFieldController: controller,
+                      initialValue: _number,
+                      textFieldController: _phoneNumberController,
                       formatInput: true,
                       keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
                       inputBorder: OutlineInputBorder(),
