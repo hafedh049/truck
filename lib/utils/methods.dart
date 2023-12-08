@@ -26,7 +26,6 @@ Future<bool> load() async {
         projectId: "harmonix-ede29",
       ),
     );
-    print(111111);
     await loadUserLocalSettings();
     if (userLocalSettings!.get("first_time") == null) {
       await userLocalSettings!.put("first_time", true);
