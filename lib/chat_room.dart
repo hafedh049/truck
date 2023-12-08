@@ -77,7 +77,7 @@ class _ChatRoomState extends State<ChatRoom> {
               }
             }
             return StatefulBuilder(
-                stream: null,
+                key: null,
                 builder: (context, snapshot) {
                   return ChatView(
                     currentUser: _currentUser,
