@@ -66,7 +66,7 @@ class _SignInState extends State<SignIn> {
                             autoValidateMode: AutovalidateMode.disabled,
                             selectorTextStyle: const TextStyle(color: Colors.black),
                             initialValue: _number,
-                            textFieldController: _phoneNumberController,
+                            textFieldController: _phoneController,
                             formatInput: true,
                             inputDecoration: InputDecoration(
                               border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
