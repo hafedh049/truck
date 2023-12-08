@@ -105,7 +105,7 @@ class _SignUpState extends State<SignUp> {
                       selectorTextStyle:const  TextStyle(color: Colors.black),
                       initialValue: _number,
                       textFieldController: _phoneNumberController,
-                      formatInput: true,
+                      formatInput: true,inputDecoration: ,
                       keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                       inputBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
                       onSaved: (PhoneNumber number) {
