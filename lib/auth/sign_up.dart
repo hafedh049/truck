@@ -13,44 +13,15 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController c:\Users\Dell\Desktop\footy_shorts\lib\views\auth\sign_in.dart c:\Users\Dell\Desktop\footy_shorts\lib\views\auth\sign_up.dart = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
 
   bool _passwordState = false;
 
-
-  Future<void> _showInfo() async {
-    await showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) => Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            for (MapEntry<String, String> note in _notes.entries)
-              Container(
-                margin: const EdgeInsets.only(bottom: 8),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Icon(RegExp(note.value).hasMatch(_passwordController.text.trim()) ? FontAwesome.star_half : FontAwesome.star, color: teal, size: 20, fill: 1),
-                    const SizedBox(width: 10),
-                    Flexible(child: Text(note.key, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500))),
-                  ],
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   void dispose() {
     _emailController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
+    _phoneNumberController.dispose();
     _usernameController.dispose();
     super.dispose();
   }
