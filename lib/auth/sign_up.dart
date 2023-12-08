@@ -13,7 +13,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _phoneNumber = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
 
   final GlobalKey<State> _passwordStrengthKey = GlobalKey<State>();
