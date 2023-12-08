@@ -133,7 +133,9 @@ class _ChatRoomState extends State<ChatRoom> {
                 backgroundColor: theme.replyPopupColor,
                 buttonTextStyle: TextStyle(color: theme.replyPopupButtonColor),
                 topBorderColor: theme.replyPopupTopBorderColor,
-                onUnsendTap: (Message message) {_chatController.initialMessageList.},
+                onUnsendTap: (Message message) {
+                  _chatController.initialMessageList.remove(message);
+                },
               ),
               reactionPopupConfig: ReactionPopupConfiguration(userReactionCallback: (Message message, String emoji) {}, shadow: const BoxShadow(color: Colors.black54, blurRadius: 20), backgroundColor: theme.reactionPopupColor),
               messageConfig: MessageConfiguration(
