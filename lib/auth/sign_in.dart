@@ -10,6 +10,7 @@ import 'package:harmonix/utils/globals.dart';
 import 'package:harmonix/utils/methods.dart';
 import 'package:harmonix/auth/sign_up.dart';
 import 'package:harmonix/home.dart';
+import 'package:truck/home.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -130,7 +131,7 @@ class _SignInState extends State<SignIn> {
                                     await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim());
                                     await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get().then((DocumentSnapshot<Map<String, dynamic>> value) async {
                                       user = UserModel.fromJson(value.data()!);
-                                      await Get.to(const Home());
+                                      await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home()));
                                       // ignore: use_build_context_synchronously
                                       showSnack("User Authenitificated", 1, context);
                                     });
