@@ -97,7 +97,7 @@ class _SignInState extends State<SignIn> {
                     const SizedBox(height: 40),
                     InkWell(
                       onTap: () async {
-                        await Get.to(const Home());
+                        await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => ));
                       },
                       child: Container(
                         decoration: BoxDecoration(color: teal, borderRadius: BorderRadius.circular(12)),
