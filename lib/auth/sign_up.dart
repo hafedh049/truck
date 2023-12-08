@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:footy_shorts/utils/globals.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:truck/utils/globals.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -38,7 +39,7 @@ class _SignUpState extends State<SignUp> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const SizedBox(height: 40),
-              IconButton(splashColor: teal, onPressed: () => Get.back(), icon: const Icon(FontAwesome.chevron_left, color: teal)),
+              IconButton(splashColor: teal, onPressed: () => Navigator.pop(context), icon: const Icon(FontAwesome.chevron_left, color: teal)),
               const SizedBox(height: 20),
               Form(
                 child: Column(
