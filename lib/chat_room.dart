@@ -193,11 +193,7 @@ class _ChatRoomState extends State<ChatRoom> {
                       : "voice",
             },
           );
-          value.reference.update(
-            <String, dynamic>{
-              "messages": data,
-            },
-          );
+          value.reference.update(<String, dynamic>{"messages": data});
         } else {
           final String channelID = List<int>.generate(19, (_) => Random().nextInt(10)).join();
           value.reference.set(
