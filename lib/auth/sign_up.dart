@@ -106,7 +106,7 @@ class _SignUpState extends State<SignUp> {
                       initialValue: _number,
                       textFieldController: _phoneNumberController,
                       formatInput: true,
-                      keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+                      keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                       inputBorder: OutlineInputBorder(),
                       onSaved: (PhoneNumber number) {
                         print('On Saved: $number');
