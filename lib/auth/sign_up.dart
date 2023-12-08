@@ -97,11 +97,9 @@ class _SignUpState extends State<SignUp> {
                     const SizedBox(height: 10),
                     InternationalPhoneNumberInput(
                       onInputChanged: (PhoneNumber number) {
-                        print(number.phoneNumber);
+                        this.number = number;
                       },
-                      onInputValidated: (bool value) {
-                        print(value);
-                      },
+                      onInputValidated: (bool value) {},
                       selectorConfig: SelectorConfig(
                         selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
                         useBottomSheetSafeArea: true,
