@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:harmonix/utils/globals.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:truck/utils/globals.dart';
 
 Future<bool> loadUserLocalSettings() async {
   try {
@@ -39,9 +39,6 @@ Future<bool> load(BuildContext context) async {
       await userLocalSettings!.put("language", "en");
     }
 
-    // ignore: use_build_context_synchronously
-    sendQuote(context);
-
     return true;
   } catch (e) {
     return false;
@@ -70,11 +67,4 @@ void showSnack(String message, int type, BuildContext context) {
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(snackBar);
-}
-
-void sendQuote(BuildContext context) async {
-  if (userLocalSettings!.get("quote") == null || DateTime.now().difference(userLocalSettings!.get("quote")).inDays == 1) {
-    showSnack(climateChangeQuotes[Random().nextInt(climateChangeQuotes.length)], 1, context);
-    await userLocalSettings!.put("quote", DateTime.now());
-  }
 }
