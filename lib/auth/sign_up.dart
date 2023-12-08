@@ -23,6 +23,9 @@ class _SignUpState extends State<SignUp> {
     super.dispose();
   }
 
+  String initialCountry = 'NG';
+  PhoneNumber number = PhoneNumber(isoCode: 'NG');
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
