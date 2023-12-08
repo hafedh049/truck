@@ -137,7 +137,7 @@ class _SignUpState extends State<SignUp> {
                   children: <Widget>[
                     Text("Already have an account?", style: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400)),
                     const SizedBox(width: 5),
-                    const Text("Login", style: TextStyle(color: teal, fontSize: 16, fontWeight: FontWeight.w400)),
+                    const Text("Sign In", style: TextStyle(color: teal, fontSize: 16, fontWeight: FontWeight.w400)),
                   ],
                 ),
               ),
