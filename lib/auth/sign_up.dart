@@ -2,14 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:harmonix/models/user_model.dart';
-import 'package:harmonix/utils/globals.dart';
-import 'package:harmonix/utils/methods.dart';
-import 'package:harmonix/home.dart';
-import 'package:speech_to_text/speech_recognition_result.dart';
-import 'package:speech_to_text/speech_to_text.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
