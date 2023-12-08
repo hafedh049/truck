@@ -8,8 +8,6 @@ import 'package:truck/utils/globals.dart';
 Future<bool> loadUserLocalSettings() async {
   try {
     Hive.init((await getApplicationDocumentsDirectory()).path);
-    print(true);
-
     userLocalSettings = await Hive.openBox('userLocalSettings');
     return true;
   } catch (e) {
@@ -29,7 +27,6 @@ Future<bool> load() async {
       ),
     );
     if (await loadUserLocalSettings()) {
-      print(true);
       if (userLocalSettings!.get("first_time") == null) {
         await userLocalSettings!.put("first_time", true);
       }
