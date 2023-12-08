@@ -112,7 +112,8 @@ class _SignInState extends State<SignIn> {
                       highlightColor: transparent,
                       splashColor: transparent,
                       hoverColor: transparent,
-                      onTap: () async => Get.to(const SignUp()),
+                      onTap:  await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home()));
+
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
