@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:footy_shorts/utils/globals.dart';
-import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:truck/utils/globals.dart';
 
@@ -16,8 +13,6 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
-
-  bool _passwordState = false;
 
   @override
   void dispose() {
