@@ -13,80 +13,11 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController c:\Users\Dell\Desktop\footy_shorts\lib\views\auth\sign_in.dart c:\Users\Dell\Desktop\footy_shorts\lib\views\auth\sign_up.dart = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
 
-  final GlobalKey<State> _passwordStrengthKey = GlobalKey<State>();
-
-  final List<Color> _passwordStrength = List<Color>.generate(3, (int index) => white.withOpacity(.5));
-
-  final Map<String, String> _notes = <String, String>{
-    "Contains at least 8 characters": r".{8,}",
-    "Contains at least a uppercase letter": r"",
-    "Contains at least a lowercase letter": r"",
-    "Contains at least one digit": r"",
-    "Contains at least a character from this set: {!, @, #, \$, *, ?}": r"",
-  };
-
   bool _passwordState = false;
-  bool _confirmPasswordState = false;
-  bool _emailState = false;
-  bool _usernameState = false;
 
-  void _computeStrength() {
-    int score = 0;
-
-    const int lengthWeight = 2;
-    const int upperCaseWeight = 2;
-    const int lowerCaseWeight = 2;
-    const int digitWeight = 2;
-    const int specialCharWeight = 3;
-
-    final String password = _passwordController.text.trim();
-
-    if (password.length >= 8) {
-      score += lengthWeight;
-    }
-
-    if (RegExp(r'[A-Z]').hasMatch(password)) {
-      score += upperCaseWeight;
-    }
-
-    if (RegExp(r'[a-z]').hasMatch(password)) {
-      score += lowerCaseWeight;
-    }
-
-    if (RegExp(r'\d').hasMatch(password)) {
-      score += digitWeight;
-    }
-
-    if (RegExp(r'[@#\$\*\?]').hasMatch(password)) {
-      score += specialCharWeight;
-    }
-
-    if (!RegExp(r'[@#\$\*\?a-zA-Z\d]').hasMatch(password)) {
-      score = 0;
-    }
-
-    if (score == 0) {
-      _passwordStrength[0] = white.withOpacity(.5);
-      _passwordStrength[1] = white.withOpacity(.5);
-      _passwordStrength[2] = white.withOpacity(.5);
-    } else if (score < 6) {
-      _passwordStrength[0] = teal;
-      _passwordStrength[1] = white.withOpacity(.5);
-      _passwordStrength[2] = white.withOpacity(.5);
-    } else if (score < 9) {
-      _passwordStrength[0] = teal;
-      _passwordStrength[1] = teal;
-      _passwordStrength[2] = white.withOpacity(.5);
-    } else {
-      _passwordStrength[0] = teal;
-      _passwordStrength[1] = teal;
-      _passwordStrength[2] = teal;
-    }
-  }
 
   Future<void> _showInfo() async {
     await showModalBottomSheet(
