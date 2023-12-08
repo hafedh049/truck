@@ -13,12 +13,8 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  final TextEditingController _phoneController = TextEditingController();
-
   @override
   void dispose() {
-    _phoneController.dispose();
-
     if (userLocalSettings!.get("first_time")) {
       userLocalSettings!.put("first_time", false);
     }
@@ -68,7 +64,6 @@ class _SignInState extends State<SignIn> {
                             autoValidateMode: AutovalidateMode.disabled,
                             selectorTextStyle: const TextStyle(color: Colors.black),
                             initialValue: _number,
-                            textFieldController: _phoneController,
                             formatInput: true,
                             inputDecoration: InputDecoration(
                               border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
