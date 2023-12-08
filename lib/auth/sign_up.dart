@@ -57,16 +57,12 @@ class _SignUpState extends State<SignUp> {
                     StatefulBuilder(
                       builder: (BuildContext context, void Function(void Function()) _) {
                         return TextFormField(
-                          onChanged: (String value) {
-                            _(() => _emailState = _emailController.text.trim().isNotEmpty);
-                          },
                           controller: _emailController,
                           style: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
                           decoration: InputDecoration(
                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
                             focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
                             hintText: "E-mail",
-                            suffixIcon: Icon(_emailState ? FontAwesome.circle_check : null),
                             contentPadding: const EdgeInsets.all(24),
                             hintStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
                           ),
@@ -86,75 +82,12 @@ class _SignUpState extends State<SignUp> {
                     StatefulBuilder(
                       builder: (BuildContext context, void Function(void Function()) _) {
                         return TextFormField(
-                          onChanged: (String value) => _(() => _usernameState = _usernameController.text.trim().isNotEmpty),
                           controller: _usernameController,
                           style: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
                           decoration: InputDecoration(
                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
                             focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
                             hintText: "Name",
-                            suffixIcon: Icon(_usernameState ? FontAwesome.circle_check : null),
-                            contentPadding: const EdgeInsets.all(24),
-                            hintStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
-                          ),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: <Widget>[
-                        const Text.rich(TextSpan(children: <TextSpan>[TextSpan(text: "Password", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)), TextSpan(text: " *", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: teal))])),
-                        const Spacer(),
-                        IconButton(highlightColor: transparent, splashColor: transparent, hoverColor: transparent, onPressed: () async => await _showInfo(), icon: const Icon(FontAwesome.circle_info, size: 25, color: teal)),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    StatefulBuilder(
-                      builder: (BuildContext context, void Function(void Function()) _) {
-                        return TextFormField(
-                          controller: _passwordController,
-                          onChanged: (String text) => _passwordStrengthKey.currentState!.setState(() => _computeStrength()),
-                          obscureText: !_passwordState,
-                          style: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
-                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
-                            hintText: "Password",
-                            suffixIcon: IconButton(onPressed: () => _(() => _passwordState = !_passwordState), icon: Icon(!_passwordState ? Icons.visibility_off : Icons.visibility)),
-                            contentPadding: const EdgeInsets.all(24),
-                            hintStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
-                          ),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    StatefulBuilder(
-                      key: _passwordStrengthKey,
-                      builder: (BuildContext context, void Function(void Function()) _) {
-                        return Row(children: <Widget>[for (Color strength in _passwordStrength) Expanded(child: AnimatedContainer(duration: 300.ms, height: 3, color: strength, margin: const EdgeInsets.symmetric(horizontal: 4)))]);
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    const Text.rich(
-                      TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(text: "Confirm Password", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
-                          TextSpan(text: " *", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: teal)),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    StatefulBuilder(
-                      builder: (BuildContext context, void Function(void Function()) _) {
-                        return TextFormField(
-                          controller: _confirmPasswordController,
-                          obscureText: !_confirmPasswordState,
-                          style: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
-                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
-                            hintText: "Confirm Password",
-                            suffixIcon: IconButton(onPressed: () => _(() => _confirmPasswordState = !_confirmPasswordState), icon: Icon(!_confirmPasswordState ? Icons.visibility_off : Icons.visibility)),
                             contentPadding: const EdgeInsets.all(24),
                             hintStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
                           ),
