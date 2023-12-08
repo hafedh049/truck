@@ -177,7 +177,22 @@ class _ChatRoomState extends State<ChatRoom> {
     }
 
     await FirebaseFirestore.instance.collection("trucks").doc(FirebaseAuth.instance.currentUser!.uid).get().then((DocumentSnapshot<Map<String, dynamic>> value) {
-      if (value.exists) {}
+      if (value.exists) {
+      } else {
+        value.reference.set({
+          "messages": <String, dynamic>{
+            'id': id,
+            'message': msg,
+            'createdAt': Timestamp.now(),
+            'sendBy': "1",
+            'message_type': messageType == MessageType.text
+                ? "text"
+                : messageType == MessageType.image
+                    ? "image"
+                    : "voice",
+          }
+        });
+      }
     });
 
     _chatController.setTypingIndicator = false;
