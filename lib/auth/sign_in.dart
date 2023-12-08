@@ -41,7 +41,7 @@ class _SignInState extends State<SignIn> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        Text(userLocalSettings!.get("first_time") ? "Welcome" : "Welcome\nBack", style: const TextStyle(fontSize: 28, color: white, fontWeight: FontWeight.w500)),
+                        const Text("Welcome", style: TextStyle(fontSize: 28, color: white, fontWeight: FontWeight.w500)),
                         const Spacer(),
                         Container(
                           decoration: BoxDecoration(color: white.withOpacity(.2), shape: BoxShape.circle),
