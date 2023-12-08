@@ -54,16 +54,26 @@ class _SignInState extends State<SignIn> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          TextFormField(
-                            controller: _phoneController,
-                            style: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
-                            decoration: InputDecoration(
+                          InternationalPhoneNumberInput(
+                            onInputChanged: (PhoneNumber number) {
+                              _number = number;
+                            },
+                            selectorConfig: const SelectorConfig(selectorType: PhoneInputSelectorType.BOTTOM_SHEET, useBottomSheetSafeArea: true),
+                            ignoreBlank: false,
+                            autoValidateMode: AutovalidateMode.disabled,
+                            selectorTextStyle: const TextStyle(color: Colors.black),
+                            initialValue: _number,
+                            textFieldController: _phoneNumberController,
+                            formatInput: true,
+                            inputDecoration: InputDecoration(
                               border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
                               focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
                               hintText: "Phone",
                               contentPadding: const EdgeInsets.all(24),
                               hintStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
                             ),
+                            keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
+                            inputBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
                           ),
                           const SizedBox(height: 20),
                           Row(
