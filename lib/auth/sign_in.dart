@@ -1,9 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:footy_shorts/home.dart';
-import 'package:footy_shorts/utils/globals.dart';
-import 'package:footy_shorts/views/auth/sign_up.dart';
-import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:truck/utils/globals.dart';
 
@@ -37,19 +32,6 @@ class _SignInState extends State<SignIn> {
         onTap: () => FocusScope.of(context).unfocus(),
         child: Stack(
           children: <Widget>[
-            CarouselSlider.builder(
-              itemCount: 4,
-              options: CarouselOptions(
-                viewportFraction: 1,
-                height: MediaQuery.sizeOf(context).height * .6,
-                autoPlay: true,
-                autoPlayCurve: Curves.easeIn,
-                enlargeFactor: 0,
-              ),
-              itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
-                return Image.asset("assets/pictures/football/${itemIndex + 1}.jpg", fit: BoxFit.cover);
-              },
-            ),
             Column(
               children: <Widget>[
                 SizedBox(height: MediaQuery.sizeOf(context).height * .4),
