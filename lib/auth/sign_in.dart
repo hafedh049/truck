@@ -13,6 +13,7 @@ import 'package:harmonix/home.dart';
 import 'package:truck/home.dart';
 import 'package:truck/models/user_model.dart';
 import 'package:truck/utils/globals.dart';
+import 'package:truck/utils/methods.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
