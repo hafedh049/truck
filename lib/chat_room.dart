@@ -52,7 +52,7 @@ class _ChatRoomState extends State<ChatRoom> {
       },
       child: Scaffold(
         body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-          stream: FirebaseFirestore.instance.collection("messages").doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
+          stream: FirebaseFirestore.instance.collection("trucks").doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
           builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> streamSnapshot) {
             if (streamSnapshot.hasData) {
               _chatController.initialMessageList.clear();
