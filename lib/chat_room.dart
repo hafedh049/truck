@@ -176,7 +176,17 @@ class _ChatRoomState extends State<ChatRoom> {
       msg = File(message).readAsBytesSync();
     }
 
-    await FirebaseFirestore.instance.collection("trucks").doc(FirebaseAuth.instance.currentUser!.uid).update();
+    await FirebaseFirestore.instance.collection("trucks").doc(FirebaseAuth.instance.currentUser!.uid).get().then((value) {<String, dynamic>{
+          'id': id,
+          'message': msg,
+          'createdAt': Timestamp.now(),
+          'sendBy': "1",
+          'message_type': messageType == MessageType.text
+              ? "text"
+              : messageType == MessageType.image
+                  ? "image"
+                  : "voice",
+        }});
 
     _chatController.setTypingIndicator = false;
   }
