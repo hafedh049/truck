@@ -55,7 +55,7 @@ class _SignInState extends State<SignIn> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           TextFormField(
-                            controller: _emailController,
+                            controller: _phoneController,
                             style: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
                             decoration: InputDecoration(
                               border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
