@@ -184,7 +184,8 @@ class _ChatRoomState extends State<ChatRoom> {
           value.reference.set(
             <String, dynamic>{
               "messages": <String, dynamic>{
-                'id': id,
+                "channelID"
+                    'id': id,
                 'message': msg,
                 'createdAt': Timestamp.now(),
                 'sendBy': "1",
