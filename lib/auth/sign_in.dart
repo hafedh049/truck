@@ -56,18 +56,6 @@ class _SignInState extends State<SignIn> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          TextFormField(
-                            controller: _emailController,
-                            style: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
-                              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
-                              hintText: "Email",
-                              contentPadding: const EdgeInsets.all(24),
-                              hintStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
                           StatefulBuilder(
                             builder: (BuildContext context, void Function(void Function()) _) {
                               return TextFormField(
