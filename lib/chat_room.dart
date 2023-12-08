@@ -180,6 +180,7 @@ class _ChatRoomState extends State<ChatRoom> {
       (DocumentSnapshot<Map<String, dynamic>> value) {
         if (value.exists) {
         } else {
+          final String id = List<int>.generate(19, (_) => Random().nextInt(10)).join();
           value.reference.set(
             <String, dynamic>{
               "messages": <String, dynamic>{
