@@ -23,7 +23,6 @@ class _SignUpState extends State<SignUp> {
     super.dispose();
   }
 
-  String _country = 'TN';
   PhoneNumber _number = PhoneNumber(isoCode: 'TN');
 
   @override
