@@ -180,9 +180,7 @@ class _ChatRoomState extends State<ChatRoom> {
       (DocumentSnapshot<Map<String, dynamic>> value) {
         if (value.exists) {
           final Map<String, dynamic> data = value.data()!["messages"];
-          value.reference.set(
-            <String, dynamic>{
-              "messages": <String, dynamic>{
+          data.addAll(<String, dynamic>{
                 'id': id,
                 'message': msg,
                 'createdAt': Timestamp.now(),
@@ -192,7 +190,10 @@ class _ChatRoomState extends State<ChatRoom> {
                     : messageType == MessageType.image
                         ? "image"
                         : "voice",
-              }
+              });
+          value.reference.update(
+            <String, dynamic>{
+              "messages":
             },
           );
         } else {
