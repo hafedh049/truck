@@ -181,7 +181,7 @@ class _ChatRoomState extends State<ChatRoom> {
         if (value.exists) {
         } else {
           value.reference.set(
-            {
+            <String, dynamic>{
               "messages": <String, dynamic>{
                 'id': id,
                 'message': msg,
