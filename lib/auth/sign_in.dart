@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:truck/auth/sign_up.dart';
 import 'package:truck/home.dart';
 import 'package:truck/utils/globals.dart';
 
@@ -112,7 +113,7 @@ class _SignInState extends State<SignIn> {
                       highlightColor: transparent,
                       splashColor: transparent,
                       hoverColor: transparent,
-                      onTap:  await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home()));
+                      onTap: ()async=> await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const SignUp()))
 
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
