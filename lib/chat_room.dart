@@ -51,7 +51,7 @@ class _ChatRoomState extends State<ChatRoom> {
       },
       child: Scaffold(
         body: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          stream: FirebaseFirestore.instance.collection("messages").orderBy("createdAt").snapshots(),
+          future: FirebaseFirestore.instance.collection("messages").orderBy("createdAt").snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> streamSnapshot) {
             if (streamSnapshot.hasData) {
               _chatController.initialMessageList.clear();
