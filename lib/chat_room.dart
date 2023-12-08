@@ -56,7 +56,7 @@ class _ChatRoomState extends State<ChatRoom> {
           builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> streamSnapshot) {
             if (streamSnapshot.hasData) {
               _chatController.initialMessageList.clear();
-              for (QueryDocumentSnapshot<Map<String, dynamic>> e in streamSnapshot.data!.docs) {
+              for (QueryDocumentSnapshot<Map<String, dynamic>> e in streamSnapshot.data!) {
                 final Map<String, dynamic> data = e.data();
                 data["createdAt"] = data["createdAt"].toDate();
                 if (data["message_type"] == "text") {
