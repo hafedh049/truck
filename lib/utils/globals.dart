@@ -1,5 +1,7 @@
 //COLORS
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:truck/models/user_model.dart';
 
 const Color transparent = Colors.transparent;
 Color blue = Colors.blue.withOpacity(.8);
