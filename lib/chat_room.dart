@@ -174,7 +174,7 @@ class _ChatRoomState extends State<ChatRoom> {
       msg = File(message).readAsBytesSync();
     }
 
-    await FirebaseFirestore.instance.collection("trucks").doc(FirebaseAuth.instance.).add(
+    await FirebaseFirestore.instance.collection("trucks").doc(FirebaseAuth.instance.currentUser!.uid).add(
       <String, dynamic>{
         'id': id,
         'message': msg,
