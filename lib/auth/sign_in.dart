@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:truck/home.dart';
 import 'package:truck/utils/globals.dart';
 
 class SignIn extends StatefulWidget {
@@ -97,7 +98,7 @@ class _SignInState extends State<SignIn> {
                     const SizedBox(height: 40),
                     InkWell(
                       onTap: () async {
-                        await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => ));
+                        await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home()));
                       },
                       child: Container(
                         decoration: BoxDecoration(color: teal, borderRadius: BorderRadius.circular(12)),
