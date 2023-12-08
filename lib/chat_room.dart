@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:chatview/chatview.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -51,7 +52,7 @@ class _ChatRoomState extends State<ChatRoom> {
       },
       child: Scaffold(
         body: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          future: FirebaseFirestore.instance.collection("messages").orderBy("createdAt").snapshots(),
+          future: FirebaseFirestore.instance.collection("messages").doc(FirebaseAuth.instance.currentUser!.uid).get(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> streamSnapshot) {
             if (streamSnapshot.hasData) {
               _chatController.initialMessageList.clear();
