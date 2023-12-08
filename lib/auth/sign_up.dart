@@ -102,7 +102,7 @@ class _SignUpState extends State<SignUp> {
                       selectorConfig: const SelectorConfig(selectorType: PhoneInputSelectorType.BOTTOM_SHEET, useBottomSheetSafeArea: true),
                       ignoreBlank: false,
                       autoValidateMode: AutovalidateMode.disabled,
-                      selectorTextStyle: TextStyle(color: Colors.black),
+                      selectorTextStyle:const  TextStyle(color: Colors.black),
                       initialValue: _number,
                       textFieldController: _phoneNumberController,
                       formatInput: true,
