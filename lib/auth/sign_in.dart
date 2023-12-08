@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import 'package:icons_plus/icons_plus.dart';
+import 'package:truck/auth/sign_up.dart';
 import 'package:truck/home.dart';
 import 'package:truck/models/user_model.dart';
 import 'package:truck/utils/globals.dart';
@@ -154,7 +155,7 @@ class _SignInState extends State<SignIn> {
                           highlightColor: transparent,
                           splashColor: transparent,
                           hoverColor: transparent,
-                          onTap: () async => Get.to(const SignUp()),
+                          onTap: () async => Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const SignUp())),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
