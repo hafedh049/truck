@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
