@@ -15,7 +15,7 @@ Future<bool> loadUserLocalSettings() async {
   }
 }
 
-Future<bool> load(BuildContext context) async {
+Future<bool> load() async {
   try {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
