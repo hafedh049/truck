@@ -111,7 +111,7 @@ class _SignUpState extends State<SignUp> {
                 highlightColor: transparent,
                 splashColor: transparent,
                 hoverColor: transparent,
-                onTap: () => Navigator.pop(),
+                onTap: () => Navigator.pop(context),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
