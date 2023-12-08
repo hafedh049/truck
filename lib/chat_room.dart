@@ -204,7 +204,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 'id': id,
                 'message': msg,
                 'createdAt': Timestamp.now(),
-                'sendBy': "1",
+                'sendBy': "me",
                 'message_type': messageType == MessageType.text
                     ? "text"
                     : messageType == MessageType.image
