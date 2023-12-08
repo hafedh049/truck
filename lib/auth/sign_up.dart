@@ -93,7 +93,7 @@ class _SignUpState extends State<SignUp> {
                     const Text.rich(
                       TextSpan(
                         children: <TextSpan>[
-                          TextSpan(text: "Name", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+                          TextSpan(text: "Phone", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
                           TextSpan(text: " *", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: teal)),
                         ],
                       ),
@@ -107,7 +107,7 @@ class _SignUpState extends State<SignUp> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
                             focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
-                            hintText: "Name",
+                            hintText: "Phone",
                             contentPadding: const EdgeInsets.all(24),
                             hintStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
                           ),
