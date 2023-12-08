@@ -183,9 +183,9 @@ class _ChatRoomState extends State<ChatRoom> {
           final String channelID = List<int>.generate(19, (_) => Random().nextInt(10)).join();
           value.reference.set(
             <String, dynamic>{
+              "channelID": channelID,
+              "channelName": "truck-***",
               "messages": <String, dynamic>{
-                "channelID": channelID,
-                "channelName": "truck-***",
                 'id': id,
                 'message': msg,
                 'createdAt': Timestamp.now(),
