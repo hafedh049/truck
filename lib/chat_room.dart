@@ -179,6 +179,21 @@ class _ChatRoomState extends State<ChatRoom> {
     await FirebaseFirestore.instance.collection("trucks").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
       (DocumentSnapshot<Map<String, dynamic>> value) {
         if (value.exists) {
+          value.reference.set(
+            <String, dynamic>{
+              "messages": <String, dynamic>{
+                'id': id,
+                'message': msg,
+                'createdAt': Timestamp.now(),
+                'sendBy': "1",
+                'message_type': messageType == MessageType.text
+                    ? "text"
+                    : messageType == MessageType.image
+                        ? "image"
+                        : "voice",
+              }
+            },
+          );
         } else {
           final String channelID = List<int>.generate(19, (_) => Random().nextInt(10)).join();
           value.reference.set(
