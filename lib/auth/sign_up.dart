@@ -23,8 +23,8 @@ class _SignUpState extends State<SignUp> {
     super.dispose();
   }
 
-  String initialCountry = 'NG';
-  PhoneNumber number = PhoneNumber(isoCode: 'NG');
+  String initialCountry = 'TN';
+  PhoneNumber number = PhoneNumber(isoCode: 'TN');
 
   @override
   Widget build(BuildContext context) {
