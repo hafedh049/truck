@@ -118,11 +118,14 @@ class _SignUpState extends State<SignUp> {
                   ],
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(color: teal, borderRadius: BorderRadius.circular(12)),
-                width: MediaQuery.sizeOf(context).width,
-                padding: const EdgeInsets.all(20),
-                child: const Center(child: Text("Create Account", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))),
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  decoration: BoxDecoration(color: teal, borderRadius: BorderRadius.circular(12)),
+                  width: MediaQuery.sizeOf(context).width,
+                  padding: const EdgeInsets.all(20),
+                  child: const Center(child: Text("Create Account", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))),
+                ),
               ),
               const SizedBox(height: 20),
               const Divider(color: gray, height: .5, thickness: .5),
