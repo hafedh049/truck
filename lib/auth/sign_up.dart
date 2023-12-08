@@ -49,20 +49,16 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    StatefulBuilder(
-                      builder: (BuildContext context, void Function(void Function()) _) {
-                        return TextFormField(
-                          controller: _emailController,
-                          style: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
-                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
-                            hintText: "E-mail",
-                            contentPadding: const EdgeInsets.all(24),
-                            hintStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
-                          ),
-                        );
-                      },
+                    TextFormField(
+                      controller: _emailController,
+                      style: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
+                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
+                        hintText: "E-mail",
+                        contentPadding: const EdgeInsets.all(24),
+                        hintStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
+                      ),
                     ),
                     const SizedBox(height: 20),
                     const Text.rich(
@@ -74,20 +70,16 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    StatefulBuilder(
-                      builder: (BuildContext context, void Function(void Function()) _) {
-                        return TextFormField(
-                          controller: _usernameController,
-                          style: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
-                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
-                            hintText: "Name",
-                            contentPadding: const EdgeInsets.all(24),
-                            hintStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
-                          ),
-                        );
-                      },
+                    TextFormField(
+                      controller: _usernameController,
+                      style: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
+                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
+                        hintText: "Name",
+                        contentPadding: const EdgeInsets.all(24),
+                        hintStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
+                      ),
                     ),
                     const SizedBox(height: 20),
                     const Text.rich(
