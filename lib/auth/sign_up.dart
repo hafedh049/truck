@@ -12,13 +12,11 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
-    _phoneNumberController.dispose();
     _usernameController.dispose();
     super.dispose();
   }
@@ -103,7 +101,6 @@ class _SignUpState extends State<SignUp> {
                       autoValidateMode: AutovalidateMode.disabled,
                       selectorTextStyle: const TextStyle(color: Colors.black),
                       initialValue: _number,
-                      textFieldController: _phoneNumberController,
                       formatInput: true,
                       inputDecoration: InputDecoration(
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
