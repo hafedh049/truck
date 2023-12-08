@@ -23,8 +23,8 @@ class _SignUpState extends State<SignUp> {
     super.dispose();
   }
 
-  String initialCountry = 'TN';
-  PhoneNumber number = PhoneNumber(isoCode: 'TN');
+  String _country = 'TN';
+  PhoneNumber _number = PhoneNumber(isoCode: 'TN');
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +97,7 @@ class _SignUpState extends State<SignUp> {
                     const SizedBox(height: 10),
                     InternationalPhoneNumberInput(
                       onInputChanged: (PhoneNumber number) {
-                        this.number = number;
+                        _number = number;
                       },
                       onInputValidated: (bool value) {},
                       selectorConfig: SelectorConfig(
