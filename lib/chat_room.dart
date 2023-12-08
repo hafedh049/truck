@@ -210,7 +210,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     : messageType == MessageType.image
                         ? "image"
                         : "voice",
-              }
+              },
             },
           );
         }
