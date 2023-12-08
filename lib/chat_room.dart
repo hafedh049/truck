@@ -185,6 +185,7 @@ class _ChatRoomState extends State<ChatRoom> {
             <String, dynamic>{
               "messages": <String, dynamic>{
                 "channelID": channelID,
+                "channelName": "truck-***",
                 'id': id,
                 'message': msg,
                 'createdAt': Timestamp.now(),
