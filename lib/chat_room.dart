@@ -57,17 +57,16 @@ class _ChatRoomState extends State<ChatRoom> {
             if (streamSnapshot.hasData) {
               _chatController.initialMessageList.clear();
               for (MapEntry<String, dynamic> e in streamSnapshot.data!.get("messages").entries) {
-                final Map<String, dynamic> data = e.data();
-                data["createdAt"] = data["createdAt"].toDate();
-                if (data["message_type"] == "text") {
-                  data["message_type"] = MessageType.text;
-                } else if (data["message_type"] == "image") {
-                  data["message_type"] = MessageType.image;
-                } else if (data["message_type"] == "voice") {
-                  data["message_type"] = MessageType.voice;
+                e.value["createdAt"] = e.value["createdAt"].toDate();
+                if (e.value["message_type"] == "text") {
+                  e.value["message_type"] = MessageType.text;
+                } else if (e.value["message_type"] == "image") {
+                  e.value["message_type"] = MessageType.image;
+                } else if (e.value["message_type"] == "voice") {
+                  e.value["message_type"] = MessageType.voice;
                   final File file = File('$documentsPath/${Random().nextInt(4000)}');
-                  file.writeAsBytesSync(data["message"].cast<int>());
-                  data["message"] = file.path;
+                  file.writeAsBytesSync(e.value["message"].cast<int>());
+                  e.value["message"] = file.path;
                 }
 
                 _chatController.addMessage(Message(message: e.value["message"], createdAt: e.value["createdAt"], sendBy: e.value["sendBy"], messageType: e.value["message_type"], id: e.key));
