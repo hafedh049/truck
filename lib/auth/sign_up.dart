@@ -107,7 +107,7 @@ class _SignUpState extends State<SignUp> {
                       textFieldController: _phoneNumberController,
                       formatInput: true,
                       keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
-                      inputBorder: OutlineInputBorder(),
+                      inputBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
                       onSaved: (PhoneNumber number) {
                         print('On Saved: $number');
                       },
@@ -116,7 +116,7 @@ class _SignUpState extends State<SignUp> {
                       controller: _phoneNumberController,
                       style: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
+                        border:
                         focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
                         hintText: "Phone",
                         contentPadding: const EdgeInsets.all(24),
