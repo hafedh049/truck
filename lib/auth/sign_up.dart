@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:truck/utils/globals.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -26,26 +27,6 @@ class _SignUpState extends State<SignUp> {
     super.dispose();
   }
 
-  final SpeechToText _speechToText = SpeechToText();
-
-  @override
-  void initState() {
-    super.initState();
-    _initSpeech();
-  }
-
-  void _initSpeech() async => await _speechToText.initialize();
-
-  void _startListening(TextEditingController controller) async => await _speechToText.listen(onResult: (SpeechRecognitionResult result) => _onSpeechResult(result, controller));
-
-  void _stopListening() async {
-    await _speechToText.stop();
-  }
-
-  void _onSpeechResult(SpeechRecognitionResult result, TextEditingController controller) {
-    controller.text = result.recognizedWords;
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -57,7 +38,7 @@ class _SignUpState extends State<SignUp> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const SizedBox(height: 20),
-              IconButton(splashColor: teal, onPressed: () => Get.back(), icon: const Icon(FontAwesome.chevron_left, color: teal)),
+              IconButton(splashColor: teal, onPressed: () => Navigator.pop(context), icon: const Icon(FontAwesome.chevron_left, color: teal)),
               Form(
                 child: Padding(
                   padding: const EdgeInsets.all(24),
