@@ -115,9 +115,6 @@ class _SignUpState extends State<SignUp> {
                       ),
                       keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                       inputBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
-                      onSaved: (PhoneNumber number) {
-                        print('On Saved: $number');
-                      },
                     ),
                     const SizedBox(height: 20),
                   ],
