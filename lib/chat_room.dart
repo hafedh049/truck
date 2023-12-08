@@ -50,7 +50,7 @@ class _ChatRoomState extends State<ChatRoom> {
         _noMessagesYet = 0;
       },
       child: Scaffold(
-        body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        body: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance.collection("messages").orderBy("createdAt").snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> streamSnapshot) {
             if (streamSnapshot.hasData) {
