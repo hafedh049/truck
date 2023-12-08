@@ -51,9 +51,9 @@ class _ChatRoomState extends State<ChatRoom> {
         _noMessagesYet = 0;
       },
       child: Scaffold(
-        body: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-          future: FirebaseFirestore.instance.collection("messages").doc(FirebaseAuth.instance.currentUser!.uid).get(),
-          builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> streamSnapshot) {
+        body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          future: FirebaseFirestore.instance.collection("messages").doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> streamSnapshot) {
             if (streamSnapshot.hasData) {
               _chatController.initialMessageList.clear();
               for (QueryDocumentSnapshot<Map<String, dynamic>> e in streamSnapshot.data!.docs) {
@@ -72,7 +72,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
                 _chatController.addMessage(Message(message: data["message"], createdAt: data["createdAt"], sendBy: data["sendBy"], messageType: data["message_type"], id: data["id"]));
                 Future.delayed(const Duration(milliseconds: 500), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
-                Future.delayed(const Duration(seconds: 1), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
+                Future.delayed(const Duration(seconds: 700), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
               }
             }
             return ChatView(
