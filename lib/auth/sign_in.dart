@@ -11,6 +11,8 @@ import 'package:harmonix/utils/methods.dart';
 import 'package:harmonix/auth/sign_up.dart';
 import 'package:harmonix/home.dart';
 import 'package:truck/home.dart';
+import 'package:truck/models/user_model.dart';
+import 'package:truck/utils/globals.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
