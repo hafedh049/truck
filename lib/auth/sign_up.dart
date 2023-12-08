@@ -105,7 +105,13 @@ class _SignUpState extends State<SignUp> {
                       selectorTextStyle:const  TextStyle(color: Colors.black),
                       initialValue: _number,
                       textFieldController: _phoneNumberController,
-                      formatInput: true,inputDecoration: ,
+                      formatInput: true,inputDecoration: InputDecoration(
+                        border:
+                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
+                        hintText: "Phone",
+                        contentPadding: const EdgeInsets.all(24),
+                        hintStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
+                      ),,
                       keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                       inputBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
                       onSaved: (PhoneNumber number) {
@@ -115,13 +121,7 @@ class _SignUpState extends State<SignUp> {
                     TextFormField(
                       controller: _phoneNumberController,
                       style: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
-                      decoration: InputDecoration(
-                        border:
-                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
-                        hintText: "Phone",
-                        contentPadding: const EdgeInsets.all(24),
-                        hintStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
-                      ),
+                      decoration:
                     ),
                     const SizedBox(height: 20),
                   ],
