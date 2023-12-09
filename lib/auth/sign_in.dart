@@ -44,7 +44,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
         onTap: () => FocusScope.of(context).unfocus(),
         child: Column(
           children: <Widget>[
-            SizedBox(height: MediaQuery.sizeOf(context).height * .6),
+            SizedBox(height: MediaQuery.sizeOf(context).height * .5),
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(color: gray, borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25))),
