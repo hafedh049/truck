@@ -19,7 +19,7 @@ class _HomeState extends State<Home> {
     <String, dynamic>{"title": "Message Understood", "icon": Bootstrap.check2_circle, "callback": () {}},
     <String, dynamic>{"title": "I Have A Problem", "icon": FontAwesome.circle_exclamation, "callback": () {}},
     <String, dynamic>{
-      "title": "I Have A Problem",
+      "title": "Sign Out",
       "icon": Icons.logout,
       "callback": () async {
         await FirebaseAuth.instance.signOut();
