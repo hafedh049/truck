@@ -78,7 +78,6 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                               setSelectorButtonAsPrefixIcon: true,
                               leadingPadding: 4,
                               trailingSpace: false,
-                              useBottomSheetSafeArea: true,
                             ),
                             ignoreBlank: false,
                             autoValidateMode: AutovalidateMode.always,
