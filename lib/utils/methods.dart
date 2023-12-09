@@ -22,7 +22,7 @@ Future<bool> load() async {
         apiKey: "AIzaSyAgDmdEd7v4iG7TFVraJ6q7lyXYIU1LW10",
         storageBucket: "wassalny-ffdf7.appspot.com",
         appId: "1:248521282422:android:fc183b969a35a0329aa057",
-        messagingSenderId: "958782362415",
+        messagingSenderId: "248521282422",
         projectId: "wassalny-ffdf7",
       ),
     );
