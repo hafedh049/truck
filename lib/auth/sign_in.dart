@@ -68,9 +68,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         InternationalPhoneNumberInput(
-                          onInputChanged: (PhoneNumber number) {
-                            _number = number;
-                          },
+                          onInputChanged: (PhoneNumber number) => _number = number,
                           selectorConfig: const SelectorConfig(
                             selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
                             useBottomSheetSafeArea: true,
