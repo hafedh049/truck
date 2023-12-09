@@ -23,7 +23,7 @@ Future<bool> load() async {
         storageBucket: "wassalny-ffdf7.appspot.com",
         appId: "1:248521282422:android:fc183b969a35a0329aa057",
         messagingSenderId: "958782362415",
-        projectId: "harmonix-ede29",
+        projectId: "wassalny-ffdf7",
       ),
     );
     documentsPath = (await getTemporaryDirectory()).path;
