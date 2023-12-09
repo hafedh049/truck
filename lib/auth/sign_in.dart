@@ -76,7 +76,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                               selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
                               useBottomSheetSafeArea: true,
                               setSelectorButtonAsPrefixIcon: true,
-                              leadingPadding: 4,
+                              leadingPadding: 8,
                               trailingSpace: false,
                             ),
                             ignoreBlank: false,
