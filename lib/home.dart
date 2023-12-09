@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
       "callback": (BuildContext context) async {
         await FirebaseAuth.instance.signOut();
         // ignore: use_build_context_synchronously
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => const SignIn()), (route) => !route.isFirst);
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => const SignIn()), (Route route) => !route.isFirst);
       }
     },
   ];
