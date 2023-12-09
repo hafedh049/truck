@@ -110,8 +110,12 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                             try {
                               if (!_signInState) {
                                 _(() => _signInState = false);
-                                await FirebaseAuth.instance.signInWithPhoneNumber(_number.phoneNumber!);     await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get().then((DocumentSnapshot<Map<String, dynamic>> value) async {
-                                      user = UserModel.fromJson(value.data()!);
+                                await FirebaseAuth.instance.signInWithPhoneNumber(_number.phoneNumber!);
+                                await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
+                                  (DocumentSnapshot<Map<String, dynamic>> value) async {
+                                    user = UserModel.fromJson(value.data()!);
+                                  },
+                                );
 
                                 await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home())); // ignore: use_build_context_synchronously
                                 // ignore: use_build_context_synchronously
