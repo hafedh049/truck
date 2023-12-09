@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:truck/auth/sign_in.dart';
 import 'package:truck/chat_room.dart';
 import 'package:truck/utils/globals.dart';
 
@@ -21,8 +22,10 @@ class _HomeState extends State<Home> {
     <String, dynamic>{
       "title": "Sign Out",
       "icon": Icons.logout,
-      "callback": () async {
+      "callback": (BuildContext context) async {
         await FirebaseAuth.instance.signOut();
+        // ignore: use_build_context_synchronously
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => const SignIn()), (route) => !route.isFirst);
       }
     },
   ];
