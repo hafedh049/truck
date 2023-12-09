@@ -41,7 +41,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
 
   PhoneNumber _number = PhoneNumber(dialCode: "+216", isoCode: "TN", phoneNumber: "23566502");
   bool _signInState = false;
-  String _smsCode = "";
+  final String _smsCode = "200102";
 
   @override
   Widget build(BuildContext context) {
