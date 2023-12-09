@@ -107,8 +107,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                               if (!_signInState) {
                                 _(() => _signInState = false);
                                 await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim());
-                                await Navigator.pushReplacement(context,MaterialPageRoute(builder: (BuildContext context) => ))
-;                                // ignore: use_build_context_synchronously
+                                await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home())); // ignore: use_build_context_synchronously
                                 showSnack("User Authenitificated", 1, context);
                               }
                             } catch (e) {
