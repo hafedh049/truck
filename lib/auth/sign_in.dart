@@ -97,6 +97,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                     InkWell(
                       onTap: () async {
                         try {
+                          await FirebaseA
                           await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home()));
                         } catch (e) {}
                       },
