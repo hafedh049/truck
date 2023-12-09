@@ -15,6 +15,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> with WidgetsBindingObserver {
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     if (userLocalSettings!.get("first_time")) {
       userLocalSettings!.put("first_time", false);
     }
@@ -25,14 +26,7 @@ class _SignInState extends State<SignIn> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     // Add the observer
-    WidgetsBinding.instance?.addObserver(this);
-  }
-
-  @override
-  void dispose() {
-    // Remove the observer
-    WidgetsBinding.instance?.removeObserver(this);
-    super.dispose();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
