@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:truck/auth/sign_up.dart';
 import 'package:truck/home.dart';
 import 'package:truck/utils/globals.dart';
+import 'package:truck/utils/methods.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -106,8 +108,9 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                             try {
                               if (!_signInState) {
                                 _(() => _signInState = false);
-                                await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim());
+                                await FirebaseAuth.instance.signInWithPhoneNumber(_number.phoneNumber!);
                                 await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home())); // ignore: use_build_context_synchronously
+                                // ignore: use_build_context_synchronously
                                 showSnack("User Authenitificated", 1, context);
                               }
                             } catch (e) {
