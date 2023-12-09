@@ -142,7 +142,6 @@ class _ChatRoomState extends State<ChatRoom> {
                       value.reference.update(<String, dynamic>{"messages": data});
                     },
                   );
-
                   _chatController.setTypingIndicator = false;
                 },
               ),
