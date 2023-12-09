@@ -97,9 +97,18 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                     InkWell(
                       onTap: () async {
                         try {
-                          await FirebaseA
-                          await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home()));
-                        } catch (e) {}
+                          if (!_signInState) {
+                            _(() => _signInState = false);
+                            await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim());
+                            await Get.to(const Home());
+                            // ignore: use_build_context_synchronously
+                            showSnack("User Authenitificated", 1, context);
+                          }
+                        } catch (e) {
+                          _(() => _signInState = false);
+                          // ignore: use_build_context_synchronously
+                          showSnack(e.toString(), 3, context);
+                        }
                       },
                       child: Container(
                         decoration: BoxDecoration(color: teal, borderRadius: BorderRadius.circular(12)),
