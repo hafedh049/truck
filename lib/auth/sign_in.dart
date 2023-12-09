@@ -95,28 +95,36 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                       ],
                     ),
                     const SizedBox(height: 40),
-                    InkWell(
-                      onTap: () async {
-                        try {
-                          if (!_signInState) {
-                            _(() => _signInState = false);
-                            await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim());
-                            await Get.to(const Home());
-                            // ignore: use_build_context_synchronously
-                            showSnack("User Authenitificated", 1, context);
-                          }
-                        } catch (e) {
-                          _(() => _signInState = false);
-                          // ignore: use_build_context_synchronously
-                          showSnack(e.toString(), 3, context);
-                        }
+                    StatefulBuilder(
+                      builder: (BuildContext context, void Function(void Function()) _) {
+                        return InkWell(
+                          highlightColor: transparent,
+                          splashColor: transparent,
+                          hoverColor: transparent,
+                          onTap: () async {
+                            try {
+                              if (!_signInState) {
+                                _(() => _signInState = false);
+                                await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim());
+                                await Get.to(const Home());
+                                // ignore: use_build_context_synchronously
+                                showSnack("User Authenitificated", 1, context);
+                              }
+                            } catch (e) {
+                              _(() => _signInState = false);
+                              // ignore: use_build_context_synchronously
+                              showSnack(e.toString(), 3, context);
+                            }
+                          },
+                          child: AnimatedContainer(
+                            duration: 700.ms,
+                            decoration: BoxDecoration(color: teal, borderRadius: BorderRadius.circular(12)),
+                            width: MediaQuery.sizeOf(context).width,
+                            padding: const EdgeInsets.all(20),
+                            child: Center(child: Text(_signInState ? "Waiting..." : "Sign in", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500))),
+                          ),
+                        );
                       },
-                      child: Container(
-                        decoration: BoxDecoration(color: teal, borderRadius: BorderRadius.circular(12)),
-                        width: MediaQuery.sizeOf(context).width,
-                        padding: const EdgeInsets.all(20),
-                        child: const Center(child: Text("Sign in", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))),
-                      ),
                     ),
                     const SizedBox(height: 20),
                     InkWell(
