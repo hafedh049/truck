@@ -130,7 +130,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                                   },
                                   codeSent: (String verificationId, int? forceResendingToken) {
                                     final PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: _smsCode);
-                                    await auth.signInWithCredential(credential);
+                                    await FirebaseAuth.instance.signInWithCredential(credential);
 
                                   },
                                   codeAutoRetrievalTimeout: (String verificationId) {},
