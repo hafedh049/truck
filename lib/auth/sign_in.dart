@@ -94,19 +94,6 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                             keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                             inputBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
                           ),
-                          const SizedBox(height: 20),
-                          Row(
-                            children: <Widget>[
-                              const Spacer(),
-                              InkWell(
-                                highlightColor: transparent,
-                                splashColor: transparent,
-                                hoverColor: transparent,
-                                onTap: () {},
-                                child: Text("Forget Password?", style: TextStyle(color: white.withOpacity(.8), fontSize: 16, fontWeight: FontWeight.w400)),
-                              ),
-                            ],
-                          ),
                         ],
                       ),
                     ),
