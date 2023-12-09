@@ -30,7 +30,7 @@ class _SignInState extends State<SignIn> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print(state);
+    print(state == AppLifecycleState.);
     super.didChangeAppLifecycleState(state);
   }
 
