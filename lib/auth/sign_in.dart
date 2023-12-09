@@ -111,20 +111,21 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                               if (!_signInState) {
                                 _(() => _signInState = true);
                                 await FirebaseAuth.instance.verifyPhoneNumber(
-                                  verificationCompleted: (phoneAuthCredential) {},
+                                  verificationCompleted: (phoneAuthCredential) async {
+                                    await FirebaseAuth.instance.signInWithPhoneNumber(_number.phoneNumber!);
+                                    await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
+                                      (DocumentSnapshot<Map<String, dynamic>> value) async {
+                                        user = UserModel.fromJson(value.data()!);
+                                      },
+                                    );
+                                    await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home())); // ignore: use_build_context_synchronously
+                                    // ignore: use_build_context_synchronously
+                                    showSnack("User Authenitificated", 1, context);
+                                  },
                                   verificationFailed: (error) {},
                                   codeSent: (verificationId, forceResendingToken) {},
                                   codeAutoRetrievalTimeout: (verificationId) {},
                                 );
-                                await FirebaseAuth.instance.signInWithPhoneNumber(_number.phoneNumber!);
-                                await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
-                                  (DocumentSnapshot<Map<String, dynamic>> value) async {
-                                    user = UserModel.fromJson(value.data()!);
-                                  },
-                                );
-                                await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home())); // ignore: use_build_context_synchronously
-                                // ignore: use_build_context_synchronously
-                                showSnack("User Authenitificated", 1, context);
                               }
                             } catch (e) {
                               _(() => _signInState = false);
