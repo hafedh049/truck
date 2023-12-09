@@ -127,7 +127,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                                     // ignore: use_build_context_synchronously
                                     showSnack(error.toString(), 3, context);
                                   },
-                                  codeSent: (String verificationId, int? forceResendingToken) {},
+                                  codeSent: (String verificationId, int? forceResendingToken) {FirebaseAuth.instance.},
                                   codeAutoRetrievalTimeout: (String verificationId) {},
                                 );
                               }
