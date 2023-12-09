@@ -124,7 +124,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                                   },
                                   verificationFailed: (FirebaseAuthException error) {},
                                   codeSent: (String verificationId, int? forceResendingToken) {},
-                                  codeAutoRetrievalTimeout: (verificationId) {},
+                                  codeAutoRetrievalTimeout: (String verificationId) {},
                                 );
                               }
                             } catch (e) {
