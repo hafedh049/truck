@@ -135,6 +135,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                                       _(() => _signInState = false);
                                       // ignore: use_build_context_synchronously
                                       showSnack(e.toString(), 3, context);
+                                      print(e.toString());
                                     }
                                   },
                                   codeAutoRetrievalTimeout: (String verificationId) {},
