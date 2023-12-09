@@ -122,8 +122,8 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                                     // ignore: use_build_context_synchronously
                                     showSnack("User Authenitificated", 1, context);
                                   },
-                                  verificationFailed: (error) {},
-                                  codeSent: (verificationId, forceResendingToken) {},
+                                  verificationFailed: (FirebaseAuthException error) {},
+                                  codeSent: (String verificationId, int? forceResendingToken) {},
                                   codeAutoRetrievalTimeout: (verificationId) {},
                                 );
                               }
