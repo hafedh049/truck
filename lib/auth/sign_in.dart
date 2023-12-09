@@ -81,7 +81,6 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                             ),
                             ignoreBlank: false,
                             autoValidateMode: AutovalidateMode.always,
-                            selectorTextStyle: const TextStyle(color: Colors.black),
                             initialValue: _number,
                             formatInput: true,
                             selectorTextStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
