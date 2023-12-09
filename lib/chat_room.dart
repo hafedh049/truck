@@ -138,7 +138,7 @@ class _ChatRoomState extends State<ChatRoom> {
                   await FirebaseFirestore.instance.collection("trucks").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
                     (DocumentSnapshot<Map<String, dynamic>> value) {
                       final Map<String, dynamic> data = value.data()!["messages"];
-
+                      data.remove(message);
                       value.reference.update(<String, dynamic>{"messages": data});
                     },
                   );
