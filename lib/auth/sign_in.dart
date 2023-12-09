@@ -35,6 +35,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
   }*/
 
   PhoneNumber _number = PhoneNumber();
+  bool _signInState = false;
 
   @override
   Widget build(BuildContext context) {
