@@ -113,7 +113,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                                 await FirebaseAuth.instance.verifyPhoneNumber(
                                   verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {
                                     await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential);
-                                  await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
+                                    await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
                                       (DocumentSnapshot<Map<String, dynamic>> value) async {
                                         user = UserModel.fromJson(value.data()!);
                                       },
@@ -127,7 +127,9 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                                     // ignore: use_build_context_synchronously
                                     showSnack(error.toString(), 3, context);
                                   },
-                                  codeSent: (String verificationId, int? forceResendingToken) {FirebaseAuth.instance.},
+                                  codeSent: (String verificationId, int? forceResendingToken) {
+                                    PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
+                                  },
                                   codeAutoRetrievalTimeout: (String verificationId) {},
                                 );
                               }
