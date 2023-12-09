@@ -129,7 +129,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                                     showSnack(error.toString(), 3, context);
                                   },
                                   codeSent: (String verificationId, int? forceResendingToken) {
-                                    PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: _smsCode);
+                                    final PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: _smsCode);
                                   },
                                   codeAutoRetrievalTimeout: (String verificationId) {},
                                 );
