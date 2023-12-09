@@ -83,7 +83,8 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                             autoValidateMode: AutovalidateMode.always,
                             selectorTextStyle: const TextStyle(color: Colors.black),
                             initialValue: _number,
-                            formatInput: true,selectorTextStyle
+                            formatInput: true,
+                            selectorTextStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
                             inputDecoration: InputDecoration(
                               border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
                               focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
