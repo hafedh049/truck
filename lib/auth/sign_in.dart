@@ -121,11 +121,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                                   },
                                   codeSent: (String verificationId, int? forceResendingToken) async {
                                     try {
-                                      print("111111111");
-
                                       final PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: _smsCode);
-                                      print("111111111");
-
                                       await FirebaseAuth.instance.signInWithCredential(credential);
                                       await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
                                         (DocumentSnapshot<Map<String, dynamic>> value) async {
