@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             for (final Map<String, dynamic> item in _items)
               GestureDetector(
-                onTap: item["callback"],
+                onTap: () => item["callback"](context),
                 child: Container(
                   decoration: BoxDecoration(
                     color: blue.withOpacity(.5),
