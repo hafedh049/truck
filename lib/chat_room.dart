@@ -32,7 +32,7 @@ class _ChatRoomState extends State<ChatRoom> {
   void initState() {
     _timer = Timer.periodic(1.seconds, (Timer timer) => _noMessagesYet == 60 ? Navigator.pop(context) : _noMessagesYet += 1);
     _currentUser = ChatUser(id: 'me', name: 'Truck-***', profilePhoto: _profileImage);
-    _chatController = ChatController(initialMessageList: <Message>[], scrollController: ScrollController(), chatUsers: <ChatUser>[ChatUser(id: '0', name: 'Discord', profilePhoto: _profileImage)]);
+    _chatController = ChatController(initialMessageList: <Message>[], scrollController: ScrollController(), chatUsers: <ChatUser>[ChatUser(id: 'discord', name: 'Discord', profilePhoto: _profileImage)]);
     super.initState();
   }
 
