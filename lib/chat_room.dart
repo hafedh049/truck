@@ -39,7 +39,7 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   void dispose() {
     _timer.cancel();
-    //_chatController.dispose();
+    _chatController.dispose();
     super.dispose();
   }
 
@@ -47,7 +47,6 @@ class _ChatRoomState extends State<ChatRoom> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).unfocus();
         _noMessagesYet = 0;
       },
       child: Scaffold(
@@ -57,23 +56,23 @@ class _ChatRoomState extends State<ChatRoom> {
             if (streamSnapshot.hasData) {
               _chatController.initialMessageList.clear();
               if (streamSnapshot.data!.exists) {
-                for (MapEntry<String, dynamic> e in streamSnapshot.data!.get("messages").entries) {
-                  e.value["createdAt"] = e.value["createdAt"].toDate();
-                  if (e.value["message_type"] == "text") {
-                    e.value["message_type"] = MessageType.text;
-                  } else if (e.value["message_type"] == "image") {
-                    e.value["message_type"] = MessageType.image;
-                  } else if (e.value["message_type"] == "voice") {
-                    e.value["message_type"] = MessageType.voice;
-                    final File file = File('$documentsPath/${Random().nextInt(4000)}');
-                    file.writeAsBytesSync(e.value["message"].cast<int>());
-                    e.value["message"] = file.path;
+                final Map<String, dynamic> messages = streamSnapshot.data!.get("messages");
+                for (final String key in messages.keys) {
+                  _noMessagesYet = 0;
+                  messages[key]["createdAt"] = messages[key]["createdAt"].toDate();
+                  if (messages[key]["message_type"] == "text") {
+                    messages[key]["message_type"] = MessageType.text;
+                  } else if (messages[key]["message_type"] == "image") {
+                    messages[key]["message_type"] = MessageType.image;
+                  } else if (messages[key]["message_type"] == "voice") {
+                    messages[key]["message_type"] = MessageType.voice;
+                    final File file = File('$documentsPath/${List<int>.generate(19, (int _) => Random().nextInt(10)).join()}');
+                    file.writeAsBytesSync(messages[key]["message"].cast<int>());
+                    messages[key]["message"] = file.path;
                   }
-
-                  _chatController.addMessage(Message(message: e.value["message"], createdAt: e.value["createdAt"], sendBy: e.value["sendBy"], messageType: e.value["message_type"], id: e.key));
-                  Future.delayed(const Duration(milliseconds: 500), () => _chatController.initialMessageList.last.setStatus = MessageStatus.undelivered);
-                  Future.delayed(const Duration(seconds: 700), () => _chatController.initialMessageList.last.setStatus = MessageStatus.read);
+                  _chatController.initialMessageList.add(Message(status: MessageStatus.read, message: messages[key]["message"], createdAt: messages[key]["createdAt"], sendBy: messages[key]["sendBy"], messageType: messages[key]["message_type"], id: key));
                 }
+                _chatController.messageStreamController.sink.add(_chatController.initialMessageList);
               }
             }
             return ChatView(
@@ -112,7 +111,12 @@ class _ChatRoomState extends State<ChatRoom> {
                 replyTitleColor: theme.replyTitleColor,
                 textFieldBackgroundColor: theme.textFieldBackgroundColor,
                 closeIconColor: theme.closeIconColor,
-                textFieldConfig: TextFieldConfiguration(textStyle: TextStyle(color: theme.textFieldTextColor)),
+                textFieldConfig: TextFieldConfiguration(
+                  textStyle: TextStyle(color: theme.textFieldTextColor),
+                  onMessageTyping: (TypeWriterStatus status) {
+                    _noMessagesYet = 0;
+                  },
+                ),
                 micIconColor: theme.replyMicIconColor,
                 voiceRecordingConfiguration: VoiceRecordingConfiguration(backgroundColor: theme.waveformBackgroundColor, recorderIconColor: theme.recordIconColor, waveStyle: WaveStyle(showMiddleLine: false, waveColor: theme.waveColor ?? Colors.white, extendWaveform: true)),
               ),
@@ -134,6 +138,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 buttonTextStyle: TextStyle(color: theme.replyPopupButtonColor),
                 topBorderColor: theme.replyPopupTopBorderColor,
                 onUnsendTap: (Message message) async {
+                  _noMessagesYet = 0;
                   _chatController.setTypingIndicator = true;
                   await FirebaseFirestore.instance.collection("trucks").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
                     (DocumentSnapshot<Map<String, dynamic>> value) {
@@ -143,6 +148,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     },
                   );
                   _chatController.setTypingIndicator = false;
+                  _noMessagesYet = 0;
                 },
               ),
               reactionPopupConfig: ReactionPopupConfiguration(userReactionCallback: (Message message, String emoji) {}, shadow: const BoxShadow(color: Colors.black54, blurRadius: 20), backgroundColor: theme.reactionPopupColor),
@@ -178,6 +184,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
   void _onSendTap(String message, ReplyMessage replyMessage, MessageType messageType) async {
     _chatController.setTypingIndicator = true;
+    _noMessagesYet = 0;
     final String id = List<int>.generate(19, (_) => Random().nextInt(10)).join();
     dynamic msg = message;
     if (messageType == MessageType.image) {
@@ -185,33 +192,14 @@ class _ChatRoomState extends State<ChatRoom> {
     } else if (messageType == MessageType.voice) {
       msg = File(message).readAsBytesSync();
     }
-
+    _noMessagesYet = 0;
     await FirebaseFirestore.instance.collection("trucks").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
       (DocumentSnapshot<Map<String, dynamic>> value) {
         if (value.exists) {
           final Map<String, dynamic> data = value.data()!["messages"];
           data.addAll(
             <String, dynamic>{
-              'id': id,
-              'message': msg,
-              'createdAt': Timestamp.now(),
-              'sendBy': "1",
-              'message_type': messageType == MessageType.text
-                  ? "text"
-                  : messageType == MessageType.image
-                      ? "image"
-                      : "voice",
-            },
-          );
-          value.reference.update(<String, dynamic>{"messages": data});
-        } else {
-          final String channelID = List<int>.generate(19, (_) => Random().nextInt(10)).join();
-          value.reference.set(
-            <String, dynamic>{
-              "channelID": channelID,
-              "channelName": "truck-***",
-              "messages": <String, dynamic>{
-                'id': id,
+              id: <String, dynamic>{
                 'message': msg,
                 'createdAt': Timestamp.now(),
                 'sendBy': "me",
@@ -223,6 +211,29 @@ class _ChatRoomState extends State<ChatRoom> {
               },
             },
           );
+          value.reference.update(<String, dynamic>{"messages": data});
+          _noMessagesYet = 0;
+        } else {
+          final String channelID = List<int>.generate(19, (_) => Random().nextInt(10)).join();
+          value.reference.set(
+            <String, dynamic>{
+              "channelID": channelID,
+              "channelName": "truck-***",
+              "messages": <String, dynamic>{
+                id: <String, dynamic>{
+                  'message': msg,
+                  'createdAt': Timestamp.now(),
+                  'sendBy': "me",
+                  'message_type': messageType == MessageType.text
+                      ? "text"
+                      : messageType == MessageType.image
+                          ? "image"
+                          : "voice",
+                },
+              },
+            },
+          );
+          _noMessagesYet = 0;
         }
       },
     );

@@ -8,12 +8,15 @@ class Wrong extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              LottieBuilder.asset("assets/lotties/wrong.json", width: MediaQuery.sizeOf(context).width * .8),
-              Flexible(child: Text(errorMessage, style: TextStyle(color: blue, fontSize: 16, fontWeight: FontWeight.w400))),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                LottieBuilder.asset("assets/lotties/wrong.json", width: MediaQuery.sizeOf(context).width * .8),
+                Flexible(child: Text(errorMessage, style: TextStyle(color: blue, fontSize: 16, fontWeight: FontWeight.w400))),
+              ],
+            ),
           ),
         ),
       );

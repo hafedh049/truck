@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -5,6 +6,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:truck/auth/sign_up.dart';
 import 'package:truck/home.dart';
+import 'package:truck/models/user_model.dart';
 import 'package:truck/utils/globals.dart';
 import 'package:truck/utils/methods.dart';
 
@@ -40,6 +42,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
   PhoneNumber _number = PhoneNumber(dialCode: "+216", isoCode: "TN", phoneNumber: "23566502");
   bool _signInState = false;
   final String _smsCode = "200102";
+  bool _phoneIsValidate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +77,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                       children: <Widget>[
                         InternationalPhoneNumberInput(
                           onInputChanged: (PhoneNumber number) => _number = number,
+                          onInputValidated: (bool value) => _phoneIsValidate = value,
                           selectorConfig: const SelectorConfig(
                             selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
                             useBottomSheetSafeArea: true,
@@ -107,7 +111,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                           hoverColor: transparent,
                           onTap: () async {
                             try {
-                              if (!_signInState) {
+                              if (!_signInState && _phoneIsValidate) {
                                 _(() => _signInState = true);
                                 await FirebaseAuth.instance.verifyPhoneNumber(
                                   phoneNumber: _number.phoneNumber!,
@@ -121,6 +125,17 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                                     try {
                                       final PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: _smsCode);
                                       await FirebaseAuth.instance.signInWithCredential(credential);
+                                      await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
+                                        (DocumentSnapshot<Map<String, dynamic>> value) async {
+                                          if (value.exists) {
+                                            user = UserModel.fromJson(value.data()!);
+                                          } else {
+                                            final Map<String, dynamic> data = <String, dynamic>{"phone": _number.phoneNumber!, "uid": FirebaseAuth.instance.currentUser!.uid};
+                                            value.reference.set(data);
+                                            user = UserModel.fromJson(data);
+                                          }
+                                        },
+                                      );
                                       await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home())); // ignore: use_build_context_synchronously
                                       // ignore: use_build_context_synchronously
                                       showSnack("User Authenitificated", 1, context);
@@ -132,6 +147,10 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                                   },
                                   codeAutoRetrievalTimeout: (String verificationId) {},
                                 );
+                              } else {
+                                _(() => _signInState = false);
+                                // ignore: use_build_context_synchronously
+                                showSnack("CHECK THE PHONE NUMBER", 2, context);
                               }
                             } catch (e) {
                               _(() => _signInState = false);

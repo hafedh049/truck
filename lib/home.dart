@@ -32,11 +32,11 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    _items[0]["callback"] = () async {
+    _items[0]["callback"] = (BuildContext context) async {
       await _tts.speak("Hi my name is Hafedh!");
     };
-    _items[1]["callback"] = () async {};
-    _items[2]["callback"] = () async {
+    _items[1]["callback"] = (BuildContext context) async {};
+    _items[2]["callback"] = (BuildContext context) async {
       await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const ChatRoom()));
     };
     super.initState();
