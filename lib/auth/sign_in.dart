@@ -12,17 +12,17 @@ class SignIn extends StatefulWidget {
   State<SignIn> createState() => _SignInState();
 }
 
-class _SignInState extends State<SignIn> with WidgetsBindingObserver {
+class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    //WidgetsBinding.instance.removeObserver(this);
     if (userLocalSettings!.get("first_time")) {
       userLocalSettings!.put("first_time", false);
     }
     super.dispose();
   }
 
-  @override
+/*  @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
@@ -32,7 +32,7 @@ class _SignInState extends State<SignIn> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     print(state);
     super.didChangeAppLifecycleState(state);
-  }
+  }*/
 
   PhoneNumber _number = PhoneNumber();
 
