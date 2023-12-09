@@ -113,7 +113,9 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                                 _(() => _signInState = true);
                                 await FirebaseAuth.instance.verifyPhoneNumber(
                                   phoneNumber: _number.phoneNumber!,
-                                  verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {},
+                                  verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {
+                                    print("111111111");
+                                  },
                                   verificationFailed: (FirebaseAuthException error) {
                                     _(() => _signInState = false);
                                     // ignore: use_build_context_synchronously
