@@ -16,9 +16,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final FlutterTts _tts = FlutterTts();
   final List<Map<String, dynamic>> _items = <Map<String, dynamic>>[
-    <String, dynamic>{"title": "Repeat Last Message", "icon": Bootstrap.arrow_repeat, "callback": () {}},
-    <String, dynamic>{"title": "Message Understood", "icon": Bootstrap.check2_circle, "callback": () {}},
-    <String, dynamic>{"title": "I Have A Problem", "icon": FontAwesome.circle_exclamation, "callback": () {}},
+    <String, dynamic>{"title": "Repeat Last Message", "icon": Bootstrap.arrow_repeat, "callback": (BuildContext context) {}},
+    <String, dynamic>{"title": "Message Understood", "icon": Bootstrap.check2_circle, "callback": (BuildContext context) {}},
+    <String, dynamic>{"title": "I Have A Problem", "icon": FontAwesome.circle_exclamation, "callback": (BuildContext context) {}},
     <String, dynamic>{
       "title": "Sign Out",
       "icon": Icons.logout,
