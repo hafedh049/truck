@@ -133,59 +133,58 @@ class _ChatRoomState extends State<ChatRoom> {
                 backgroundColor: theme.replyPopupColor,
                 buttonTextStyle: TextStyle(color: theme.replyPopupButtonColor),
                 topBorderColor: theme.replyPopupTopBorderColor,
-                onUnsendTap: (Message message)async {
- _chatController.setTypingIndicator = true;
-    final String id = List<int>.generate(19, (_) => Random().nextInt(10)).join();
-    dynamic msg = message;
-    if (messageType == MessageType.image) {
-      await FirebaseStorage.instance.ref().child("images/$id").putFile(File(message)).then((TaskSnapshot tasksnapshot) async => msg = await tasksnapshot.ref.getDownloadURL());
-    } else if (messageType == MessageType.voice) {
-      msg = File(message).readAsBytesSync();
-    }
+                onUnsendTap: (Message message) async {
+                  _chatController.setTypingIndicator = true;
+                  final String id = List<int>.generate(19, (_) => Random().nextInt(10)).join();
+                  dynamic msg = message;
+                  if (messageType == MessageType.image) {
+                    await FirebaseStorage.instance.ref().child("images/$id").putFile(File(message)).then((TaskSnapshot tasksnapshot) async => msg = await tasksnapshot.ref.getDownloadURL());
+                  } else if (messageType == MessageType.voice) {
+                    msg = File(message).readAsBytesSync();
+                  }
 
-    await FirebaseFirestore.instance.collection("trucks").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
-      (DocumentSnapshot<Map<String, dynamic>> value) {
-        if (value.exists) {
-          final Map<String, dynamic> data = value.data()!["messages"];
-          data.addAll(
-            <String, dynamic>{
-              'id': id,
-              'message': msg,
-              'createdAt': Timestamp.now(),
-              'sendBy': "1",
-              'message_type': messageType == MessageType.text
-                  ? "text"
-                  : messageType == MessageType.image
-                      ? "image"
-                      : "voice",
-            },
-          );
-          value.reference.update(<String, dynamic>{"messages": data});
-        } else {
-          final String channelID = List<int>.generate(19, (_) => Random().nextInt(10)).join();
-          value.reference.set(
-            <String, dynamic>{
-              "channelID": channelID,
-              "channelName": "truck-***",
-              "messages": <String, dynamic>{
-                'id': id,
-                'message': msg,
-                'createdAt': Timestamp.now(),
-                'sendBy': "me",
-                'message_type': messageType == MessageType.text
-                    ? "text"
-                    : messageType == MessageType.image
-                        ? "image"
-                        : "voice",
-              },
-            },
-          );
-        }
-      },
-    );
+                  await FirebaseFirestore.instance.collection("trucks").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
+                    (DocumentSnapshot<Map<String, dynamic>> value) {
+                      if (value.exists) {
+                        final Map<String, dynamic> data = value.data()!["messages"];
+                        data.addAll(
+                          <String, dynamic>{
+                            'id': id,
+                            'message': msg,
+                            'createdAt': Timestamp.now(),
+                            'sendBy': "1",
+                            'message_type': messageType == MessageType.text
+                                ? "text"
+                                : messageType == MessageType.image
+                                    ? "image"
+                                    : "voice",
+                          },
+                        );
+                        value.reference.update(<String, dynamic>{"messages": data});
+                      } else {
+                        final String channelID = List<int>.generate(19, (_) => Random().nextInt(10)).join();
+                        value.reference.set(
+                          <String, dynamic>{
+                            "channelID": channelID,
+                            "channelName": "truck-***",
+                            "messages": <String, dynamic>{
+                              'id': id,
+                              'message': msg,
+                              'createdAt': Timestamp.now(),
+                              'sendBy': "me",
+                              'message_type': messageType == MessageType.text
+                                  ? "text"
+                                  : messageType == MessageType.image
+                                      ? "image"
+                                      : "voice",
+                            },
+                          },
+                        );
+                      }
+                    },
+                  );
 
-    _chatController.setTypingIndicator = false;
-  }
+                  _chatController.setTypingIndicator = false;
                 },
               ),
               reactionPopupConfig: ReactionPopupConfiguration(userReactionCallback: (Message message, String emoji) {}, shadow: const BoxShadow(color: Colors.black54, blurRadius: 20), backgroundColor: theme.reactionPopupColor),
