@@ -83,7 +83,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                             trailingSpace: false,
                           ),
                           ignoreBlank: false,
-                          autoValidateMode: AutovalidateMode.always,
+                          autoValidateMode: AutovalidateMode.onUserInteraction,
                           initialValue: _number,
                           formatInput: true,
                           selectorTextStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
