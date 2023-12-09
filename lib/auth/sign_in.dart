@@ -74,7 +74,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                             },
                             selectorConfig: const SelectorConfig(selectorType: PhoneInputSelectorType.BOTTOM_SHEET, useBottomSheetSafeArea: true),
                             ignoreBlank: false,
-                            autoValidateMode: AutovalidateMode.disabled,
+                            autoValidateMode: AutovalidateMode.always,
                             selectorTextStyle: const TextStyle(color: Colors.black),
                             initialValue: _number,
                             formatInput: true,
