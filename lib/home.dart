@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -17,7 +18,13 @@ class _HomeState extends State<Home> {
     <String, dynamic>{"title": "Repeat Last Message", "icon": Bootstrap.arrow_repeat, "callback": () {}},
     <String, dynamic>{"title": "Message Understood", "icon": Bootstrap.check2_circle, "callback": () {}},
     <String, dynamic>{"title": "I Have A Problem", "icon": FontAwesome.circle_exclamation, "callback": () {}},
-    <String, dynamic>{"title": "I Have A Problem", "icon": Icons.logout, "callback": () {}},
+    <String, dynamic>{
+      "title": "I Have A Problem",
+      "icon": Icons.logout,
+      "callback": () async {
+        await FirebaseAuth.instance.signOut();
+      }
+    },
   ];
 
   @override
