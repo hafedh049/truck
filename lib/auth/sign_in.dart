@@ -12,13 +12,19 @@ class SignIn extends StatefulWidget {
   State<SignIn> createState() => _SignInState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignInState extends State<SignIn> with WidgetsBindingObserver {
   @override
   void dispose() {
     if (userLocalSettings!.get("first_time")) {
       userLocalSettings!.put("first_time", false);
     }
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+    super.didChangeAppLifecycleState(state);
   }
 
   PhoneNumber _number = PhoneNumber();
