@@ -37,7 +37,6 @@ Future<bool> load() async {
     if (userLocalSettings!.get("language") == null) {
       await userLocalSettings!.put("language", "en");
     }
-    print("111111111");
     return true;
   } catch (e) {
     return false;
