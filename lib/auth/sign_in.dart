@@ -64,38 +64,36 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    Form(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          InternationalPhoneNumberInput(
-                            onInputChanged: (PhoneNumber number) {
-                              _number = number;
-                            },
-                            selectorConfig: const SelectorConfig(
-                              selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                              useBottomSheetSafeArea: true,
-                              setSelectorButtonAsPrefixIcon: true,
-                              leadingPadding: 8,
-                              trailingSpace: false,
-                            ),
-                            ignoreBlank: false,
-                            autoValidateMode: AutovalidateMode.always,
-                            initialValue: _number,
-                            formatInput: true,
-                            selectorTextStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
-                            inputDecoration: InputDecoration(
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
-                              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
-                              hintText: "Phone",
-                              contentPadding: const EdgeInsets.all(24),
-                              hintStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
-                            ),
-                            keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
-                            inputBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        InternationalPhoneNumberInput(
+                          onInputChanged: (PhoneNumber number) {
+                            _number = number;
+                          },
+                          selectorConfig: const SelectorConfig(
+                            selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                            useBottomSheetSafeArea: true,
+                            setSelectorButtonAsPrefixIcon: true,
+                            leadingPadding: 8,
+                            trailingSpace: false,
                           ),
-                        ],
-                      ),
+                          ignoreBlank: false,
+                          autoValidateMode: AutovalidateMode.always,
+                          initialValue: _number,
+                          formatInput: true,
+                          selectorTextStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
+                          inputDecoration: InputDecoration(
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
+                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
+                            hintText: "Phone",
+                            contentPadding: const EdgeInsets.all(24),
+                            hintStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
+                          ),
+                          keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
+                          inputBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 40),
                     InkWell(
