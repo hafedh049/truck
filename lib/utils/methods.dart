@@ -20,7 +20,7 @@ Future<bool> load() async {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
         apiKey: "AIzaSyAgDmdEd7v4iG7TFVraJ6q7lyXYIU1LW10",
-        storageBucket: "harmonix-ede29.appspot.com",
+        storageBucket: "wassalny-ffdf7.appspot.com",
         appId: "1:248521282422:android:fc183b969a35a0329aa057",
         messagingSenderId: "958782362415",
         projectId: "harmonix-ede29",
