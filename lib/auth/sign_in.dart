@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -6,7 +5,6 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:truck/auth/sign_up.dart';
 import 'package:truck/home.dart';
-import 'package:truck/models/user_model.dart';
 import 'package:truck/utils/globals.dart';
 import 'package:truck/utils/methods.dart';
 
