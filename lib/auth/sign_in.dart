@@ -22,6 +22,20 @@ class _SignInState extends State<SignIn> with WidgetsBindingObserver {
   }
 
   @override
+  void initState() {
+    super.initState();
+    // Add the observer
+    WidgetsBinding.instance?.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    // Remove the observer
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     print(state);
     super.didChangeAppLifecycleState(state);
