@@ -72,7 +72,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                             onInputChanged: (PhoneNumber number) {
                               _number = number;
                             },
-                            selectorConfig: const SelectorConfig(selectorType: PhoneInputSelectorType.BOTTOM_SHEET, useBottomSheetSafeArea: true, setSelectorButtonAsPrefixIcon: true , leadingPadding,
+                            selectorConfig: const SelectorConfig(selectorType: PhoneInputSelectorType.BOTTOM_SHEET, useBottomSheetSafeArea: true, setSelectorButtonAsPrefixIcon: true , leadingPadding:4,
   bool trailingSpace = true,
   bool useBottomSheetSafeArea = false,),
                             ignoreBlank: false,
