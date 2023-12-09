@@ -109,7 +109,6 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                           hoverColor: transparent,
                           onTap: () async {
                             try {
-                              print(_number);
                               if (!_signInState) {
                                 _(() => _signInState = true);
                                 await FirebaseAuth.instance.verifyPhoneNumber(
