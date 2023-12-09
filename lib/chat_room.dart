@@ -135,14 +135,6 @@ class _ChatRoomState extends State<ChatRoom> {
                 topBorderColor: theme.replyPopupTopBorderColor,
                 onUnsendTap: (Message message) async {
                   _chatController.setTypingIndicator = true;
-                  final String id = List<int>.generate(19, (_) => Random().nextInt(10)).join();
-                  dynamic msg = message;
-                  if (messageType == MessageType.image) {
-                    await FirebaseStorage.instance.ref().child("images/$id").putFile(File(message)).then((TaskSnapshot tasksnapshot) async => msg = await tasksnapshot.ref.getDownloadURL());
-                  } else if (messageType == MessageType.voice) {
-                    msg = File(message).readAsBytesSync();
-                  }
-
                   await FirebaseFirestore.instance.collection("trucks").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
                     (DocumentSnapshot<Map<String, dynamic>> value) {
                       if (value.exists) {
