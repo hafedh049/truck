@@ -111,7 +111,7 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                               if (!_signInState) {
                                 _(() => _signInState = true);
                                 await FirebaseAuth.instance.verifyPhoneNumber(
-                                  verificationCompleted: (phoneAuthCredential) async {
+                                  verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {
                                     await FirebaseAuth.instance.signInWithPhoneNumber(_number.phoneNumber!);
                                     await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
                                       (DocumentSnapshot<Map<String, dynamic>> value) async {
