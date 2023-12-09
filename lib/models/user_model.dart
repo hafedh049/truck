@@ -5,10 +5,10 @@ class UserModel {
   final String uid;
   final String phone;
 
-  const UserModel({required this.uid});
+  const UserModel({required this.uid, required this.phone});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(uid: json['uid'] as String, email: json['email'] as String, username: json['username'] as String);
+    return UserModel(uid: json['uid'] as String, phone: json['email'] as String);
   }
 
   Map<String, dynamic> toJson() {
