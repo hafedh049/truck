@@ -137,23 +137,9 @@ class _ChatRoomState extends State<ChatRoom> {
                   _chatController.setTypingIndicator = true;
                   await FirebaseFirestore.instance.collection("trucks").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
                     (DocumentSnapshot<Map<String, dynamic>> value) {
-                      if (value.exists && ) {
-                        final Map<String, dynamic> data = value.data()!["messages"];
-                        data.addAll(
-                          <String, dynamic>{
-                            'id': id,
-                            'message': msg,
-                            'createdAt': Timestamp.now(),
-                            'sendBy': "1",
-                            'message_type': messageType == MessageType.text
-                                ? "text"
-                                : messageType == MessageType.image
-                                    ? "image"
-                                    : "voice",
-                          },
-                        );
-                        value.reference.update(<String, dynamic>{"messages": data});
-                      }
+                      final Map<String, dynamic> data = value.data()!["messages"];
+
+                      value.reference.update(<String, dynamic>{"messages": data});
                     },
                   );
 
