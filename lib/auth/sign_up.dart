@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:truck/auth/sign_in.dart';
 import 'package:truck/utils/globals.dart';
 
 class SignUp extends StatefulWidget {
@@ -93,15 +94,20 @@ class _SignUpState extends State<SignUp> {
                     ),
                     const SizedBox(height: 10),
                     InternationalPhoneNumberInput(
-                      onInputChanged: (PhoneNumber number) {
-                        _number = number;
-                      },
-                      selectorConfig: const SelectorConfig(selectorType: PhoneInputSelectorType.BOTTOM_SHEET, useBottomSheetSafeArea: true),
+                      onInputChanged: (PhoneNumber number) => _number = number,
+                      onInputValidated: (bool value) {},
+                      selectorConfig: const SelectorConfig(
+                        selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                        useBottomSheetSafeArea: true,
+                        setSelectorButtonAsPrefixIcon: true,
+                        leadingPadding: 8,
+                        trailingSpace: false,
+                      ),
                       ignoreBlank: false,
-                      autoValidateMode: AutovalidateMode.disabled,
-                      selectorTextStyle: const TextStyle(color: Colors.black),
+                      autoValidateMode: AutovalidateMode.onUserInteraction,
                       initialValue: _number,
                       formatInput: true,
+                      selectorTextStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
                       inputDecoration: InputDecoration(
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
                         focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
@@ -132,7 +138,7 @@ class _SignUpState extends State<SignUp> {
                 highlightColor: transparent,
                 splashColor: transparent,
                 hoverColor: transparent,
-                onTap: () => Navigator.pop(context),
+                onTap: () async => await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const SignIn())),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[

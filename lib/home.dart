@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -5,6 +8,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:truck/auth/sign_in.dart';
 import 'package:truck/chat_room.dart';
 import 'package:truck/utils/globals.dart';
+import 'package:truck/utils/methods.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -15,31 +19,11 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final FlutterTts _tts = FlutterTts();
-  final List<Map<String, dynamic>> _items = <Map<String, dynamic>>[
-    <String, dynamic>{"title": "Repeat Last Message", "icon": Bootstrap.arrow_repeat, "callback": (BuildContext context) {}},
-    <String, dynamic>{"title": "Message Understood", "icon": Bootstrap.check2_circle, "callback": (BuildContext context) {}},
-    <String, dynamic>{"title": "I Have A Problem", "icon": FontAwesome.circle_exclamation, "callback": (BuildContext context) {}},
-    <String, dynamic>{
-      "title": "Sign Out",
-      "icon": Icons.logout,
-      "callback": (BuildContext context) async {
-        await FirebaseAuth.instance.signOut();
-        // ignore: use_build_context_synchronously
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => const SignIn()), (Route route) => !route.isFirst);
-      }
-    },
-  ];
 
   @override
-  void initState() {
-    _items[0]["callback"] = (BuildContext context) async {
-      await _tts.speak("Hi my name is Hafedh!");
-    };
-    _items[1]["callback"] = (BuildContext context) async {};
-    _items[2]["callback"] = (BuildContext context) async {
-      await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const ChatRoom()));
-    };
-    super.initState();
+  void dispose() {
+    _tts.stop();
+    super.dispose();
   }
 
   @override
@@ -50,29 +34,145 @@ class _HomeState extends State<Home> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            for (final Map<String, dynamic> item in _items)
-              GestureDetector(
-                onTap: () => item["callback"](context),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: blue.withOpacity(.5),
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))],
-                  ),
-                  padding: const EdgeInsets.all(24),
-                  margin: const EdgeInsets.all(24),
-                  child: Center(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Icon(item["icon"]),
-                        const SizedBox(width: 10),
-                        Text(item["title"], style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                      ],
+            StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                stream: FirebaseFirestore.instance.collection("trucks").doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
+                builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
+                  return GestureDetector(
+                    onTap: () async {
+                      if (snapshot.hasData && snapshot.data!.exists) {
+                        Map<String, dynamic> messages = snapshot.data!.get("messages");
+                        messages = Map<String, dynamic>.fromEntries(messages.entries.toList()..sort((MapEntry<String, dynamic> a, MapEntry<String, dynamic> b) => a.value["createdAt"].compareTo(b.value["createdAt"])));
+                        if (messages.isNotEmpty) {
+                          if (messages[messages.keys.last]["message_type"] == "text") {
+                            await _tts.speak(messages[messages.keys.last]["message"]);
+                          } else {
+                            showSnack("Last message is not a text.", 1, context);
+                            await _tts.speak("LAST MESSAGE IS NOT A TEXT");
+                          }
+                        } else {
+                          showSnack("No messages yet.", 1, context);
+                        }
+                      }
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: blue.withOpacity(.5),
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))],
+                      ),
+                      padding: const EdgeInsets.all(24),
+                      margin: const EdgeInsets.all(24),
+                      child: const Center(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Icon(Bootstrap.arrow_repeat),
+                            SizedBox(width: 10),
+                            Text("Repeat Last Message", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
                     ),
+                  );
+                }),
+            GestureDetector(
+              onTap: () async {
+                final String id = List<int>.generate(19, (_) => Random().nextInt(10)).join();
+                await FirebaseFirestore.instance.collection("trucks").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
+                  (DocumentSnapshot<Map<String, dynamic>> value) {
+                    if (value.exists) {
+                      final Map<String, dynamic> data = value.data()!["messages"];
+                      data.addAll(
+                        <String, dynamic>{
+                          id: <String, dynamic>{'message': "MESSAGE UNDERSTOOD", 'createdAt': Timestamp.now(), 'sendBy': "me", 'message_type': "text"},
+                        },
+                      );
+                      value.reference.update(<String, dynamic>{"messages": data});
+                    } else {
+                      final String channelID = List<int>.generate(19, (_) => Random().nextInt(10)).join();
+                      value.reference.set(
+                        <String, dynamic>{
+                          "channelID": channelID,
+                          "channelName": "truck-***",
+                          "messages": <String, dynamic>{
+                            id: <String, dynamic>{'message': "MESSAGE UNDERSTOOD", 'createdAt': Timestamp.now(), 'sendBy': "me", 'message_type': "text"},
+                          },
+                        },
+                      );
+                    }
+                  },
+                );
+                // ignore: use_build_context_synchronously
+                showSnack("Sent", 1, context);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: blue.withOpacity(.5),
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))],
+                ),
+                padding: const EdgeInsets.all(24),
+                margin: const EdgeInsets.all(24),
+                child: const Center(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Icon(Bootstrap.check2_circle),
+                      SizedBox(width: 10),
+                      Text("Message Understood", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    ],
                   ),
                 ),
               ),
+            ),
+            GestureDetector(
+              onTap: () async => await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const ChatRoom())),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: blue.withOpacity(.5),
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))],
+                ),
+                padding: const EdgeInsets.all(24),
+                margin: const EdgeInsets.all(24),
+                child: const Center(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Icon(FontAwesome.circle_exclamation),
+                      SizedBox(width: 10),
+                      Text("I Have A Problem", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+                // ignore: use_build_context_synchronously
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const SignIn()));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: blue.withOpacity(.5),
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))],
+                ),
+                padding: const EdgeInsets.all(24),
+                margin: const EdgeInsets.all(24),
+                child: const Center(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Icon(Icons.logout),
+                      SizedBox(width: 10),
+                      Text("Sign Out", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

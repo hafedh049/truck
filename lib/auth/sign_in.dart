@@ -6,7 +6,6 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:truck/auth/sign_up.dart';
 import 'package:truck/home.dart';
-import 'package:truck/models/user_model.dart';
 import 'package:truck/utils/globals.dart';
 import 'package:truck/utils/methods.dart';
 
@@ -127,12 +126,9 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                                       await FirebaseAuth.instance.signInWithCredential(credential);
                                       await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
                                         (DocumentSnapshot<Map<String, dynamic>> value) async {
-                                          if (value.exists) {
-                                            user = UserModel.fromJson(value.data()!);
-                                          } else {
+                                          if (!value.exists) {
                                             final Map<String, dynamic> data = <String, dynamic>{"phone": _number.phoneNumber!, "uid": FirebaseAuth.instance.currentUser!.uid};
                                             value.reference.set(data);
-                                            user = UserModel.fromJson(data);
                                           }
                                         },
                                       );
