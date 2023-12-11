@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
@@ -7,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
@@ -31,22 +33,55 @@ class ChatSpace extends StatefulWidget {
   State<ChatSpace> createState() => _ChatPageState();
 }
 
-class _ChatPageState extends State<ChatSpace> {
+class _ChatPageState extends State<ChatSpace> with WidgetsBindingObserver {
   List<types.Message> _messages = <types.Message>[];
 
   final DocumentReference<Map<String, dynamic>> _userDocRef = FirebaseFirestore.instance.collection("chats").doc(FirebaseAuth.instance.currentUser!.uid);
-  final types.User _user = types.User(id: FirebaseAuth.instance.currentUser!.uid, firstName: "User", imageUrl: "https://raw.githubusercontent.com/SimformSolutionsPvtLtd/flutter_showcaseview/master/example/assets/simform.png");
+  final types.User _user = types.User(id: FirebaseAuth.instance.currentUser!.uid, firstName: "User", lastName: "Guenichi", imageUrl: "https://raw.githubusercontent.com/SimformSolutionsPvtLtd/flutter_showcaseview/master/example/assets/simform.png");
 
   late final List<Map<String, dynamic>> _attachments;
 
+  late final Timer _timer;
+
+  int _counter = 0;
+
+  AppLifecycleState _state = AppLifecycleState.resumed;
+
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    _timer = Timer.periodic(
+      1.seconds,
+      (Timer _) {
+        if (_state == AppLifecycleState.resumed) {
+          _counter += 1;
+        }
+        if (_counter >= 60) {
+          Navigator.pop(context);
+        }
+      },
+    );
     _attachments = <Map<String, dynamic>>[
       <String, dynamic>{"icon": FontAwesome.image, "title": "Pictures", "callback": _handleImageSelection},
       <String, dynamic>{"icon": FontAwesome.file, "title": "Files", "callback": _handleFileSelection},
       <String, dynamic>{"icon": FontAwesome.leaf, "title": "Cancel", "callback": () => Navigator.pop(context)},
     ];
     super.initState();
+  }
+
+  @override
+  dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.detached || state == AppLifecycleState.hidden || state == AppLifecycleState.inactive || state == AppLifecycleState.paused || state == AppLifecycleState.resumed) {
+      _state = state;
+      _counter = 0;
+    }
   }
 
   Future<void> _handleAttachmentPressed() async {
@@ -76,7 +111,7 @@ class _ChatPageState extends State<ChatSpace> {
   }
 
   void _handleFileSelection() async {
-    final result = await FilePicker.platform.pickFiles(type: FileType.any);
+    final FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.any);
 
     if (result != null && result.files.single.path != null) {
       final String id = List<int>.generate(20, (int index) => Random().nextInt(10)).join();
@@ -91,7 +126,7 @@ class _ChatPageState extends State<ChatSpace> {
   }
 
   void _handleImageSelection() async {
-    final result = await ImagePicker().pickImage(imageQuality: 70, maxWidth: 1440, source: ImageSource.gallery);
+    final XFile? result = await ImagePicker().pickImage(imageQuality: 70, maxWidth: 1440, source: ImageSource.gallery);
 
     if (result != null) {
       final Uint8List bytes = await result.readAsBytes();
@@ -130,8 +165,6 @@ class _ChatPageState extends State<ChatSpace> {
     final textMessage = types.TextMessage(author: _user, createdAt: DateTime.now().millisecondsSinceEpoch, id: List<int>.generate(20, (int index) => Random().nextInt(10)).join(), text: message.text);
     _userDocRef.collection("messages").add(textMessage.toJson());
   }
-
-  int _counter = 0;
 
   @override
   Widget build(BuildContext context) => GestureDetector(
@@ -179,12 +212,22 @@ class _ChatPageState extends State<ChatSpace> {
               ),
               Expanded(
                 child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                  stream: _userDocRef.collection("messages").orderBy("createdAt", descending: true).limit(10).snapshots(),
+                  stream: _userDocRef.collection("messages").orderBy("createdAt", descending: true).limit(20).snapshots(),
                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
                     if (snapshot.hasData) {
                       _messages = snapshot.data!.docs.map((QueryDocumentSnapshot<Map<String, dynamic>> e) => types.Message.fromJson(e.data())).toList();
 
                       return Chat(
+                        userAgent: "ME",
+                        typingIndicatorOptions: TypingIndicatorOptions(typingUsers: <types.User>[_user]),
+                        textMessageOptions: TextMessageOptions(
+                          onLinkPressed: (String link) {
+                            _counter = 0;
+                          },
+                        ),
+                        inputOptions: InputOptions(onTextChanged: (String text) => _counter = 0, onTextFieldTap: () => _counter = 0),
+                        onEndReached: () async {},
+                        scrollPhysics: const ClampingScrollPhysics(),
                         onAvatarTap: (types.User user) => _counter = 0,
                         onBackgroundTap: () => _counter = 0,
                         messages: _messages,

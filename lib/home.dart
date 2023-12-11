@@ -9,6 +9,9 @@ import 'package:truck/auth/sign_in.dart';
 import 'package:truck/chat_space.dart';
 import 'package:truck/utils/globals.dart';
 import 'package:truck/utils/methods.dart';
+// ignore: depend_on_referenced_packages
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:voice_message_package/voice_message_package.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -26,6 +29,9 @@ class _HomeState extends State<Home> {
     super.dispose();
   }
 
+  bool _isAudio = false;
+  String _audioUrl = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,74 +40,79 @@ class _HomeState extends State<Home> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: FirebaseFirestore.instance.collection("chats").doc(FirebaseAuth.instance.currentUser!.uid).collection("messages").orderBy("createdAt", descending: true).limit(1).snapshots(),
-              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-                return GestureDetector(
-                  onTap: () async {
-                    if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-                      final List<QueryDocumentSnapshot<Map<String, dynamic>>> messages = snapshot.data!.docs;
-                      if (messages.isNotEmpty) {
-                        if (messages.first.get("type") == "text") {
-                          await _tts.speak(messages.first.get("message"));
-                        } else {
-                          showSnack("Last message is not a text.", 1, context);
-                          await _tts.speak("LAST MESSAGE IS NOT A TEXT");
-                        }
+            StatefulBuilder(builder: (BuildContext context, void Function(void Function()) setS) {
+              return GestureDetector(
+                onTap: () async {
+                  final QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance.collection("chats").doc(FirebaseAuth.instance.currentUser!.uid).collection("messages").orderBy("createdAt", descending: true).limit(1).get();
+                  if (snapshot.docs.isNotEmpty) {
+                    final List<QueryDocumentSnapshot<Map<String, dynamic>>> messages = snapshot.docs;
+                    if (messages.isNotEmpty) {
+                      if (messages.first.get("type") == "text") {
+                        await _tts.speak(messages.first.get("text"));
+                      } else if (messages.first.get("type") == "audio") {
+                        setS(
+                          () {
+                            _isAudio = true;
+                            _audioUrl = messages.first.get("uri");
+                          },
+                        );
                       } else {
-                        showSnack("No messages yet.", 1, context);
+                        await _tts.speak("LAST MESSAGE IS NOT A TEXT OR AN AUDIO");
                       }
+                    } else {
+                      // ignore: use_build_context_synchronously
+                      showSnack("No messages yet.", 1, context);
                     }
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: teal.withOpacity(.5),
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))],
-                    ),
-                    padding: const EdgeInsets.all(24),
-                    margin: const EdgeInsets.all(24),
-                    child: const Center(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Icon(Bootstrap.arrow_repeat),
-                          SizedBox(width: 10),
-                          Text("Repeat Last Message", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                        ],
+                  }
+                },
+                child: _isAudio
+                    ? VoiceMessageView(
+                        backgroundColor: transparent,
+                        activeSliderColor: white,
+                        circlesColor: teal,
+                        notActiveSliderColor: transparent,
+                        size: 29,
+                        controller: VoiceController(
+                          audioSrc: _audioUrl,
+                          maxDuration: const Duration(milliseconds: 120),
+                          isFile: false,
+                          onComplete: () {
+                            setS(
+                              () {
+                                _isAudio = false;
+                                _audioUrl = "";
+                              },
+                            );
+                          },
+                          onPause: () {},
+                          onPlaying: () {},
+                        ),
+                        innerPadding: 4,
+                      )
+                    : Container(
+                        decoration: BoxDecoration(
+                          color: teal.withOpacity(.5),
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))],
+                        ),
+                        padding: const EdgeInsets.all(24),
+                        margin: const EdgeInsets.all(24),
+                        child: const Center(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Icon(Bootstrap.arrow_repeat),
+                              SizedBox(width: 10),
+                              Text("Repeat Last Message", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                );
-              },
-            ),
+              );
+            }),
             GestureDetector(
               onTap: () async {
-                final String id = List<int>.generate(19, (_) => Random().nextInt(10)).join();
-                await FirebaseFirestore.instance.collection("trucks").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
-                  (DocumentSnapshot<Map<String, dynamic>> value) {
-                    if (value.exists) {
-                      final Map<String, dynamic> data = value.data()!["messages"];
-                      data.addAll(
-                        <String, dynamic>{
-                          id: <String, dynamic>{'message': "MESSAGE UNDERSTOOD", 'createdAt': Timestamp.now(), 'sendBy': "me", 'message_type': "text"},
-                        },
-                      );
-                      value.reference.update(<String, dynamic>{"messages": data});
-                    } else {
-                      final String channelID = List<int>.generate(19, (_) => Random().nextInt(10)).join();
-                      value.reference.set(
-                        <String, dynamic>{
-                          "channelID": channelID,
-                          "channelName": "truck-***",
-                          "messages": <String, dynamic>{
-                            id: <String, dynamic>{'message': "MESSAGE UNDERSTOOD", 'createdAt': Timestamp.now(), 'sendBy': "me", 'message_type': "text"},
-                          },
-                        },
-                      );
-                    }
-                  },
-                );
+                await FirebaseFirestore.instance.collection("chats").doc(FirebaseAuth.instance.currentUser!.uid).collection("messages").add(types.TextMessage(author: types.User(id: FirebaseAuth.instance.currentUser!.uid), createdAt: DateTime.now().millisecondsSinceEpoch, id: List<int>.generate(20, (int index) => Random().nextInt(10)).join(), text: "UNDERSTOOD").toJson());
                 // ignore: use_build_context_synchronously
                 showSnack("Sent", 1, context);
               },
@@ -126,7 +137,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             GestureDetector(
-              onTap: () async => await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const /*ChatRoom*/ ChatSpace())),
+              onTap: () async => await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const ChatSpace())),
               child: Container(
                 decoration: BoxDecoration(
                   color: teal.withOpacity(.5),
