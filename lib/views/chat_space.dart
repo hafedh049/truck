@@ -22,8 +22,8 @@ import 'package:social_media_recorder/audio_encoder_type.dart';
 import 'package:social_media_recorder/screen/social_media_recorder.dart';
 import 'package:truck/utils/globals.dart';
 import 'package:truck/utils/methods.dart';
-import 'package:truck/wait.dart';
-import 'package:truck/wrong.dart';
+import 'package:truck/views/helpers/wait.dart';
+import 'package:truck/views/helpers/wrong.dart';
 import 'package:voice_message_package/voice_message_package.dart';
 
 class ChatSpace extends StatefulWidget {

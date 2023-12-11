@@ -5,8 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:truck/auth/sign_in.dart';
-import 'package:truck/chat_space.dart';
+import 'package:truck/views/auth/sign_in.dart';
+import 'package:truck/views/chat_space.dart';
 import 'package:truck/utils/globals.dart';
 import 'package:truck/utils/methods.dart';
 // ignore: depend_on_referenced_packages
