@@ -19,11 +19,11 @@ Future<bool> load() async {
   try {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: "AIzaSyAgDmdEd7v4iG7TFVraJ6q7lyXYIU1LW10",
-        storageBucket: "wassalny-ffdf7.appspot.com",
-        appId: "1:248521282422:android:fc183b969a35a0329aa057",
-        messagingSenderId: "248521282422",
-        projectId: "wassalny-ffdf7",
+        apiKey: "AIzaSyDjuWTbysu3xYLXmRwYlVU47b4wgW2vkDA",
+        storageBucket: "truck-97497.appspot.com",
+        appId: "1:705178287722:android:a39bd5970c6af438c89413",
+        messagingSenderId: "705178287722",
+        projectId: "truck-97497",
       ),
     );
     documentsPath = (await getTemporaryDirectory()).path;
@@ -49,7 +49,7 @@ void showSnack(String message, int type, BuildContext context) {
     backgroundColor: transparent,
     content: AwesomeSnackbarContent(
       title: type == 1
-          ? "Hey!"
+          ? "Success"
           : type == 2
               ? "Warning"
               : "Error",
@@ -65,4 +65,16 @@ void showSnack(String message, int type, BuildContext context) {
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(snackBar);
+}
+
+Duration timeStringToDuration(String timeStr) {
+  try {
+    final List<String> timeParts = timeStr.split(':');
+    final int minutes = int.parse(timeParts[0]);
+    final int seconds = int.parse(timeParts[1]);
+
+    return Duration(minutes: minutes, seconds: seconds);
+  } catch (e) {
+    return const Duration();
+  }
 }

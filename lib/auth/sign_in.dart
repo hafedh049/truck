@@ -132,7 +132,8 @@ class _SignInState extends State<SignIn> /*with WidgetsBindingObserver*/ {
                                           }
                                         },
                                       );
-                                      await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home())); // ignore: use_build_context_synchronously
+                                      // ignore: use_build_context_synchronously
+                                      await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home()));
                                       // ignore: use_build_context_synchronously
                                       showSnack("User Authenitificated", 1, context);
                                     } catch (e) {
