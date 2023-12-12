@@ -61,7 +61,7 @@ class _HomeState extends State<Home> {
                       }
                     } else {
                       // ignore: use_build_context_synchronously
-                      showSnack("No messages yet.", 1, context);
+                      showSnack("No messages yet.", 1);
                     }
                   }
                 },
@@ -114,7 +114,7 @@ class _HomeState extends State<Home> {
               onTap: () async {
                 await FirebaseFirestore.instance.collection("chats").doc(FirebaseAuth.instance.currentUser!.uid).collection("messages").add(types.TextMessage(author: types.User(id: FirebaseAuth.instance.currentUser!.uid), createdAt: DateTime.now().millisecondsSinceEpoch, id: List<int>.generate(20, (int index) => Random().nextInt(10)).join(), text: "UNDERSTOOD").toJson());
                 // ignore: use_build_context_synchronously
-                showSnack("Sent", 1, context);
+                showSnack("Sent", 1);
               },
               child: Container(
                 decoration: BoxDecoration(

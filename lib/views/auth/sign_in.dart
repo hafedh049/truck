@@ -106,7 +106,7 @@ class _SignInState extends State<SignIn> {
                                       // ignore: use_build_context_synchronously
                                       await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home()));
                                       // ignore: use_build_context_synchronously
-                                      showSnack("User Authenitificated", 1, context);
+                                      showSnack("User Authenitificated", 1);
                                     } catch (e) {
                                       setS(() => _signInState = false);
                                       _otpKey.currentState!.setState(
@@ -116,7 +116,7 @@ class _SignInState extends State<SignIn> {
                                         },
                                       );
                                       // ignore: use_build_context_synchronously
-                                      showSnack(e.toString(), 3, context);
+                                      showSnack(e.toString(), 3);
                                     }
                                   },
                                 ),
@@ -142,7 +142,7 @@ class _SignInState extends State<SignIn> {
                                 verificationFailed: (FirebaseAuthException error) {
                                   _(() => _signInState = false);
                                   // ignore: use_build_context_synchronously
-                                  showSnack(error.toString(), 3, context);
+                                  showSnack(error.toString(), 3);
                                 },
                                 codeSent: (String verificationId, int? forceResendingToken) async {
                                   _otpKey.currentState!.setState(
@@ -159,12 +159,12 @@ class _SignInState extends State<SignIn> {
                             } else {
                               _(() => _signInState = false);
                               // ignore: use_build_context_synchronously
-                              showSnack("CHECK THE PHONE NUMBER", 2, context);
+                              showSnack("CHECK THE PHONE NUMBER", 2);
                             }
                           } catch (e) {
                             _(() => _signInState = false);
                             // ignore: use_build_context_synchronously
-                            showSnack(e.toString(), 3, context);
+                            showSnack(e.toString(), 3);
                           }
                         },
                         child: AnimatedContainer(

@@ -18,10 +18,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:social_media_recorder/screen/social_media_recorder.dart';
+import 'package:truck/models/messages/audio_message_model.dart';
 import 'package:truck/models/messages/file_message_model.dart';
 import 'package:truck/models/messages/image_message_module.dart';
 import 'package:truck/models/messages/text_message_model.dart';
 import 'package:truck/views/helpers/utils/globals.dart';
+import 'package:truck/views/helpers/utils/methods.dart';
 import 'package:truck/views/helpers/wait.dart';
 import 'package:truck/views/helpers/wrong.dart';
 import 'package:voice_message_package/voice_message_package.dart';
@@ -39,6 +42,7 @@ class _ChatRoomState extends State<ChatRoom> {
   final GlobalKey<State> _sendButtonKey = GlobalKey<State>();
 
   late final List<Map<String, dynamic>> _attachments;
+  late final List<Map<String, dynamic>> _deletions;
 
   @override
   void dispose() {
@@ -53,6 +57,20 @@ class _ChatRoomState extends State<ChatRoom> {
       <String, dynamic>{"icon": FontAwesome.file, "title": "Files", "callback": _handleFileSelection},
       <String, dynamic>{"icon": FontAwesome.leaf, "title": "Cancel", "callback": () => Navigator.pop(context)},
     ];
+    _deletions = <Map<String, dynamic>>[
+      <String, dynamic>{
+        "icon": Icons.delete_forever,
+        "title": "REMOVE",
+        "callback": (BuildContext context, QueryDocumentSnapshot<Map<String, dynamic>> doc) async {
+          await doc.reference.delete();
+          // ignore: use_build_context_synchronously
+          showSnack("Message Deleted", 1);
+          // ignore: use_build_context_synchronously
+          Navigator.pop(context);
+        }
+      },
+      <String, dynamic>{"icon": FontAwesome.leaf, "title": "CANCEL", "callback": () => Navigator.pop(context)},
+    ];
     super.initState();
   }
 
@@ -62,20 +80,71 @@ class _ChatRoomState extends State<ChatRoom> {
       builder: (BuildContext context) => SafeArea(
         child: SizedBox(
           height: 145,
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                for (final Map<String, dynamic> item in _attachments)
-                  InkWell(
-                    hoverColor: transparent,
-                    splashColor: transparent,
-                    highlightColor: transparent,
-                    onTap: item["callback"],
-                    child: Column(mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[Icon(item["icon"], size: 15, color: teal), const SizedBox(height: 10), Text(item["title"], style: const TextStyle(color: teal, fontSize: 16, fontWeight: FontWeight.w400))]),
-                  ),
-              ],
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  for (final Map<String, dynamic> item in _attachments)
+                    InkWell(
+                      hoverColor: transparent,
+                      splashColor: transparent,
+                      highlightColor: transparent,
+                      onTap: item["callback"],
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(item["icon"], size: 15, color: teal),
+                          const SizedBox(height: 10),
+                          Text(item["title"], style: const TextStyle(color: teal, fontSize: 16, fontWeight: FontWeight.w400)),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              SocialMediaRecorder(
+                slideToCancelText: '',
+                slideToCancelTextStyle: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
+                cancelTextStyle: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
+                counterTextStyle: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
+                recordIconBackGroundColor: transparent,
+                recordIconWhenLockBackGroundColor: transparent,
+                recordIconWhenLockedRecord: const Icon(FontAwesome.stop, color: teal, size: 20),
+                counterBackGroundColor: transparent,
+                lockButton: const Icon(FontAwesome.microphone, color: teal, size: 20),
+                sendButtonIcon: const Icon(FontAwesome.microphone, color: teal, size: 20),
+                cancelTextBackGroundColor: transparent,
+                backGroundColor: transparent,
+                recordIcon: const Icon(FontAwesome.microphone, color: teal, size: 20),
+                maxRecordTimeInSecond: 120,
+                sendRequestFunction: (File soundFile, String time) async {
+                  try {
+                    final String id = List<int>.generate(20, (int index) => Random().nextInt(10)).join();
+                    await FirebaseStorage.instance.ref().child("/voices/$id").putFile(soundFile).then(
+                      (TaskSnapshot snap) async {
+                        final AudioMessageModel message = AudioMessageModel(
+                          author: <String, dynamic>{"uid": _uid, "name": "Truck", "imageUrl": ""},
+                          createdAt: DateTime.now().millisecondsSinceEpoch,
+                          id: id,
+                          name: id,
+                          size: await soundFile.length(),
+                          uri: await snap.ref.getDownloadURL(),
+                          duration: timeStringToDuration(time),
+                        );
+                        await FirebaseFirestore.instance.collection("chats").doc(_uid).collection("messages").add(message.toJson());
+                      },
+                    );
+                  } catch (e) {
+                    // ignore: use_build_context_synchronously
+                    showSnack(e.toString(), 3);
+                  }
+                },
+              ),
+            ],
           ),
         ),
       ),
@@ -155,6 +224,7 @@ class _ChatRoomState extends State<ChatRoom> {
       id: List<int>.generate(20, (int index) => Random().nextInt(10)).join(),
       text: _inputController.text.trim(),
     );
+    _inputController.clear();
     await FirebaseFirestore.instance.collection("chats").doc(_uid).collection("messages").add(textMessage.toJson());
   }
 
@@ -167,48 +237,84 @@ class _ChatRoomState extends State<ChatRoom> {
           children: <Widget>[
             Expanded(
               child: FirestoreListView(
+                reverse: true,
+                pageSize: 20,
+                padding: const EdgeInsets.all(16),
                 loadingBuilder: (BuildContext context) => const Wait(),
                 query: FirebaseFirestore.instance.collection("chats").doc(FirebaseAuth.instance.currentUser!.uid).collection("messages").orderBy("createdAt", descending: true),
                 emptyBuilder: (BuildContext context) => const Text("EMPTY"),
                 errorBuilder: (BuildContext context, Object error, StackTrace stackTrace) => Wrong(errorMessage: error.toString()),
                 itemBuilder: (BuildContext context, QueryDocumentSnapshot<Map<String, dynamic>> doc) {
                   final Map<String, dynamic> data = doc.data();
-                  if (data["type"] == "text") {
-                    return BubbleSpecialOne(
-                      text: data["text"],
-                      isSender: data["author"]["uid"] == _uid,
-                      color: teal,
-                      textStyle: const TextStyle(fontSize: 16, color: white, fontWeight: FontWeight.w400),
-                    );
-                  } else if (data["type"] == "image") {
-                    return BubbleNormalImage(
-                      id: data["id"],
-                      isSender: data["author"]["uid"] == _uid,
-                      image: CachedNetworkImage(imageUrl: data["uri"]),
-                      color: teal,
-                      tail: true,
-                      delivered: true,
-                    );
-                  } else if (data["type"] == "audio") {
-                    return VoiceMessageView(
-                      backgroundColor: transparent,
-                      activeSliderColor: white,
-                      circlesColor: teal,
-                      notActiveSliderColor: transparent,
-                      size: 29,
-                      controller: VoiceController(
-                        audioSrc: data["uri"],
-                        maxDuration: const Duration(seconds: 120),
-                        isFile: false,
-                        onComplete: () {},
-                        onPause: () {},
-                        onPlaying: () {},
-                      ),
-                      innerPadding: 4,
-                    );
-                  } else {
-                    return const Text("data");
-                  }
+                  return GestureDetector(
+                    onLongPress: () async {
+                      await showModalBottomSheet<void>(
+                        context: context,
+                        builder: (BuildContext context) => SafeArea(
+                          child: SizedBox(
+                            height: 145,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                for (final Map<String, dynamic> item in _deletions)
+                                  InkWell(
+                                    hoverColor: transparent,
+                                    splashColor: transparent,
+                                    highlightColor: transparent,
+                                    onTap: () {
+                                      item["title"] == "REMOVE" ? item["callback"](context, doc) : item["callback"]();
+                                    },
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Icon(item["icon"], size: 15, color: teal),
+                                        const SizedBox(height: 10),
+                                        Text(item["title"], style: const TextStyle(color: teal, fontSize: 16, fontWeight: FontWeight.w400)),
+                                      ],
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    child: (data["type"] == "text")
+                        ? BubbleSpecialOne(
+                            text: data["text"],
+                            isSender: data["author"]["uid"] == _uid,
+                            color: teal,
+                            textStyle: const TextStyle(fontSize: 16, color: white, fontWeight: FontWeight.w400),
+                          )
+                        : (data["type"] == "image")
+                            ? BubbleNormalImage(
+                                id: data["id"],
+                                isSender: data["author"]["uid"] == _uid,
+                                image: CachedNetworkImage(imageUrl: data["uri"]),
+                                color: teal,
+                                tail: true,
+                                delivered: true,
+                              )
+                            : (data["type"] == "audio")
+                                ? VoiceMessageView(
+                                    backgroundColor: transparent,
+                                    activeSliderColor: white,
+                                    circlesColor: teal,
+                                    notActiveSliderColor: transparent,
+                                    size: 29,
+                                    controller: VoiceController(
+                                      audioSrc: data["uri"],
+                                      maxDuration: const Duration(seconds: 120),
+                                      isFile: false,
+                                      onComplete: () {},
+                                      onPause: () {},
+                                      onPlaying: () {},
+                                    ),
+                                    innerPadding: 4,
+                                  )
+                                : const Text("data"),
+                  );
                 },
               ),
             ),
@@ -228,7 +334,7 @@ class _ChatRoomState extends State<ChatRoom> {
               child: Row(
                 children: <Widget>[
                   IconButton(
-                    onPressed: () {},
+                    onPressed: _handleAttachmentPressed,
                     icon: const Icon(FontAwesome.folder_plus, size: 15, color: teal),
                   ),
                   Flexible(
