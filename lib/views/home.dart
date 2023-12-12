@@ -141,9 +141,14 @@ class _HomeState extends State<Home> {
             ),
             GestureDetector(
               onTap: () async {
-                await userLocalSettings!.clear();
+                await userLocalSettings!.putAll(
+                  <String, dynamic>{
+                    "uid": "",
+                    "phone": <String, String>{"number": "", "country_code": ""},
+                  },
+                );
                 // ignore: use_build_context_synchronously
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const SignIn()));
+                await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const SignIn()));
               },
               child: Container(
                 decoration: BoxDecoration(color: teal.withOpacity(.5), borderRadius: BorderRadius.circular(15), boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))]),

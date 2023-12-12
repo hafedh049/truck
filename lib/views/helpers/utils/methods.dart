@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -39,9 +40,7 @@ Future<bool> load() async {
   }
 }
 
-void showSnack(String message) {
-  Fluttertoast.showToast(msg: message, backgroundColor: teal.withOpacity(.3), fontSize: 14, gravity: ToastGravity.TOP_RIGHT, textColor: white, toastLength: Toast.LENGTH_LONG);
-}
+void showSnack(String message) => Fluttertoast.showToast(msg: message, backgroundColor: gray, fontSize: 14, gravity: ToastGravity.TOP_RIGHT, textColor: Colors.black, toastLength: Toast.LENGTH_LONG);
 
 Duration timeStringToDuration(String timeStr) {
   try {

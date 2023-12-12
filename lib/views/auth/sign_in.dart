@@ -15,13 +15,13 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  PhoneNumber _number = PhoneNumber(dialCode: "+216", phoneNumber: "23566502");
+  late PhoneNumber _number = PhoneNumber();
   bool _signInState = false;
   bool _phoneIsValide = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Column(
@@ -47,6 +47,7 @@ class _SignInState extends State<SignIn> {
                   ),
                   const SizedBox(height: 30),
                   InternationalPhoneNumberInput(
+                    autoFocusSearch: true,
                     onInputChanged: (PhoneNumber number) => _number = number,
                     onInputValidated: (bool value) => _phoneIsValide = value,
                     selectorConfig: const SelectorConfig(selectorType: PhoneInputSelectorType.BOTTOM_SHEET, useBottomSheetSafeArea: true, setSelectorButtonAsPrefixIcon: true, leadingPadding: 8, trailingSpace: false),
@@ -55,6 +56,13 @@ class _SignInState extends State<SignIn> {
                     initialValue: _number,
                     formatInput: true,
                     selectorTextStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
+                    searchBoxDecoration: InputDecoration(
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
+                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
+                      hintText: "Search by COUNTRY or CODE",
+                      contentPadding: const EdgeInsets.all(24),
+                      hintStyle: TextStyle(color: white.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
+                    ),
                     inputDecoration: InputDecoration(
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .6, color: gray.withOpacity(.1))),
                       focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(width: .8, color: white.withOpacity(.6))),
@@ -87,9 +95,11 @@ class _SignInState extends State<SignIn> {
                                     "phone": <String, String>{"number": _number.phoneNumber!, "country_code": _number.dialCode!},
                                   },
                                 );
+                                _(() => _signInState = false);
                                 // ignore: use_build_context_synchronously
                                 await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home()));
                               } else {
+                                _(() => _signInState = false);
                                 showSnack("USER DOES NOT EXIST");
                               }
                             } else {
