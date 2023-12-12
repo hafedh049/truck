@@ -1,6 +1,6 @@
-//COLORS
 import 'package:flutter/material.dart';
 
+//COLORS
 const Color transparent = Colors.transparent;
 const Color white = Color.fromARGB(207, 255, 255, 255);
 const Color gray = Color.fromARGB(255, 51, 56, 66);

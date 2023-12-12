@@ -92,7 +92,10 @@ class _ChatRoomState extends State<ChatRoom> {
                       hoverColor: transparent,
                       splashColor: transparent,
                       highlightColor: transparent,
-                      onTap: item["callback"],
+                      onTap: () {
+                        item["callback"]();
+                        Navigator.pop(context);
+                      },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -175,7 +178,7 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   void _handleImageSelection() async {
-    final XFile? result = await ImagePicker().pickImage(imageQuality: 70, maxWidth: 1440, source: ImageSource.gallery);
+    final XFile? result = await ImagePicker().pickImage(imageQuality: 70, source: ImageSource.gallery);
 
     if (result != null) {
       final Uint8List bytes = await result.readAsBytes();
@@ -192,6 +195,7 @@ class _ChatRoomState extends State<ChatRoom> {
             mimeType: lookupMimeType(result.path)!,
           );
           await FirebaseFirestore.instance.collection("chats").doc(_uid).collection("messages").add(message.toJson());
+          showSnack("Image Uploaded", 1);
         },
       );
     }
@@ -291,7 +295,7 @@ class _ChatRoomState extends State<ChatRoom> {
                             ? BubbleNormalImage(
                                 id: data["id"],
                                 isSender: data["author"]["uid"] == _uid,
-                                image: CachedNetworkImage(imageUrl: data["uri"]),
+                                image: CachedNetworkImage(imageUrl: data["uri"], width: 200, height: 150),
                                 color: teal,
                                 tail: true,
                                 delivered: true,
@@ -305,7 +309,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                     size: 29,
                                     controller: VoiceController(
                                       audioSrc: data["uri"],
-                                      maxDuration: const Duration(seconds: 120),
+                                      maxDuration: Duration(milliseconds: data["duration"]),
                                       isFile: false,
                                       onComplete: () {},
                                       onPause: () {},

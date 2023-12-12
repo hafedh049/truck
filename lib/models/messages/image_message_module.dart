@@ -15,8 +15,9 @@ final class ImageMessageModel {
   final String mimeType;
   final num size;
   final String uri;
+  final String type = "image";
 
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{'mimeType': mimeType, 'author': author, 'name': name, 'size': size, 'uri': uri, 'id': id};
+    return <String, dynamic>{'mimeType': mimeType, 'author': author, 'name': name, 'size': size, 'uri': uri, 'type': type, 'id': id};
   }
 }

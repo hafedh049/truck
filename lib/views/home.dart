@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:truck/models/messages/text_message_model.dart';
 import 'package:truck/views/auth/sign_in.dart';
 import 'package:truck/views/chat_room.dart';
 import 'package:truck/views/helpers/utils/globals.dart';
@@ -112,50 +113,31 @@ class _HomeState extends State<Home> {
             }),
             GestureDetector(
               onTap: () async {
-                await FirebaseFirestore.instance.collection("chats").doc(FirebaseAuth.instance.currentUser!.uid).collection("messages").add(types.TextMessage(author: types.User(id: FirebaseAuth.instance.currentUser!.uid), createdAt: DateTime.now().millisecondsSinceEpoch, id: List<int>.generate(20, (int index) => Random().nextInt(10)).join(), text: "UNDERSTOOD").toJson());
+                await FirebaseFirestore.instance.collection("chats").doc(FirebaseAuth.instance.currentUser!.uid).collection("messages").add(
+                      TextMessageModel(
+                        author: <String, dynamic>{"uid": FirebaseAuth.instance.currentUser!.uid, "name": "Truck", "imageUrl": ""},
+                        createdAt: DateTime.now().millisecondsSinceEpoch,
+                        id: List<int>.generate(20, (int index) => Random().nextInt(10)).join(),
+                        text: "UNDERSTOOD",
+                      ).toJson(),
+                    );
                 // ignore: use_build_context_synchronously
                 showSnack("Sent", 1);
               },
               child: Container(
-                decoration: BoxDecoration(
-                  color: teal.withOpacity(.5),
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))],
-                ),
+                decoration: BoxDecoration(color: teal.withOpacity(.5), borderRadius: BorderRadius.circular(15), boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))]),
                 padding: const EdgeInsets.all(24),
                 margin: const EdgeInsets.all(24),
-                child: const Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Icon(Bootstrap.check2_circle),
-                      SizedBox(width: 10),
-                      Text("Message Understood", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                ),
+                child: const Center(child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[Icon(Bootstrap.check2_circle), SizedBox(width: 10), Text("Message Understood", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))])),
               ),
             ),
             GestureDetector(
               onTap: () async => await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const ChatRoom())),
               child: Container(
-                decoration: BoxDecoration(
-                  color: teal.withOpacity(.5),
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))],
-                ),
+                decoration: BoxDecoration(color: teal.withOpacity(.5), borderRadius: BorderRadius.circular(15), boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))]),
                 padding: const EdgeInsets.all(24),
                 margin: const EdgeInsets.all(24),
-                child: const Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Icon(FontAwesome.circle_exclamation),
-                      SizedBox(width: 10),
-                      Text("I Have A Problem", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                ),
+                child: const Center(child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[Icon(FontAwesome.circle_exclamation), SizedBox(width: 10), Text("I Have A Problem", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))])),
               ),
             ),
             GestureDetector(
@@ -165,23 +147,10 @@ class _HomeState extends State<Home> {
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const SignIn()));
               },
               child: Container(
-                decoration: BoxDecoration(
-                  color: teal.withOpacity(.5),
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))],
-                ),
+                decoration: BoxDecoration(color: teal.withOpacity(.5), borderRadius: BorderRadius.circular(15), boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))]),
                 padding: const EdgeInsets.all(24),
                 margin: const EdgeInsets.all(24),
-                child: const Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Icon(Icons.logout),
-                      SizedBox(width: 10),
-                      Text("Sign Out", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                ),
+                child: const Center(child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[Icon(Icons.logout), SizedBox(width: 10), Text("Sign Out", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))])),
               ),
             ),
           ],
