@@ -8,8 +8,8 @@ import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:truck/views/home.dart';
-import 'package:truck/utils/globals.dart';
-import 'package:truck/utils/methods.dart';
+import 'package:truck/views/helpers/utils/globals.dart';
+import 'package:truck/views/helpers/utils/methods.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});

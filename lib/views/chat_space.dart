@@ -1,4 +1,4 @@
-import 'dart:async';
+/*import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
@@ -20,8 +20,8 @@ import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:social_media_recorder/audio_encoder_type.dart';
 import 'package:social_media_recorder/screen/social_media_recorder.dart';
-import 'package:truck/utils/globals.dart';
-import 'package:truck/utils/methods.dart';
+import 'package:truck/views/helpers/utils/globals.dart';
+import 'package:truck/views/helpers/utils/methods.dart';
 import 'package:truck/views/helpers/wait.dart';
 import 'package:truck/views/helpers/wrong.dart';
 import 'package:voice_message_package/voice_message_package.dart';
@@ -264,3 +264,4 @@ class _ChatPageState extends State<ChatSpace> with WidgetsBindingObserver {
         ),
       );
 }
+*/

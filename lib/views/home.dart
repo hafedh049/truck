@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:truck/views/auth/sign_in.dart';
-import 'package:truck/views/chat_space.dart';
-import 'package:truck/utils/globals.dart';
-import 'package:truck/utils/methods.dart';
+import 'package:truck/views/chat_room.dart';
+import 'package:truck/views/helpers/utils/globals.dart';
+import 'package:truck/views/helpers/utils/methods.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:voice_message_package/voice_message_package.dart';
@@ -137,7 +137,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             GestureDetector(
-              onTap: () async => await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const ChatSpace())),
+              onTap: () async => await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const ChatRoom())),
               child: Container(
                 decoration: BoxDecoration(
                   color: teal.withOpacity(.5),
