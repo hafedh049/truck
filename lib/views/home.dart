@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -43,7 +42,7 @@ class _HomeState extends State<Home> {
               builder: (BuildContext context, void Function(void Function()) setS) {
                 return GestureDetector(
                   onTap: () async {
-                    final QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance.collection("chats").doc(FirebaseAuth.instance.currentUser!.uid).collection("messages").orderBy("createdAt", descending: true).limit(1).get();
+                    final QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance.collection("chats").doc(userLocalSettings!.get("uid")).collection("messages").orderBy("createdAt", descending: true).limit(1).get();
                     if (snapshot.docs.isNotEmpty) {
                       final List<QueryDocumentSnapshot<Map<String, dynamic>>> messages = snapshot.docs;
                       if (messages.isNotEmpty) {
@@ -113,9 +112,9 @@ class _HomeState extends State<Home> {
             ),
             GestureDetector(
               onTap: () async {
-                await FirebaseFirestore.instance.collection("chats").doc(FirebaseAuth.instance.currentUser!.uid).collection("messages").add(
+                await FirebaseFirestore.instance.collection("chats").doc(userLocalSettings!.get("uid")).collection("messages").add(
                       TextMessageModel(
-                        author: <String, dynamic>{"uid": FirebaseAuth.instance.currentUser!.uid, "name": "Truck", "imageUrl": ""},
+                        author: <String, dynamic>{"uid": userLocalSettings!.get("uid"), "name": "Truck", "imageUrl": ""},
                         createdAt: DateTime.now().millisecondsSinceEpoch,
                         id: List<int>.generate(20, (int index) => Random().nextInt(10)).join(),
                         text: "UNDERSTOOD",
@@ -142,7 +141,7 @@ class _HomeState extends State<Home> {
             ),
             GestureDetector(
               onTap: () async {
-                await FirebaseAuth.instance.signOut();
+                await userLocalSettings!.clear();
                 // ignore: use_build_context_synchronously
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const SignIn()));
               },

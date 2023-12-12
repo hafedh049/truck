@@ -7,7 +7,6 @@ import 'package:chat_bubbles/bubbles/bubble_normal_image.dart';
 import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +38,7 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
-  final String _uid = FirebaseAuth.instance.currentUser!.uid;
+  final String _uid = userLocalSettings!.get("uid");
   final TextEditingController _inputController = TextEditingController();
   final GlobalKey<State> _sendButtonKey = GlobalKey<State>();
 
@@ -315,7 +314,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                     pageSize: 20,
                     padding: const EdgeInsets.all(16),
                     loadingBuilder: (BuildContext context) => const Wait(),
-                    query: FirebaseFirestore.instance.collection("chats").doc(FirebaseAuth.instance.currentUser!.uid).collection("messages").orderBy("createdAt", descending: true),
+                    query: FirebaseFirestore.instance.collection("chats").doc(userLocalSettings!.get("uid")).collection("messages").orderBy("createdAt", descending: true),
                     emptyBuilder: (BuildContext context) => Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

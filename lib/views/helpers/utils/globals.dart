@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 //COLORS
 const Color transparent = Colors.transparent;
@@ -8,4 +9,4 @@ const Color yellow = Colors.yellow;
 const Color blue = Colors.blueAccent;
 const Color teal = Colors.teal;
 
-String documentsPath = "";
+Box? userLocalSettings;
