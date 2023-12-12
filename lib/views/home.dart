@@ -10,8 +10,6 @@ import 'package:truck/views/auth/sign_in.dart';
 import 'package:truck/views/chat_room.dart';
 import 'package:truck/views/helpers/utils/globals.dart';
 import 'package:truck/views/helpers/utils/methods.dart';
-// ignore: depend_on_referenced_packages
-import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:voice_message_package/voice_message_package.dart';
 
 class Home extends StatefulWidget {
@@ -41,76 +39,78 @@ class _HomeState extends State<Home> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            StatefulBuilder(builder: (BuildContext context, void Function(void Function()) setS) {
-              return GestureDetector(
-                onTap: () async {
-                  final QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance.collection("chats").doc(FirebaseAuth.instance.currentUser!.uid).collection("messages").orderBy("createdAt", descending: true).limit(1).get();
-                  if (snapshot.docs.isNotEmpty) {
-                    final List<QueryDocumentSnapshot<Map<String, dynamic>>> messages = snapshot.docs;
-                    if (messages.isNotEmpty) {
-                      if (messages.first.get("type") == "text") {
-                        await _tts.speak(messages.first.get("text"));
-                      } else if (messages.first.get("type") == "audio") {
-                        setS(
-                          () {
-                            _isAudio = true;
-                            _audioUrl = messages.first.get("uri");
-                          },
-                        );
+            StatefulBuilder(
+              builder: (BuildContext context, void Function(void Function()) setS) {
+                return GestureDetector(
+                  onTap: () async {
+                    final QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance.collection("chats").doc(FirebaseAuth.instance.currentUser!.uid).collection("messages").orderBy("createdAt", descending: true).limit(1).get();
+                    if (snapshot.docs.isNotEmpty) {
+                      final List<QueryDocumentSnapshot<Map<String, dynamic>>> messages = snapshot.docs;
+                      if (messages.isNotEmpty) {
+                        if (messages.first.get("type") == "text") {
+                          await _tts.speak(messages.first.get("text"));
+                        } else if (messages.first.get("type") == "audio") {
+                          setS(
+                            () {
+                              _isAudio = true;
+                              _audioUrl = messages.first.get("uri");
+                            },
+                          );
+                        } else {
+                          await _tts.speak("LAST MESSAGE IS NOT A TEXT OR AN AUDIO");
+                        }
                       } else {
-                        await _tts.speak("LAST MESSAGE IS NOT A TEXT OR AN AUDIO");
+                        // ignore: use_build_context_synchronously
+                        showSnack("No messages yet.", 1);
                       }
-                    } else {
-                      // ignore: use_build_context_synchronously
-                      showSnack("No messages yet.", 1);
                     }
-                  }
-                },
-                child: _isAudio
-                    ? VoiceMessageView(
-                        backgroundColor: transparent,
-                        activeSliderColor: white,
-                        circlesColor: teal,
-                        notActiveSliderColor: transparent,
-                        size: 29,
-                        controller: VoiceController(
-                          audioSrc: _audioUrl,
-                          maxDuration: const Duration(milliseconds: 120),
-                          isFile: false,
-                          onComplete: () {
-                            setS(
-                              () {
-                                _isAudio = false;
-                                _audioUrl = "";
-                              },
-                            );
-                          },
-                          onPause: () {},
-                          onPlaying: () {},
-                        ),
-                        innerPadding: 4,
-                      )
-                    : Container(
-                        decoration: BoxDecoration(
-                          color: teal.withOpacity(.5),
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))],
-                        ),
-                        padding: const EdgeInsets.all(24),
-                        margin: const EdgeInsets.all(24),
-                        child: const Center(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Icon(Bootstrap.arrow_repeat),
-                              SizedBox(width: 10),
-                              Text("Repeat Last Message", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                            ],
+                  },
+                  child: _isAudio
+                      ? VoiceMessageView(
+                          backgroundColor: transparent,
+                          activeSliderColor: white,
+                          circlesColor: teal,
+                          notActiveSliderColor: transparent,
+                          size: 29,
+                          controller: VoiceController(
+                            audioSrc: _audioUrl,
+                            maxDuration: const Duration(milliseconds: 120),
+                            isFile: false,
+                            onComplete: () {
+                              setS(
+                                () {
+                                  _isAudio = false;
+                                  _audioUrl = "";
+                                },
+                              );
+                            },
+                            onPause: () {},
+                            onPlaying: () {},
+                          ),
+                          innerPadding: 4,
+                        )
+                      : Container(
+                          decoration: BoxDecoration(
+                            color: teal.withOpacity(.5),
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))],
+                          ),
+                          padding: const EdgeInsets.all(24),
+                          margin: const EdgeInsets.all(24),
+                          child: const Center(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Icon(Bootstrap.arrow_repeat),
+                                SizedBox(width: 10),
+                                Text("Repeat Last Message", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-              );
-            }),
+                );
+              },
+            ),
             GestureDetector(
               onTap: () async {
                 await FirebaseFirestore.instance.collection("chats").doc(FirebaseAuth.instance.currentUser!.uid).collection("messages").add(

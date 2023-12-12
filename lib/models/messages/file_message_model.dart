@@ -26,6 +26,6 @@ final class FileMessageModel {
   final String type;
 
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{'mimeType': mimeType, 'name': name, 'size': size, 'uri': uri, 'id': id, 'type': type};
+    return <String, dynamic>{'mimeType': mimeType, 'name': name, 'size': size, 'uri': uri, 'id': id, 'type': type, 'createdAt': createdAt};
   }
 }

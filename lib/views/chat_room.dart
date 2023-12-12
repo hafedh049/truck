@@ -61,7 +61,11 @@ class _ChatRoomState extends State<ChatRoom> {
       <String, dynamic>{
         "icon": Icons.delete_forever,
         "title": "REMOVE",
-        "callback": (BuildContext context, QueryDocumentSnapshot<Map<String, dynamic>> doc) async {
+        "callback": (BuildContext context, QueryDocumentSnapshot<Map<String, dynamic>> doc, Map<String, dynamic> data) async {
+          if (data["type"] == "audio" || data["type"] == "image" || data["type"] == "file") {
+            await FirebaseStorage.instance.refFromURL(data["uri"]).delete();
+          }
+
           await doc.reference.delete();
           // ignore: use_build_context_synchronously
           showSnack("Message Deleted", 1);
@@ -127,7 +131,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 sendRequestFunction: (File soundFile, String time) async {
                   try {
                     final String id = List<int>.generate(20, (int index) => Random().nextInt(10)).join();
-                    await FirebaseStorage.instance.ref().child("/voices/$id").putFile(soundFile).then(
+                    await FirebaseStorage.instance.ref().child("/audios/$id").putFile(soundFile).then(
                       (TaskSnapshot snap) async {
                         final AudioMessageModel message = AudioMessageModel(
                           author: <String, dynamic>{"uid": _uid, "name": "Truck", "imageUrl": ""},
@@ -137,6 +141,7 @@ class _ChatRoomState extends State<ChatRoom> {
                           size: await soundFile.length(),
                           uri: await snap.ref.getDownloadURL(),
                           duration: timeStringToDuration(time),
+                          mimeType: lookupMimeType(soundFile.path)!,
                         );
                         await FirebaseFirestore.instance.collection("chats").doc(_uid).collection("messages").add(message.toJson());
                       },
@@ -229,6 +234,7 @@ class _ChatRoomState extends State<ChatRoom> {
       text: _inputController.text.trim(),
     );
     _inputController.clear();
+    _sendButtonKey.currentState!.setState(() {});
     await FirebaseFirestore.instance.collection("chats").doc(_uid).collection("messages").add(textMessage.toJson());
   }
 
@@ -246,7 +252,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 padding: const EdgeInsets.all(16),
                 loadingBuilder: (BuildContext context) => const Wait(),
                 query: FirebaseFirestore.instance.collection("chats").doc(FirebaseAuth.instance.currentUser!.uid).collection("messages").orderBy("createdAt", descending: true),
-                emptyBuilder: (BuildContext context) => const Text("EMPTY"),
+                emptyBuilder: (BuildContext context) => const Center(child: Text("NO CHAT YET", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: teal, decoration: TextDecoration.lineThrough))),
                 errorBuilder: (BuildContext context, Object error, StackTrace stackTrace) => Wrong(errorMessage: error.toString()),
                 itemBuilder: (BuildContext context, QueryDocumentSnapshot<Map<String, dynamic>> doc) {
                   final Map<String, dynamic> data = doc.data();
@@ -295,7 +301,7 @@ class _ChatRoomState extends State<ChatRoom> {
                             ? BubbleNormalImage(
                                 id: data["id"],
                                 isSender: data["author"]["uid"] == _uid,
-                                image: CachedNetworkImage(imageUrl: data["uri"], width: 200, height: 150),
+                                image: CachedNetworkImage(imageUrl: data["uri"], width: 200, height: 350, fit: BoxFit.cover),
                                 color: teal,
                                 tail: true,
                                 delivered: true,
@@ -317,7 +323,21 @@ class _ChatRoomState extends State<ChatRoom> {
                                     ),
                                     innerPadding: 4,
                                   )
-                                : const Text("data"),
+                                : Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: const BoxDecoration(
+                                      color: teal,
+                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5), topRight: Radius.circular(5)),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        const Icon(FontAwesome.file, size: 15, color: white),
+                                        const SizedBox(width: 10),
+                                        Text(data["name"]),
+                                      ],
+                                    ),
+                                  ),
                   );
                 },
               ),
