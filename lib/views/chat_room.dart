@@ -15,6 +15,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:http/http.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mime/mime.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
@@ -252,7 +253,15 @@ class _ChatRoomState extends State<ChatRoom> {
                 padding: const EdgeInsets.all(16),
                 loadingBuilder: (BuildContext context) => const Wait(),
                 query: FirebaseFirestore.instance.collection("chats").doc(FirebaseAuth.instance.currentUser!.uid).collection("messages").orderBy("createdAt", descending: true),
-                emptyBuilder: (BuildContext context) => const Center(child: Text("NO CHAT YET", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: teal, decoration: TextDecoration.lineThrough))),
+                emptyBuilder: (BuildContext context) => Center(
+                  child: Column(
+                    children: <Widget>[
+                      LottieBuilder.asset("assets/lotties/empty.json", width: 200, height: 200),
+                      const SizedBox(height: 10),
+                      const Text("NO CHAT YET", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: teal)),
+                    ],
+                  ),
+                ),
                 errorBuilder: (BuildContext context, Object error, StackTrace stackTrace) => Wrong(errorMessage: error.toString()),
                 itemBuilder: (BuildContext context, QueryDocumentSnapshot<Map<String, dynamic>> doc) {
                   final Map<String, dynamic> data = doc.data();
@@ -272,7 +281,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                     splashColor: transparent,
                                     highlightColor: transparent,
                                     onTap: () {
-                                      item["title"] == "REMOVE" ? item["callback"](context, doc) : item["callback"]();
+                                      item["title"] == "REMOVE" ? item["callback"](context, doc, data) : item["callback"]();
                                     },
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
@@ -323,19 +332,28 @@ class _ChatRoomState extends State<ChatRoom> {
                                     ),
                                     innerPadding: 4,
                                   )
-                                : Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: const BoxDecoration(
-                                      color: teal,
-                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5), topRight: Radius.circular(5)),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        const Icon(FontAwesome.file, size: 15, color: white),
-                                        const SizedBox(width: 10),
-                                        Text(data["name"]),
-                                      ],
+                                : Align(
+                                    alignment: data["author"]["uid"] == _uid ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
+                                    child: Container(
+                                      width: MediaQuery.sizeOf(context).width * .7,
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                        color: teal,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: const Radius.circular(15),
+                                          bottomRight: Radius.circular(data["author"]["uid"] == _uid ? 0 : 15),
+                                          bottomLeft: Radius.circular(data["author"]["uid"] == _uid ? 15 : 0),
+                                          topRight: const Radius.circular(15),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          const Icon(FontAwesome.file, size: 15, color: white),
+                                          const SizedBox(width: 10),
+                                          Text(data["name"]),
+                                        ],
+                                      ),
                                     ),
                                   ),
                   );

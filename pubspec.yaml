@@ -26,7 +26,6 @@ dependencies:
   intl_phone_number_input: ^0.7.4
   open_filex: ^4.3.4
   file_picker: ^6.1.1
-  flutter_chat_ui: ^1.6.10
   mime: ^1.0.4
   image_picker: ^1.0.4
   social_media_recorder: ^1.1.12
