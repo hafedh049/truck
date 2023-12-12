@@ -172,7 +172,6 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                     final String id = List<int>.generate(20, (int index) => Random().nextInt(10)).join();
                     await FirebaseStorage.instance.ref().child("/audios/$id").putFile(soundFile).then(
                       (TaskSnapshot snap) async {
-                        showSnack("PLEASE WAIT");
                         final AudioMessageModel message = AudioMessageModel(
                           author: <String, dynamic>{"uid": _uid, "name": "Truck", "imageUrl": ""},
                           createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -220,7 +219,6 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
             size: result.files.single.size,
             uri: await snap.ref.getDownloadURL(),
           );
-          showSnack("PLEASE WAIT");
           await FirebaseFirestore.instance.collection("chats").doc(_uid).collection("messages").add(message.toJson());
         },
       );
@@ -232,7 +230,6 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
     _counter = 0;
     final XFile? result = await ImagePicker().pickImage(imageQuality: 70, source: ImageSource.gallery);
     if (result != null) {
-      showSnack("PLEASE WAIT");
       final Uint8List bytes = await result.readAsBytes();
       final String id = List<int>.generate(20, (int index) => Random().nextInt(10)).join();
       await FirebaseStorage.instance.ref().child("/images/$id").putFile(File(result.path)).then(
@@ -261,7 +258,6 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
     if (message['type'] == "file") {
       String localPath = message['uri'];
       if (message['uri'].startsWith('http')) {
-        showSnack("PLEASE WAIT");
         final Client client = Client();
         final Response request = await client.get(Uri.parse(message['uri']));
         final Uint8List bytes = request.bodyBytes;
@@ -288,7 +284,6 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
 
   void _handleSendPressed() async {
     _counter = 0;
-    showSnack("PLEASE WAIT");
     final textMessage = TextMessageModel(
       author: <String, dynamic>{"uid": _uid, "name": "Truck", "imageUrl": ""},
       createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -312,17 +307,6 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
       child: Scaffold(
         body: Stack(
           children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(left: 16, top: 36),
-              child: IconButton(
-                onPressed: () {
-                  if (_counter < 60) {
-                    Navigator.pop(context);
-                  }
-                },
-                icon: const Icon(FontAwesome.chevron_left, size: 15, color: teal),
-              ),
-            ),
             Column(
               children: <Widget>[
                 Expanded(
@@ -501,6 +485,17 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                   ),
                 ),
               ],
+            ),
+            Positioned(
+              top: 36,
+              child: IconButton(
+                onPressed: () {
+                  if (_counter < 60) {
+                    Navigator.pop(context);
+                  }
+                },
+                icon: const Icon(FontAwesome.chevron_left, size: 20, color: teal),
+              ),
             ),
           ],
         ),
