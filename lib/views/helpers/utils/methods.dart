@@ -20,7 +20,7 @@ Future<bool> load() async {
   }
 }
 
-void showSnack(String message, int type) {
+void showSnack(String message) {
   Fluttertoast.showToast(msg: message, backgroundColor: teal.withOpacity(.3), fontSize: 14, gravity: ToastGravity.TOP_RIGHT, textColor: white, toastLength: Toast.LENGTH_LONG);
 }
 

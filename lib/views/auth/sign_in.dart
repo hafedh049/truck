@@ -92,7 +92,6 @@ class _SignInState extends State<SignIn> {
                                   width: MediaQuery.of(context).size.width,
                                   onCompleted: (String value) async {
                                     try {
-                                      print("starting");
                                       final PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: _verificationID, smsCode: value);
                                       await FirebaseAuth.instance.signInWithCredential(credential);
                                       await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get().then(
@@ -106,7 +105,7 @@ class _SignInState extends State<SignIn> {
                                       // ignore: use_build_context_synchronously
                                       await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home()));
                                       // ignore: use_build_context_synchronously
-                                      showSnack("User Authenitificated", 1);
+                                      showSnack("User Authenitificated");
                                     } catch (e) {
                                       setS(() => _signInState = false);
                                       _otpKey.currentState!.setState(
@@ -116,7 +115,7 @@ class _SignInState extends State<SignIn> {
                                         },
                                       );
                                       // ignore: use_build_context_synchronously
-                                      showSnack(e.toString(), 3);
+                                      showSnack(e.toString());
                                     }
                                   },
                                 ),
@@ -142,7 +141,7 @@ class _SignInState extends State<SignIn> {
                                 verificationFailed: (FirebaseAuthException error) {
                                   _(() => _signInState = false);
                                   // ignore: use_build_context_synchronously
-                                  showSnack(error.toString(), 3);
+                                  showSnack(error.toString());
                                 },
                                 codeSent: (String verificationId, int? forceResendingToken) async {
                                   _otpKey.currentState!.setState(
@@ -159,12 +158,12 @@ class _SignInState extends State<SignIn> {
                             } else {
                               _(() => _signInState = false);
                               // ignore: use_build_context_synchronously
-                              showSnack("CHECK THE PHONE NUMBER", 2);
+                              showSnack("CHECK THE PHONE NUMBER");
                             }
                           } catch (e) {
                             _(() => _signInState = false);
                             // ignore: use_build_context_synchronously
-                            showSnack(e.toString(), 3);
+                            showSnack(e.toString());
                           }
                         },
                         child: AnimatedContainer(

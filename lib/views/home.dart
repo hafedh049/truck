@@ -61,7 +61,7 @@ class _HomeState extends State<Home> {
                         }
                       } else {
                         // ignore: use_build_context_synchronously
-                        showSnack("No messages yet.", 1);
+                        showSnack("No messages yet.");
                       }
                     }
                   },
@@ -122,7 +122,7 @@ class _HomeState extends State<Home> {
                       ).toJson(),
                     );
                 // ignore: use_build_context_synchronously
-                showSnack("Sent", 1);
+                showSnack("Sent");
               },
               child: Container(
                 decoration: BoxDecoration(color: teal.withOpacity(.5), borderRadius: BorderRadius.circular(15), boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))]),
