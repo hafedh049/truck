@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -113,12 +111,7 @@ class _HomeState extends State<Home> {
             GestureDetector(
               onTap: () async {
                 await FirebaseFirestore.instance.collection("chats").doc(userLocalSettings!.get("phone")).collection("messages").add(
-                      TextMessageModel(
-                        uid: userLocalSettings!.get("phone"),
-                        createdAt: DateTime.now().millisecondsSinceEpoch,
-                        id: List<int>.generate(20, (int index) => Random().nextInt(10)).join(),
-                        text: "UNDERSTOOD",
-                      ).toJson(),
+                      TextMessageModel(uid: userLocalSettings!.get("phone"), createdAt: DateTime.now().millisecondsSinceEpoch, content: "UNDERSTOOD").toJson(),
                     );
                 // ignore: use_build_context_synchronously
                 showSnack("Sent");

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 @immutable
 final class FileMessageModel {
-  const FileMessageModel({required this.id, required this.uid, required this.mimeType, required this.name, required this.size, required this.uri, required this.createdAt}) : type = 'file';
+  const FileMessageModel({required this.uid, required this.mimeType, required this.name, required this.size, required this.content, required this.createdAt});
 
   factory FileMessageModel.fromJson(Map<String, dynamic> json) {
-    return FileMessageModel(mimeType: json['mimeType'], name: json['name'], size: json['size'], uri: json['uri'], uid: json['uid'], createdAt: json['createdAt'], id: json['id']);
+    return FileMessageModel(mimeType: json['mimeType'], name: json['name'], size: json['size'], content: json['content'], uid: json['uid'], createdAt: json['createdAt']);
   }
 
   final num createdAt;
@@ -13,11 +13,8 @@ final class FileMessageModel {
   final String uid;
   final String name;
   final num size;
-  final String uri;
-  final String id;
-  final String type;
+  final String content;
+  final String type = "file";
 
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{'uid': uid, 'mimeType': mimeType, 'name': name, 'size': size, 'uri': uri, 'id': id, 'type': type, 'createdAt': createdAt};
-  }
+  Map<String, dynamic> toJson() => <String, dynamic>{'uid': uid, 'mimeType': mimeType, 'name': name, 'size': size, 'content': content, 'type': type, 'createdAt': createdAt};
 }

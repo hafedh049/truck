@@ -97,7 +97,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
           _counter = 0;
 
           if (data["type"] == "audio" || data["type"] == "image" || data["type"] == "file") {
-            await FirebaseStorage.instance.refFromURL(data["uri"]).delete();
+            await FirebaseStorage.instance.refFromURL(data["content"]).delete();
           }
 
           await doc.reference.delete();
@@ -174,10 +174,9 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                         final AudioMessageModel message = AudioMessageModel(
                           uid: _uid,
                           createdAt: DateTime.now().millisecondsSinceEpoch,
-                          id: id,
                           name: id,
                           size: await soundFile.length(),
-                          uri: await snap.ref.getDownloadURL(),
+                          content: await snap.ref.getDownloadURL(),
                           duration: timeStringToDuration(time),
                           mimeType: lookupMimeType(soundFile.path)!,
                         );
@@ -212,11 +211,10 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
           final FileMessageModel message = FileMessageModel(
             uid: _uid,
             createdAt: DateTime.now().millisecondsSinceEpoch,
-            id: id,
             mimeType: lookupMimeType(result.files.single.path!)!,
             name: result.files.single.name,
             size: result.files.single.size,
-            uri: await snap.ref.getDownloadURL(),
+            content: await snap.ref.getDownloadURL(),
           );
           await FirebaseFirestore.instance.collection("chats").doc(_uid).collection("messages").add(message.toJson());
         },
@@ -237,10 +235,9 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
           final ImageMessageModel message = ImageMessageModel(
             uid: _uid,
             createdAt: DateTime.now().millisecondsSinceEpoch,
-            id: id,
             name: result.name,
             size: bytes.length,
-            uri: await snap.ref.getDownloadURL(),
+            content: await snap.ref.getDownloadURL(),
             mimeType: lookupMimeType(result.path)!,
           );
           await FirebaseFirestore.instance.collection("chats").doc(_uid).collection("messages").add(message.toJson());
@@ -255,10 +252,10 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
   void _handleMessageTap(Map<String, dynamic> message) async {
     _counter = 0;
     if (message['type'] == "file") {
-      String localPath = message['uri'];
-      if (message['uri'].startsWith('http')) {
+      String localPath = message['content'];
+      if (message['content'].startsWith('http')) {
         final Client client = Client();
-        final Response request = await client.get(Uri.parse(message['uri']));
+        final Response request = await client.get(Uri.parse(message['content']));
         final Uint8List bytes = request.bodyBytes;
         final String documentsDir = (await getApplicationDocumentsDirectory()).path;
         localPath = '$documentsDir/${message['name']}';
@@ -268,14 +265,14 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
           await file.writeAsBytes(bytes);
         }
       }
-      await Clipboard.setData(ClipboardData(text: message['uri']));
+      await Clipboard.setData(ClipboardData(text: message['content']));
       showSnack("File URL Copied To Clipboard");
       await OpenFilex.open(localPath);
     } else if (message['type'] == "text") {
-      await Clipboard.setData(ClipboardData(text: message['text']));
+      await Clipboard.setData(ClipboardData(text: message['content']));
       showSnack("Text Copied To Clipboard");
     } else if (message['type'] == "image") {
-      await Clipboard.setData(ClipboardData(text: message['text']));
+      await Clipboard.setData(ClipboardData(text: message['content']));
       showSnack("Image URL Copied To Clipboard");
     }
     _counter = 0;
@@ -283,7 +280,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
 
   void _handleSendPressed() async {
     _counter = 0;
-    final textMessage = TextMessageModel(uid: _uid, createdAt: DateTime.now().millisecondsSinceEpoch, id: List<int>.generate(20, (int index) => Random().nextInt(10)).join(), text: _inputController.text.trim());
+    final textMessage = TextMessageModel(uid: _uid, createdAt: DateTime.now().millisecondsSinceEpoch, content: _inputController.text.trim());
     _inputController.clear();
     _sendButtonKey.currentState!.setState(() {});
     _counter = 0;
@@ -368,16 +365,16 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                         },
                         child: (data["type"] == "text")
                             ? BubbleSpecialOne(
-                                text: data["text"],
+                                text: data["content"],
                                 isSender: data["uid"] == _uid,
                                 color: teal,
                                 textStyle: const TextStyle(fontSize: 16, color: white, fontWeight: FontWeight.w400),
                               )
                             : (data["type"] == "image")
                                 ? BubbleNormalImage(
-                                    id: data["id"],
+                                    id: data["uid"],
                                     isSender: data["uid"] == _uid,
-                                    image: CachedNetworkImage(imageUrl: data["uri"], width: 200, height: 350, fit: BoxFit.cover),
+                                    image: CachedNetworkImage(imageUrl: data["content"], width: 200, height: 350, fit: BoxFit.cover),
                                     color: teal,
                                     tail: true,
                                     delivered: true,
@@ -390,18 +387,12 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                                         notActiveSliderColor: transparent,
                                         size: 29,
                                         controller: VoiceController(
-                                          audioSrc: data["uri"],
+                                          audioSrc: data["content"],
                                           maxDuration: Duration(milliseconds: data["duration"]),
                                           isFile: false,
-                                          onComplete: () {
-                                            _counter = 0;
-                                          },
-                                          onPause: () {
-                                            _counter = 0;
-                                          },
-                                          onPlaying: () {
-                                            _counter = 0;
-                                          },
+                                          onComplete: () => _counter = 0,
+                                          onPause: () => _counter = 0,
+                                          onPlaying: () => _counter = 0,
                                         ),
                                         innerPadding: 4,
                                       )
