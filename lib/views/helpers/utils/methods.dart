@@ -26,11 +26,8 @@ Future<bool> load() async {
       ),
     );
     await loadUserLocalSettings();
-    if (userLocalSettings!.get("uid") == null) {
-      await userLocalSettings!.put("uid", "");
-    }
     if (userLocalSettings!.get("phone") == null) {
-      await userLocalSettings!.put("phone", <String, String>{"number": "", "country_code": ""});
+      await userLocalSettings!.put("phone", "");
     }
     return true;
   } catch (e) {

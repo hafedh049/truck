@@ -38,7 +38,7 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
-  final String _uid = userLocalSettings!.get("uid");
+  final String _uid = userLocalSettings!.get("phone");
   final TextEditingController _inputController = TextEditingController();
   final GlobalKey<State> _sendButtonKey = GlobalKey<State>();
 
@@ -283,12 +283,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
 
   void _handleSendPressed() async {
     _counter = 0;
-    final textMessage = TextMessageModel(
-      uid: _uid,
-      createdAt: DateTime.now().millisecondsSinceEpoch,
-      id: List<int>.generate(20, (int index) => Random().nextInt(10)).join(),
-      text: _inputController.text.trim(),
-    );
+    final textMessage = TextMessageModel(uid: _uid, createdAt: DateTime.now().millisecondsSinceEpoch, id: List<int>.generate(20, (int index) => Random().nextInt(10)).join(), text: _inputController.text.trim());
     _inputController.clear();
     _sendButtonKey.currentState!.setState(() {});
     _counter = 0;
@@ -314,7 +309,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                     pageSize: 20,
                     padding: const EdgeInsets.all(16),
                     loadingBuilder: (BuildContext context) => const Wait(),
-                    query: FirebaseFirestore.instance.collection("chats").doc(userLocalSettings!.get("uid")).collection("messages").orderBy("createdAt", descending: true),
+                    query: FirebaseFirestore.instance.collection("chats").doc(_uid).collection("messages").orderBy("createdAt", descending: true),
                     emptyBuilder: (BuildContext context) => Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

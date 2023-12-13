@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
               builder: (BuildContext context, void Function(void Function()) setS) {
                 return GestureDetector(
                   onTap: () async {
-                    final QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance.collection("chats").doc(userLocalSettings!.get("uid")).collection("messages").orderBy("createdAt", descending: true).limit(1).get();
+                    final QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance.collection("chats").doc(userLocalSettings!.get("phone")).collection("messages").orderBy("createdAt", descending: true).limit(1).get();
                     if (snapshot.docs.isNotEmpty) {
                       final List<QueryDocumentSnapshot<Map<String, dynamic>>> messages = snapshot.docs;
                       if (messages.isNotEmpty) {
@@ -112,9 +112,9 @@ class _HomeState extends State<Home> {
             ),
             GestureDetector(
               onTap: () async {
-                await FirebaseFirestore.instance.collection("chats").doc(userLocalSettings!.get("uid")).collection("messages").add(
+                await FirebaseFirestore.instance.collection("chats").doc(userLocalSettings!.get("phone")).collection("messages").add(
                       TextMessageModel(
-                        uid: userLocalSettings!.get("uid"),
+                        uid: userLocalSettings!.get("phone"),
                         createdAt: DateTime.now().millisecondsSinceEpoch,
                         id: List<int>.generate(20, (int index) => Random().nextInt(10)).join(),
                         text: "UNDERSTOOD",
@@ -131,7 +131,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             GestureDetector(
-              onTap: () async => await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const ChatRoom())),
+              onLongPress: () async => await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const ChatRoom())),
               child: Container(
                 decoration: BoxDecoration(color: teal.withOpacity(.5), borderRadius: BorderRadius.circular(15), boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))]),
                 padding: const EdgeInsets.all(24),
@@ -141,12 +141,7 @@ class _HomeState extends State<Home> {
             ),
             GestureDetector(
               onTap: () async {
-                await userLocalSettings!.putAll(
-                  <String, dynamic>{
-                    "uid": "",
-                    "phone": <String, String>{"number": "", "country_code": ""},
-                  },
-                );
+                await userLocalSettings!.putAll(<String, dynamic>{"uid": "", "phone": ""});
                 // ignore: use_build_context_synchronously
                 await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const SignIn()));
               },

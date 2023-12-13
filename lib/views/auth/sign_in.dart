@@ -89,12 +89,7 @@ class _SignInState extends State<SignIn> {
                                 showSnack("User Connected");
                                 showSnack("Welcome");
                                 final Map<String, dynamic> data = query.docs.first.data();
-                                await userLocalSettings!.putAll(
-                                  <String, dynamic>{
-                                    "uid": data["uid"],
-                                    "phone": <String, String>{"number": _number.phoneNumber!, "country_code": _number.dialCode!},
-                                  },
-                                );
+                                await userLocalSettings!.putAll(<String, dynamic>{"phone": data["phone"]});
                                 _(() => _signInState = false);
                                 // ignore: use_build_context_synchronously
                                 await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home()));
