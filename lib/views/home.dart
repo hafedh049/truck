@@ -141,7 +141,7 @@ class _HomeState extends State<Home> {
             ),
             GestureDetector(
               onTap: () async {
-                await userLocalSettings!.putAll(<String, dynamic>{"uid": "", "phone": ""});
+                await userLocalSettings!.put("phone", "");
                 // ignore: use_build_context_synchronously
                 await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const SignIn()));
               },

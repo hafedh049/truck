@@ -84,12 +84,11 @@ class _SignInState extends State<SignIn> {
                           try {
                             if (!_signInState && _phoneIsValide) {
                               _(() => _signInState = true);
-                              final QuerySnapshot<Map<String, dynamic>> query = await FirebaseFirestore.instance.collection("users").where("phone", isEqualTo: _number.phoneNumber!).limit(1).get();
-                              if (query.docs.isNotEmpty) {
+                              final DocumentSnapshot<Map<String, dynamic>> query = await FirebaseFirestore.instance.collection("users").doc(_number.phoneNumber!).get();
+                              if (query.exists) {
                                 showSnack("User Connected");
                                 showSnack("Welcome");
-                                final Map<String, dynamic> data = query.docs.first.data();
-                                await userLocalSettings!.putAll(<String, dynamic>{"phone": data["phone"]});
+                                await userLocalSettings!.put("phone", _number.phoneNumber!);
                                 _(() => _signInState = false);
                                 // ignore: use_build_context_synchronously
                                 await Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home()));

@@ -369,14 +369,14 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                         child: (data["type"] == "text")
                             ? BubbleSpecialOne(
                                 text: data["text"],
-                                isSender: data["author"]["uid"] == _uid,
+                                isSender: data["uid"] == _uid,
                                 color: teal,
                                 textStyle: const TextStyle(fontSize: 16, color: white, fontWeight: FontWeight.w400),
                               )
                             : (data["type"] == "image")
                                 ? BubbleNormalImage(
                                     id: data["id"],
-                                    isSender: data["author"]["uid"] == _uid,
+                                    isSender: data["uid"] == _uid,
                                     image: CachedNetworkImage(imageUrl: data["uri"], width: 200, height: 350, fit: BoxFit.cover),
                                     color: teal,
                                     tail: true,
@@ -406,7 +406,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                                         innerPadding: 4,
                                       )
                                     : Align(
-                                        alignment: data["author"]["uid"] == _uid ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
+                                        alignment: data["uid"] == _uid ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
                                         child: Container(
                                           width: MediaQuery.sizeOf(context).width * .7,
                                           padding: const EdgeInsets.all(16),
@@ -414,8 +414,8 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                                             color: teal,
                                             borderRadius: BorderRadius.only(
                                               topLeft: const Radius.circular(15),
-                                              bottomRight: Radius.circular(data["author"]["uid"] == _uid ? 0 : 15),
-                                              bottomLeft: Radius.circular(data["author"]["uid"] == _uid ? 15 : 0),
+                                              bottomRight: Radius.circular(data["uid"] == _uid ? 0 : 15),
+                                              bottomLeft: Radius.circular(data["uid"] == _uid ? 15 : 0),
                                               topRight: const Radius.circular(15),
                                             ),
                                           ),
