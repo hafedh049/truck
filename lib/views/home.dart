@@ -114,7 +114,7 @@ class _HomeState extends State<Home> {
               onTap: () async {
                 await FirebaseFirestore.instance.collection("chats").doc(userLocalSettings!.get("uid")).collection("messages").add(
                       TextMessageModel(
-                        author: <String, dynamic>{"uid": userLocalSettings!.get("uid"), "name": "Truck", "imageUrl": ""},
+                        uid: userLocalSettings!.get("uid"),
                         createdAt: DateTime.now().millisecondsSinceEpoch,
                         id: List<int>.generate(20, (int index) => Random().nextInt(10)).join(),
                         text: "UNDERSTOOD",

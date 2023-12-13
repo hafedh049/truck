@@ -172,7 +172,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                     await FirebaseStorage.instance.ref().child("/audios/$id").putFile(soundFile).then(
                       (TaskSnapshot snap) async {
                         final AudioMessageModel message = AudioMessageModel(
-                          author: <String, dynamic>{"uid": _uid, "name": "Truck", "imageUrl": ""},
+                          uid: _uid,
                           createdAt: DateTime.now().millisecondsSinceEpoch,
                           id: id,
                           name: id,
@@ -210,7 +210,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
         (TaskSnapshot snap) async {
           _counter = 0;
           final FileMessageModel message = FileMessageModel(
-            author: <String, dynamic>{"uid": _uid, "name": "Truck", "imageUrl": ""},
+            uid: _uid,
             createdAt: DateTime.now().millisecondsSinceEpoch,
             id: id,
             mimeType: lookupMimeType(result.files.single.path!)!,
@@ -235,7 +235,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
         (TaskSnapshot snap) async {
           _counter = 0;
           final ImageMessageModel message = ImageMessageModel(
-            author: <String, dynamic>{"uid": _uid, "name": "Truck", "imageUrl": ""},
+            uid: _uid,
             createdAt: DateTime.now().millisecondsSinceEpoch,
             id: id,
             name: result.name,
@@ -284,7 +284,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
   void _handleSendPressed() async {
     _counter = 0;
     final textMessage = TextMessageModel(
-      author: <String, dynamic>{"uid": _uid, "name": "Truck", "imageUrl": ""},
+      uid: _uid,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: List<int>.generate(20, (int index) => Random().nextInt(10)).join(),
       text: _inputController.text.trim(),

@@ -32,7 +32,6 @@ Future<bool> load() async {
     if (userLocalSettings!.get("phone") == null) {
       await userLocalSettings!.put("phone", <String, String>{"number": "", "country_code": ""});
     }
-
     return true;
   } catch (e) {
     return false;
