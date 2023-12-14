@@ -327,42 +327,44 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                           _handleMessageTap(data);
                           _counter = 0;
                         },
-                        onLongPress: () async {
-                          _counter = 0;
-                          await showModalBottomSheet<void>(
-                            context: context,
-                            builder: (BuildContext context) => SafeArea(
-                              child: SizedBox(
-                                height: 145,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    for (final Map<String, dynamic> item in _deletions)
-                                      InkWell(
-                                        hoverColor: transparent,
-                                        splashColor: transparent,
-                                        highlightColor: transparent,
-                                        onTap: () {
-                                          item["title"] == "REMOVE" ? item["callback"](context, doc, data) : item["callback"]();
-                                          _counter = 0;
-                                        },
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Icon(item["icon"], size: 15, color: teal),
-                                            const SizedBox(height: 10),
-                                            Text(item["title"], style: const TextStyle(color: teal, fontSize: 16, fontWeight: FontWeight.w400)),
-                                          ],
-                                        ),
+                        onLongPress: data['uid'] != _uid
+                            ? null
+                            : () async {
+                                _counter = 0;
+                                await showModalBottomSheet<void>(
+                                  context: context,
+                                  builder: (BuildContext context) => SafeArea(
+                                    child: SizedBox(
+                                      height: 145,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: <Widget>[
+                                          for (final Map<String, dynamic> item in _deletions)
+                                            InkWell(
+                                              hoverColor: transparent,
+                                              splashColor: transparent,
+                                              highlightColor: transparent,
+                                              onTap: () {
+                                                item["title"] == "REMOVE" ? item["callback"](context, doc, data) : item["callback"]();
+                                                _counter = 0;
+                                              },
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Icon(item["icon"], size: 15, color: teal),
+                                                  const SizedBox(height: 10),
+                                                  Text(item["title"], style: const TextStyle(color: teal, fontSize: 16, fontWeight: FontWeight.w400)),
+                                                ],
+                                              ),
+                                            ),
+                                        ],
                                       ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                          _counter = 0;
-                        },
+                                    ),
+                                  ),
+                                );
+                                _counter = 0;
+                              },
                         child: (data["type"] == "text")
                             ? BubbleSpecialOne(
                                 text: data["content"],

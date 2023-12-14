@@ -45,16 +45,18 @@ class _HomeState extends State<Home> {
                       final List<QueryDocumentSnapshot<Map<String, dynamic>>> messages = snapshot.docs;
                       if (messages.isNotEmpty) {
                         if (messages.first.get("type") == "text") {
-                          await _tts.speak(messages.first.get("text"));
+                          await _tts.speak(messages.first.get("content"));
                         } else if (messages.first.get("type") == "audio") {
                           setS(
                             () {
                               _isAudio = true;
-                              _audioUrl = messages.first.get("uri");
+                              _audioUrl = messages.first.get("content");
                             },
                           );
+                        } else if (messages.first.get("type") == "image") {
+                          await _tts.speak("LAST MESSAGE IS AN IMAGE");
                         } else {
-                          await _tts.speak("LAST MESSAGE IS NOT A TEXT OR AN AUDIO");
+                          await _tts.speak("LAST MESSAGE IS AN ATTACHMENT");
                         }
                       } else {
                         // ignore: use_build_context_synchronously
@@ -83,7 +85,7 @@ class _HomeState extends State<Home> {
                             },
                             onPause: () {},
                             onPlaying: () {},
-                          ),
+                          )..play(),
                           innerPadding: 4,
                         )
                       : Container(
