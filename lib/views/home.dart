@@ -18,15 +18,22 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final FlutterTts _tts = FlutterTts();
+  VoiceController? _voiceController;
+  final GlobalKey<State> _voiceKey = GlobalKey<State>();
 
   @override
   void dispose() {
     _tts.stop();
+    if (_voiceController != null) {
+      if (_voiceController!.isPlaying) {
+        _voiceController!.stopPlaying();
+      }
+      _voiceController!.dispose();
+    }
     super.dispose();
   }
 
   bool _isAudio = false;
-  String _audioUrl = "";
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +44,7 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             StatefulBuilder(
+              key: _voiceKey,
               builder: (BuildContext context, void Function(void Function()) setS) {
                 return GestureDetector(
                   onTap: () async {
@@ -47,45 +55,36 @@ class _HomeState extends State<Home> {
                         if (messages.first.get("type") == "text") {
                           await _tts.speak(messages.first.get("content"));
                         } else if (messages.first.get("type") == "audio") {
-                          setS(
-                            () {
-                              _isAudio = true;
-                              _audioUrl = messages.first.get("content");
-                            },
-                          );
+                          _isAudio = true;
+                          _voiceController = VoiceController(
+                            audioSrc: messages.first.get("content"),
+                            maxDuration: Duration(milliseconds: messages.first.get("duration")),
+                            isFile: false,
+                            onComplete: () => setS(() => _isAudio = false),
+                            onPause: () {},
+                            onPlaying: () {},
+                          )..play();
+
+                          setS(() {});
                         } else if (messages.first.get("type") == "image") {
                           await _tts.speak("LAST MESSAGE IS AN IMAGE");
                         } else {
                           await _tts.speak("LAST MESSAGE IS AN ATTACHMENT");
                         }
                       } else {
-                        // ignore: use_build_context_synchronously
                         showSnack("No messages yet.");
                       }
                     }
                   },
                   child: _isAudio
                       ? VoiceMessageView(
+                          isSender: true,
                           backgroundColor: transparent,
                           activeSliderColor: white,
                           circlesColor: teal,
                           notActiveSliderColor: transparent,
                           size: 29,
-                          controller: VoiceController(
-                            audioSrc: _audioUrl,
-                            maxDuration: const Duration(milliseconds: 120),
-                            isFile: false,
-                            onComplete: () {
-                              setS(
-                                () {
-                                  _isAudio = false;
-                                  _audioUrl = "";
-                                },
-                              );
-                            },
-                            onPause: () {},
-                            onPlaying: () {},
-                          )..play(),
+                          controller: _voiceController!,
                           innerPadding: 4,
                         )
                       : Container(
@@ -126,7 +125,15 @@ class _HomeState extends State<Home> {
               ),
             ),
             GestureDetector(
-              onLongPress: () async => await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const ChatRoom())),
+              onLongPress: () async {
+                if (_voiceController != null) {
+                  if (_voiceController!.isPlaying) {
+                    _voiceController!.stopPlaying();
+                  }
+                  _voiceKey.currentState!.setState(() => _isAudio = false);
+                }
+                await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const ChatRoom()));
+              },
               child: Container(
                 decoration: BoxDecoration(color: teal.withOpacity(.5), borderRadius: BorderRadius.circular(15), boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: gray, offset: Offset(4, 6))]),
                 padding: const EdgeInsets.all(24),

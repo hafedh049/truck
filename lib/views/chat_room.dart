@@ -44,6 +44,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
 
   late final List<Map<String, dynamic>> _attachments;
   late final List<Map<String, dynamic>> _deletions;
+  final List<VoiceController> _audios = <VoiceController>[];
 
   int _counter = 0;
 
@@ -62,6 +63,13 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    for (final VoiceController voiceController in _audios) {
+      if (voiceController.isPlaying) {
+        voiceController.stopPlaying();
+      }
+      voiceController.dispose();
+    }
+    _audios.clear();
     _timer.cancel();
     _inputController.dispose();
     super.dispose();
@@ -95,7 +103,14 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
         "title": "REMOVE",
         "callback": (BuildContext context, QueryDocumentSnapshot<Map<String, dynamic>> doc, Map<String, dynamic> data) async {
           _counter = 0;
-
+          if (data["type"] == "audio") {
+            final int index = _audios.indexWhere((VoiceController element) => element.audioSrc == data['content']);
+            if (_audios[index].isPlaying) {
+              _audios[index].stopPlaying();
+            }
+            _audios[index].dispose();
+            _audios.removeAt(index);
+          }
           if (data["type"] == "audio" || data["type"] == "image" || data["type"] == "file") {
             await FirebaseStorage.instance.refFromURL(data["content"]).delete();
           }
@@ -169,12 +184,12 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                   try {
                     _counter = 0;
                     final String id = List<int>.generate(20, (int index) => Random().nextInt(10)).join();
-                    await FirebaseStorage.instance.ref().child("/audios/$id").putFile(soundFile).then(
+                    await FirebaseStorage.instance.ref().child("/audios/$id.aac").putFile(soundFile, SettableMetadata(contentType: lookupMimeType(soundFile.path)!)).then(
                       (TaskSnapshot snap) async {
                         final AudioMessageModel message = AudioMessageModel(
                           uid: _uid,
                           createdAt: DateTime.now().millisecondsSinceEpoch,
-                          name: id,
+                          name: "$id.aac",
                           size: await soundFile.length(),
                           content: await snap.ref.getDownloadURL(),
                           duration: timeStringToDuration(time),
@@ -205,14 +220,14 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.any);
     if (result != null && result.files.single.path != null) {
       final String id = List<int>.generate(20, (int index) => Random().nextInt(10)).join();
-      await FirebaseStorage.instance.ref().child("/files/$id").putFile(File(result.files.single.path!)).then(
+      await FirebaseStorage.instance.ref().child("/files/${id}__${result.files.single.name}").putFile(File(result.files.single.path!), SettableMetadata(contentType: lookupMimeType(result.files.single.path!)!)).then(
         (TaskSnapshot snap) async {
           _counter = 0;
           final FileMessageModel message = FileMessageModel(
             uid: _uid,
             createdAt: DateTime.now().millisecondsSinceEpoch,
             mimeType: lookupMimeType(result.files.single.path!)!,
-            name: result.files.single.name,
+            name: "${id}__${result.files.single.name}",
             size: result.files.single.size,
             content: await snap.ref.getDownloadURL(),
           );
@@ -229,13 +244,13 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
     if (result != null) {
       final Uint8List bytes = await result.readAsBytes();
       final String id = List<int>.generate(20, (int index) => Random().nextInt(10)).join();
-      await FirebaseStorage.instance.ref().child("/images/$id").putFile(File(result.path)).then(
+      await FirebaseStorage.instance.ref().child("/images/${id}__${result.name}").putFile(File(result.path), SettableMetadata(contentType: lookupMimeType(result.path)!)).then(
         (TaskSnapshot snap) async {
           _counter = 0;
           final ImageMessageModel message = ImageMessageModel(
             uid: _uid,
             createdAt: DateTime.now().millisecondsSinceEpoch,
-            name: result.name,
+            name: "${id}__${result.name}",
             size: bytes.length,
             content: await snap.ref.getDownloadURL(),
             mimeType: lookupMimeType(result.path)!,
@@ -303,7 +318,6 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                 Expanded(
                   child: FirestoreListView(
                     reverse: true,
-                    pageSize: 20,
                     padding: const EdgeInsets.all(16),
                     loadingBuilder: (BuildContext context) => const Wait(),
                     query: FirebaseFirestore.instance.collection("chats").doc(_uid).collection("messages").orderBy("createdAt", descending: true),
@@ -322,6 +336,18 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                     itemBuilder: (BuildContext context, QueryDocumentSnapshot<Map<String, dynamic>> doc) {
                       final Map<String, dynamic> data = doc.data();
                       _counter = 0;
+                      if (data["type"] == "audio") {
+                        _audios.add(
+                          VoiceController(
+                            audioSrc: data["content"],
+                            maxDuration: Duration(milliseconds: data["duration"]),
+                            isFile: false,
+                            onComplete: () => _counter = 0,
+                            onPause: () => _counter = 0,
+                            onPlaying: () => _counter = 0,
+                          ),
+                        );
+                      }
                       return GestureDetector(
                         onTap: () {
                           _handleMessageTap(data);
@@ -374,7 +400,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                               )
                             : (data["type"] == "image")
                                 ? BubbleNormalImage(
-                                    id: data["uid"],
+                                    id: doc.id,
                                     isSender: data["uid"] == _uid,
                                     image: CachedNetworkImage(imageUrl: data["content"], width: 200, height: 350, fit: BoxFit.cover),
                                     color: teal,
@@ -382,27 +408,25 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                                     delivered: true,
                                   )
                                 : (data["type"] == "audio")
-                                    ? VoiceMessageView(
-                                        backgroundColor: transparent,
-                                        activeSliderColor: white,
-                                        circlesColor: teal,
-                                        notActiveSliderColor: transparent,
-                                        size: 29,
-                                        controller: VoiceController(
-                                          audioSrc: data["content"],
-                                          maxDuration: Duration(milliseconds: data["duration"]),
-                                          isFile: false,
-                                          onComplete: () => _counter = 0,
-                                          onPause: () => _counter = 0,
-                                          onPlaying: () => _counter = 0,
+                                    ? Align(
+                                        alignment: data["uid"] == _uid ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
+                                        child: VoiceMessageView(
+                                          isSender: data["uid"] == _uid,
+                                          backgroundColor: transparent,
+                                          activeSliderColor: white,
+                                          circlesColor: teal,
+                                          notActiveSliderColor: transparent,
+                                          size: 29,
+                                          controller: _audios.last,
+                                          innerPadding: 4,
                                         ),
-                                        innerPadding: 4,
                                       )
                                     : Align(
                                         alignment: data["uid"] == _uid ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
                                         child: Container(
                                           width: MediaQuery.sizeOf(context).width * .7,
                                           padding: const EdgeInsets.all(16),
+                                          margin: const EdgeInsets.symmetric(vertical: 8),
                                           decoration: BoxDecoration(
                                             color: teal,
                                             borderRadius: BorderRadius.only(
@@ -417,7 +441,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                                             children: <Widget>[
                                               const Icon(FontAwesome.file, size: 15, color: white),
                                               const SizedBox(width: 10),
-                                              Text(data["name"]),
+                                              Flexible(child: Text(data["name"])),
                                             ],
                                           ),
                                         ),
