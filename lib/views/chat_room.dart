@@ -76,12 +76,18 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
   }
 
   @override
+  void deactivate() {
+    _counter = 0;
+    super.deactivate();
+  }
+
+  @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     _timer = Timer.periodic(
       1.seconds,
       (Timer _) {
-        if (_state == AppLifecycleState.resumed) {
+        if (_state == AppLifecycleState.resumed && context.mounted) {
           _counter += 1;
         }
         if (_counter >= 60) {
@@ -287,6 +293,32 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
       await Clipboard.setData(ClipboardData(text: message['content']));
       showSnack("Text Copied To Clipboard");
     } else if (message['type'] == "image") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => Scaffold(
+            body: Stack(
+              children: <Widget>[
+                InteractiveViewer(
+                  child: Image.network(
+                    message['content'],
+                    fit: BoxFit.cover,
+                    width: MediaQuery.sizeOf(context).width,
+                    height: MediaQuery.sizeOf(context).height,
+                  ),
+                ),
+                Positioned(
+                  top: 36,
+                  child: IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(FontAwesome.chevron_left, size: 20, color: teal),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
       await Clipboard.setData(ClipboardData(text: message['content']));
       showSnack("Image URL Copied To Clipboard");
     }
@@ -399,13 +431,16 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                                 textStyle: const TextStyle(fontSize: 16, color: white, fontWeight: FontWeight.w400),
                               )
                             : (data["type"] == "image")
-                                ? BubbleNormalImage(
-                                    id: doc.id,
-                                    isSender: data["uid"] == _uid,
-                                    image: CachedNetworkImage(imageUrl: data["content"], width: 200, height: 350, fit: BoxFit.cover),
-                                    color: teal,
-                                    tail: true,
-                                    delivered: true,
+                                ? IgnorePointer(
+                                    ignoring: true,
+                                    child: BubbleNormalImage(
+                                      id: doc.id,
+                                      isSender: data["uid"] == _uid,
+                                      image: CachedNetworkImage(imageUrl: data["content"], width: 200, height: 350, fit: BoxFit.cover),
+                                      color: teal,
+                                      tail: true,
+                                      delivered: true,
+                                    ),
                                   )
                                 : (data["type"] == "audio")
                                     ? Align(

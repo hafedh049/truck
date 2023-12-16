@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
@@ -29,6 +30,11 @@ Future<bool> load() async {
     if (userLocalSettings!.get("phone") == null) {
       await userLocalSettings!.put("phone", "");
     }
+    final DocumentSnapshot<Map<String, dynamic>> query = await FirebaseFirestore.instance.collection("users").doc(userLocalSettings!.get("phone")).get();
+    if (!query.exists) {
+      await userLocalSettings!.put("phone", "");
+    }
+
     return true;
   } catch (e) {
     return false;
