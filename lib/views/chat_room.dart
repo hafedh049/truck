@@ -292,36 +292,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
     } else if (message['type'] == "text") {
       await Clipboard.setData(ClipboardData(text: message['content']));
       showSnack("Text Copied To Clipboard");
-    } else if (message['type'] == "image") {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) => Scaffold(
-            body: Stack(
-              children: <Widget>[
-                InteractiveViewer(
-                  child: Image.network(
-                    message['content'],
-                    fit: BoxFit.cover,
-                    width: MediaQuery.sizeOf(context).width,
-                    height: MediaQuery.sizeOf(context).height,
-                  ),
-                ),
-                Positioned(
-                  top: 36,
-                  child: IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: const Icon(FontAwesome.chevron_left, size: 20, color: teal),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-      await Clipboard.setData(ClipboardData(text: message['content']));
-      showSnack("Image URL Copied To Clipboard");
-    }
+    } else if (message['type'] == "image") {}
     _counter = 0;
   }
 
@@ -431,16 +402,43 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                                 textStyle: const TextStyle(fontSize: 16, color: white, fontWeight: FontWeight.w400),
                               )
                             : (data["type"] == "image")
-                                ? IgnorePointer(
-                                    ignoring: true,
-                                    child: BubbleNormalImage(
-                                      id: doc.id,
-                                      isSender: data["uid"] == _uid,
-                                      image: CachedNetworkImage(imageUrl: data["content"], width: 200, height: 350, fit: BoxFit.cover),
-                                      color: teal,
-                                      tail: true,
-                                      delivered: true,
-                                    ),
+                                ? BubbleNormalImage(
+                                    id: doc.id,
+                                    isSender: data["uid"] == _uid,
+                                    image: CachedNetworkImage(imageUrl: data["content"], width: 200, height: 350, fit: BoxFit.cover),
+                                    color: teal,
+                                    onTap: () async {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) => Scaffold(
+                                            body: Stack(
+                                              children: <Widget>[
+                                                InteractiveViewer(
+                                                  alignment: Alignment.center,
+                                                  minScale: 1,
+                                                  child: Image.network(
+                                                    data['content'],
+                                                    fit: BoxFit.cover,
+                                                    width: MediaQuery.sizeOf(context).width,
+                                                    height: MediaQuery.sizeOf(context).height,
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  top: 36,
+                                                  child: IconButton(
+                                                    onPressed: () => Navigator.pop(context),
+                                                    icon: const Icon(FontAwesome.chevron_left, size: 20, color: teal),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                      await Clipboard.setData(ClipboardData(text: data['content']));
+                                      showSnack("Image URL Copied To Clipboard");
+                                    },
                                   )
                                 : (data["type"] == "audio")
                                     ? Align(

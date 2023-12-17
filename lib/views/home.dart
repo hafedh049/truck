@@ -1,7 +1,11 @@
+import 'dart:async';
+
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:in_app_notification/in_app_notification.dart';
 import 'package:truck/models/messages/text_message_model.dart';
 import 'package:truck/views/auth/sign_in.dart';
 import 'package:truck/views/chat_room.dart';
@@ -20,9 +24,34 @@ class _HomeState extends State<Home> {
   final FlutterTts _tts = FlutterTts();
   VoiceController? _voiceController;
   final GlobalKey<State> _voiceKey = GlobalKey<State>();
+  late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>> _notificationStream;
+  final AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
+
+  @override
+  void initState() {
+    _notificationStream = FirebaseFirestore.instance.collection("chats").doc(userLocalSettings!.get("phone")).collection("messages").orderBy("createdAt", descending: true).limit(1).snapshots().listen(
+      (QuerySnapshot<Map<String, dynamic>> event) async {
+        if (event.docs.isNotEmpty && event.docs.first.get("uid") != userLocalSettings!.get("phone")) {
+          InAppNotification.show(
+            child: Container(
+              width: MediaQuery.sizeOf(context).width * .98,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              decoration: BoxDecoration(color: gray, borderRadius: BorderRadius.circular(5)),
+              child: const Center(child: Text("New Message")),
+            ),
+            context: context,
+            onTap: () {},
+          );
+          assetsAudioPlayer.open(Audio("assets/notification.wav"));
+        }
+      },
+    );
+    super.initState();
+  }
 
   @override
   void dispose() {
+    _notificationStream.cancel();
     _tts.stop();
     if (_voiceController != null) {
       if (_voiceController!.isPlaying) {
