@@ -20,14 +20,14 @@ import 'package:mime/mime.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:social_media_recorder/screen/social_media_recorder.dart';
-import 'package:truck/models/messages/audio_message_model.dart';
-import 'package:truck/models/messages/file_message_model.dart';
-import 'package:truck/models/messages/image_message_module.dart';
-import 'package:truck/models/messages/text_message_model.dart';
-import 'package:truck/views/helpers/utils/globals.dart';
-import 'package:truck/views/helpers/utils/methods.dart';
-import 'package:truck/views/helpers/wait.dart';
-import 'package:truck/views/helpers/wrong.dart';
+import 'package:terrestra/models/messages/audio_message_model.dart';
+import 'package:terrestra/models/messages/file_message_model.dart';
+import 'package:terrestra/models/messages/image_message_module.dart';
+import 'package:terrestra/models/messages/text_message_model.dart';
+import 'package:terrestra/views/helpers/utils/globals.dart';
+import 'package:terrestra/views/helpers/utils/methods.dart';
+import 'package:terrestra/views/helpers/wait.dart';
+import 'package:terrestra/views/helpers/wrong.dart';
 import 'package:voice_message_package/voice_message_package.dart';
 
 class ChatRoom extends StatefulWidget {
@@ -38,7 +38,7 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
-  final String _uid = userLocalSettings!.get("phone");
+  final String _uid = userLocalSettings!.get("RUT");
   final TextEditingController _inputController = TextEditingController();
   final GlobalKey<State> _sendButtonKey = GlobalKey<State>();
 
@@ -162,9 +162,9 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Icon(item["icon"], size: 15, color: teal),
+                          Icon(item["icon"], size: 15, color: accent1),
                           const SizedBox(height: 10),
-                          Text(item["title"], style: const TextStyle(color: teal, fontSize: 16, fontWeight: FontWeight.w400)),
+                          Text(item["title"], style: const TextStyle(color: accent1, fontSize: 16, fontWeight: FontWeight.w400)),
                         ],
                       ),
                     ),
@@ -173,18 +173,18 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
               const SizedBox(height: 10),
               SocialMediaRecorder(
                 slideToCancelText: '',
-                slideToCancelTextStyle: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
-                cancelTextStyle: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
-                counterTextStyle: const TextStyle(color: white, fontSize: 16, fontWeight: FontWeight.w400),
+                slideToCancelTextStyle: const TextStyle(color: accent1, fontSize: 16, fontWeight: FontWeight.w400),
+                cancelTextStyle: const TextStyle(color: accent1, fontSize: 16, fontWeight: FontWeight.w400),
+                counterTextStyle: const TextStyle(color: accent1, fontSize: 16, fontWeight: FontWeight.w400),
                 recordIconBackGroundColor: transparent,
                 recordIconWhenLockBackGroundColor: transparent,
-                recordIconWhenLockedRecord: const Icon(FontAwesome.stop, color: teal, size: 20),
+                recordIconWhenLockedRecord: const Icon(FontAwesome.stop, color: accent1, size: 20),
                 counterBackGroundColor: transparent,
-                lockButton: const Icon(FontAwesome.microphone, color: teal, size: 20),
-                sendButtonIcon: const Icon(FontAwesome.microphone, color: teal, size: 20),
+                lockButton: const Icon(FontAwesome.microphone, color: accent1, size: 20),
+                sendButtonIcon: const Icon(FontAwesome.microphone, color: accent1, size: 20),
                 cancelTextBackGroundColor: transparent,
                 backGroundColor: transparent,
-                recordIcon: const Icon(FontAwesome.microphone, color: teal, size: 20),
+                recordIcon: const Icon(FontAwesome.microphone, color: accent1, size: 20),
                 maxRecordTimeInSecond: 120,
                 sendRequestFunction: (File soundFile, String time) async {
                   try {
@@ -331,7 +331,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                         children: <Widget>[
                           LottieBuilder.asset("assets/lotties/empty.json", width: 200, height: 200),
                           const SizedBox(height: 10),
-                          const Text("NO CHAT YET", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: teal)),
+                          const Text("NO CHAT YET", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: accent1)),
                         ],
                       ),
                     ),
@@ -381,9 +381,9 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                                                 mainAxisSize: MainAxisSize.min,
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 children: <Widget>[
-                                                  Icon(item["icon"], size: 15, color: teal),
+                                                  Icon(item["icon"], size: 15, color: accent1),
                                                   const SizedBox(height: 10),
-                                                  Text(item["title"], style: const TextStyle(color: teal, fontSize: 16, fontWeight: FontWeight.w400)),
+                                                  Text(item["title"], style: const TextStyle(color: accent1, fontSize: 16, fontWeight: FontWeight.w400)),
                                                 ],
                                               ),
                                             ),
@@ -398,15 +398,15 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                             ? BubbleSpecialOne(
                                 text: data["content"],
                                 isSender: data["uid"] == _uid,
-                                color: teal,
-                                textStyle: const TextStyle(fontSize: 16, color: white, fontWeight: FontWeight.w400),
+                                color: accent1,
+                                textStyle: const TextStyle(fontSize: 16, color: accent1, fontWeight: FontWeight.w400),
                               )
                             : (data["type"] == "image")
                                 ? BubbleNormalImage(
                                     id: doc.id,
                                     isSender: data["uid"] == _uid,
                                     image: CachedNetworkImage(imageUrl: data["content"], width: 200, height: 350, fit: BoxFit.cover),
-                                    color: teal,
+                                    color: accent1,
                                     onTap: () async {
                                       Navigator.push(
                                         context,
@@ -428,7 +428,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                                                   top: 36,
                                                   child: IconButton(
                                                     onPressed: () => Navigator.pop(context),
-                                                    icon: const Icon(FontAwesome.chevron_left, size: 20, color: teal),
+                                                    icon: const Icon(FontAwesome.chevron_left, size: 20, color: accent1),
                                                   ),
                                                 ),
                                               ],
@@ -446,8 +446,8 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                                         child: VoiceMessageView(
                                           isSender: data["uid"] == _uid,
                                           backgroundColor: transparent,
-                                          activeSliderColor: white,
-                                          circlesColor: teal,
+                                          activeSliderColor: accent1,
+                                          circlesColor: accent1,
                                           notActiveSliderColor: transparent,
                                           size: 29,
                                           controller: _audios.last,
@@ -461,7 +461,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                                           padding: const EdgeInsets.all(16),
                                           margin: const EdgeInsets.symmetric(vertical: 8),
                                           decoration: BoxDecoration(
-                                            color: teal,
+                                            color: accent1,
                                             borderRadius: BorderRadius.only(
                                               topLeft: const Radius.circular(15),
                                               bottomRight: Radius.circular(data["uid"] == _uid ? 0 : 15),
@@ -472,7 +472,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: <Widget>[
-                                              const Icon(FontAwesome.file, size: 15, color: white),
+                                              const Icon(FontAwesome.file, size: 15, color: accent1),
                                               const SizedBox(width: 10),
                                               Flexible(child: Text(data["name"])),
                                             ],
@@ -487,8 +487,8 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                   padding: const EdgeInsets.all(4),
                   margin: const EdgeInsets.symmetric(horizontal: 8),
                   decoration: BoxDecoration(
-                    border: Border.all(width: .3, color: teal),
-                    boxShadow: <BoxShadow>[BoxShadow(color: teal.withOpacity(.1), blurStyle: BlurStyle.outer, offset: const Offset(-3, -3))],
+                    border: Border.all(width: .3, color: accent1),
+                    boxShadow: <BoxShadow>[BoxShadow(color: accent1.withOpacity(.1), blurStyle: BlurStyle.outer, offset: const Offset(-3, -3))],
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(5),
                       topRight: Radius.circular(5),
@@ -498,7 +498,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                   ),
                   child: Row(
                     children: <Widget>[
-                      IconButton(onPressed: _handleAttachmentPressed, icon: const Icon(FontAwesome.folder_plus, size: 15, color: teal)),
+                      IconButton(onPressed: _handleAttachmentPressed, icon: const Icon(FontAwesome.folder_plus, size: 15, color: accent1)),
                       Flexible(
                         child: TextField(
                           controller: _inputController,
@@ -520,7 +520,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                             duration: 500.ms,
                             child: IconButton(
                               onPressed: _inputController.text.trim().isEmpty ? null : _handleSendPressed,
-                              icon: const Icon(FontAwesome.paper_plane, size: 15, color: teal),
+                              icon: const Icon(FontAwesome.paper_plane, size: 15, color: accent1),
                             ),
                           );
                         },
@@ -538,7 +538,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                     Navigator.pop(context);
                   }
                 },
-                icon: const Icon(FontAwesome.chevron_left, size: 20, color: teal),
+                icon: const Icon(FontAwesome.chevron_left, size: 20, color: accent1),
               ),
             ),
           ],

@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:truck/views/helpers/utils/globals.dart';
+import 'package:terrestra/views/helpers/utils/globals.dart';
 
 Future<bool> loadUserLocalSettings() async {
   try {
@@ -27,12 +27,12 @@ Future<bool> load() async {
       ),
     );
     await loadUserLocalSettings();
-    if (userLocalSettings!.get("phone") == null) {
-      await userLocalSettings!.put("phone", "");
+    if (userLocalSettings!.get("RUT") == null) {
+      await userLocalSettings!.put("RUT", "");
     }
-    final DocumentSnapshot<Map<String, dynamic>> query = await FirebaseFirestore.instance.collection("users").doc(userLocalSettings!.get("phone")).get();
+    final DocumentSnapshot<Map<String, dynamic>> query = await FirebaseFirestore.instance.collection("users").doc(userLocalSettings!.get("RUT")).get();
     if (!query.exists) {
-      await userLocalSettings!.put("phone", "");
+      await userLocalSettings!.put("RUT", "");
     }
 
     return true;
@@ -41,7 +41,7 @@ Future<bool> load() async {
   }
 }
 
-void showSnack(String message) => Fluttertoast.showToast(msg: message, backgroundColor: gray, fontSize: 14, gravity: ToastGravity.BOTTOM_LEFT, textColor: white, toastLength: Toast.LENGTH_LONG);
+void showSnack(String message) => Fluttertoast.showToast(msg: message, backgroundColor: backgroundColor, fontSize: 14, gravity: ToastGravity.BOTTOM_LEFT, textColor: accent1, toastLength: Toast.LENGTH_LONG);
 
 Duration timeStringToDuration(String timeStr) {
   try {
