@@ -1,6 +1,6 @@
 flutter_native_splash:
   color: "#f9f9f9"
-  image: assets/splash.png
+  image: assets/logo.png
 
   android_12:
     android_gravity: center
