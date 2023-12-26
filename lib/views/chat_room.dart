@@ -399,7 +399,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                                 text: data["content"],
                                 isSender: data["uid"] == _uid,
                                 color: accent1,
-                                textStyle: const TextStyle(fontSize: 16, color: accent1, fontWeight: FontWeight.w400),
+                                textStyle: const TextStyle(fontSize: 16, color: backgroundColor, fontWeight: FontWeight.w400),
                               )
                             : (data["type"] == "image")
                                 ? BubbleNormalImage(
@@ -417,20 +417,9 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                                                 InteractiveViewer(
                                                   alignment: Alignment.center,
                                                   minScale: 1,
-                                                  child: Image.network(
-                                                    data['content'],
-                                                    fit: BoxFit.cover,
-                                                    width: MediaQuery.sizeOf(context).width,
-                                                    height: MediaQuery.sizeOf(context).height,
-                                                  ),
+                                                  child: Image.network(data['content'], fit: BoxFit.cover, width: MediaQuery.sizeOf(context).width, height: MediaQuery.sizeOf(context).height),
                                                 ),
-                                                Positioned(
-                                                  top: 36,
-                                                  child: IconButton(
-                                                    onPressed: () => Navigator.pop(context),
-                                                    icon: const Icon(FontAwesome.chevron_left, size: 20, color: accent1),
-                                                  ),
-                                                ),
+                                                Positioned(top: 36, child: IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(FontAwesome.chevron_left, size: 20, color: Colors.green))),
                                               ],
                                             ),
                                           ),
@@ -474,7 +463,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                                             children: <Widget>[
                                               const Icon(FontAwesome.file, size: 15, color: accent1),
                                               const SizedBox(width: 10),
-                                              Flexible(child: Text(data["name"])),
+                                              Flexible(child: Text(data["name"], style: const TextStyle(color: backgroundColor))),
                                             ],
                                           ),
                                         ),
@@ -530,15 +519,21 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                 ),
               ],
             ),
-            Positioned(
-              top: 36,
-              child: IconButton(
-                onPressed: () {
-                  if (_counter < 60) {
-                    Navigator.pop(context);
-                  }
-                },
-                icon: const Icon(FontAwesome.chevron_left, size: 20, color: accent1),
+            Container(
+              margin: const EdgeInsets.only(top: 30),
+              height: 40,
+              child: Row(
+                children: <Widget>[
+                  IconButton(
+                    onPressed: () {
+                      if (_counter < 60) {
+                        Navigator.pop(context);
+                      }
+                    },
+                    icon: const Icon(FontAwesome.chevron_left, size: 20, color: Colors.green),
+                  ),
+                  const Center(child: Text("Central Room", style: TextStyle(color: foregroundColor, fontSize: 20))),
+                ],
               ),
             ),
           ],

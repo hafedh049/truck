@@ -33,8 +33,8 @@ class _HomeState extends State<Home> {
             child: Container(
               width: MediaQuery.sizeOf(context).width * .98,
               padding: const EdgeInsets.symmetric(vertical: 16),
-              decoration: BoxDecoration(color: foregroundColor, borderRadius: BorderRadius.circular(5)),
-              child: const Center(child: Text("New Message")),
+              decoration: BoxDecoration(color: backgroundColor, borderRadius: BorderRadius.circular(5)),
+              child: const Center(child: Text("New Message", style: TextStyle(color: accent1))),
             ),
             context: context,
             onTap: () {},
@@ -56,87 +56,120 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            flex: 2,
-            child: GestureDetector(
-              onTap: () async {
-                final QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance.collection("chats").doc(userLocalSettings!.get("RUT")).collection("messages").orderBy("createdAt", descending: true).limit(1).get();
-                if (snapshot.docs.isNotEmpty) {
-                  final List<QueryDocumentSnapshot<Map<String, dynamic>>> messages = snapshot.docs;
-                  if (messages.isNotEmpty) {
-                    if (messages.first.get("type") == "text") {
-                      await _tts.speak(messages.first.get("content"));
-                    } else if (messages.first.get("type") == "audio") {
-                      _assetsAudioPlayer.open(Audio.network(messages.first.get("content")));
-                    } else if (messages.first.get("type") == "image") {
-                      await _tts.speak("LAST MESSAGE IS AN IMAGE");
+      body: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 2,
+              child: GestureDetector(
+                onTap: () async {
+                  final QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance.collection("chats").doc(userLocalSettings!.get("RUT")).collection("messages").orderBy("createdAt", descending: true).limit(1).get();
+                  if (snapshot.docs.isNotEmpty) {
+                    final List<QueryDocumentSnapshot<Map<String, dynamic>>> messages = snapshot.docs;
+                    if (messages.isNotEmpty) {
+                      if (messages.first.get("type") == "text") {
+                        await _tts.speak(messages.first.get("content"));
+                      } else if (messages.first.get("type") == "audio") {
+                        _assetsAudioPlayer.open(Audio.network(messages.first.get("content")));
+                      } else if (messages.first.get("type") == "image") {
+                        await _tts.speak("LAST MESSAGE IS AN IMAGE");
+                      } else {
+                        await _tts.speak("LAST MESSAGE IS AN ATTACHMENT");
+                      }
                     } else {
-                      await _tts.speak("LAST MESSAGE IS AN ATTACHMENT");
+                      showSnack("No messages yet.");
                     }
-                  } else {
-                    showSnack("No messages yet.");
                   }
-                }
-              },
-              child: Container(
-                decoration: BoxDecoration(color: accent1.withOpacity(.5), borderRadius: BorderRadius.circular(15), boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: accent2, offset: Offset(4, 6))]),
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(24),
-                margin: const EdgeInsets.all(24),
-                child: const Row(mainAxisSize: MainAxisSize.min, children: <Widget>[Icon(Bootstrap.arrow_repeat), SizedBox(width: 10), Text("Repeat Last Message", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))]),
+                },
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(15)),
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(24),
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      SizedBox(width: 10),
+                      Text("Repeat Last\nMessage", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                      Spacer(),
+                      Icon(Bootstrap.repeat, size: 35),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 2,
-            child: GestureDetector(
-              onTap: () async {
-                await FirebaseFirestore.instance.collection("chats").doc(userLocalSettings!.get("RUT")).collection("messages").add(TextMessageModel(uid: userLocalSettings!.get("RUT"), createdAt: DateTime.now().millisecondsSinceEpoch, content: "UNDERSTOOD").toJson());
-                showSnack("Sent");
-              },
-              child: Container(
-                decoration: BoxDecoration(color: accent1.withOpacity(.5), borderRadius: BorderRadius.circular(15), boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: accent2, offset: Offset(4, 6))]),
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(24),
-                margin: const EdgeInsets.all(24),
-                child: const Row(mainAxisSize: MainAxisSize.min, children: <Widget>[Icon(Bootstrap.check2_circle), SizedBox(width: 10), Text("Message Understood", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))]),
+            Expanded(
+              flex: 2,
+              child: GestureDetector(
+                onTap: () async {
+                  await FirebaseFirestore.instance.collection("chats").doc(userLocalSettings!.get("RUT")).collection("messages").add(TextMessageModel(uid: userLocalSettings!.get("RUT"), createdAt: DateTime.now().millisecondsSinceEpoch, content: "UNDERSTOOD").toJson());
+                  showSnack("Sent");
+                },
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(15)),
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(24),
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text("Message\nUnderstood", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                      Spacer(),
+                      Icon(Bootstrap.check, size: 55),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: GestureDetector(
-              onLongPress: () {
-                _notificationStream.cancel();
-                _tts.stop();
-                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const ChatRoom()));
-              },
-              child: Container(
-                decoration: BoxDecoration(color: accent1.withOpacity(.5), borderRadius: BorderRadius.circular(15), boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: accent2, offset: Offset(4, 6))]),
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(24),
-                margin: const EdgeInsets.all(24),
-                child: const Row(mainAxisSize: MainAxisSize.min, children: <Widget>[Icon(FontAwesome.circle_exclamation), SizedBox(width: 10), Text("I Have A Problem", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))]),
+            Expanded(
+              child: GestureDetector(
+                onTap: () => showSnack("Long Press To Continue"),
+                onLongPress: () {
+                  _notificationStream.cancel();
+                  _tts.stop();
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const ChatRoom()));
+                },
+                child: Container(
+                  decoration: BoxDecoration(color: accent1, borderRadius: BorderRadius.circular(15)),
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(24),
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text("I Have A\nProblem", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                      Spacer(),
+                      Icon(FontAwesome.triangle_exclamation, size: 35),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                userLocalSettings!.put("RUT", "");
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const SignIn()));
-              },
-              child: Container(
-                decoration: BoxDecoration(color: accent1.withOpacity(.5), borderRadius: BorderRadius.circular(15), boxShadow: const <BoxShadow>[BoxShadow(blurStyle: BlurStyle.outer, color: accent2, offset: Offset(4, 6))]),
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(24),
-                margin: const EdgeInsets.all(24),
-                child: const Row(mainAxisSize: MainAxisSize.min, children: <Widget>[Icon(Icons.logout), SizedBox(width: 10), Text("Sign Out", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))]),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  userLocalSettings!.put("RUT", "");
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const SignIn()));
+                },
+                child: Container(
+                  decoration: BoxDecoration(color: foregroundColor, borderRadius: BorderRadius.circular(15)),
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(24),
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text("Sign Out", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                      Spacer(),
+                      Icon(Icons.exit_to_app, size: 35),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

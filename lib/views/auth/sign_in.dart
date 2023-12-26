@@ -36,7 +36,7 @@ class _SignInState extends State<SignIn> {
               Center(child: Image.asset("assets/logo.png", width: MediaQuery.sizeOf(context).width * .7)),
               const SizedBox(height: 30),
               const Text("Hola !", style: TextStyle(fontSize: 45, fontWeight: FontWeight.w500, color: accent1, letterSpacing: 2)),
-              const SizedBox(height: 30),
+              const SizedBox(height: 40),
               Container(
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), border: Border.all(width: .6, color: accent1)),
                 child: TextField(
@@ -52,7 +52,7 @@ class _SignInState extends State<SignIn> {
                   ),
                 ),
               ),
-              const SizedBox(height: 40),
+              const Spacer(),
               StatefulBuilder(
                 builder: (BuildContext context, void Function(void Function()) _) {
                   return InkWell(
@@ -66,7 +66,7 @@ class _SignInState extends State<SignIn> {
                           final DocumentSnapshot<Map<String, dynamic>> query = await FirebaseFirestore.instance.collection("users").doc(_rut.text.trim()).get();
                           if (query.exists) {
                             showSnack("Welcome");
-                            userLocalSettings!.put("RUT", _);
+                            userLocalSettings!.put("RUT", _rut.text.trim());
                             _(() => _signInState = false);
                             // ignore: use_build_context_synchronously
                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home()));
