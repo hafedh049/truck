@@ -95,14 +95,14 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
       },
     );
     _attachments = <Map<String, dynamic>>[
-      <String, dynamic>{"icon": FontAwesome.image, "title": "Pictures", "callback": _handleImageSelection},
-      <String, dynamic>{"icon": FontAwesome.file, "title": "Files", "callback": _handleFileSelection},
-      <String, dynamic>{"icon": FontAwesome.leaf, "title": "Cancel", "callback": () => Navigator.pop(context)},
+      <String, dynamic>{"icon": FontAwesome.image, "title": "Fotos", "callback": _handleImageSelection},
+      <String, dynamic>{"icon": FontAwesome.file, "title": "Archivos", "callback": _handleFileSelection},
+      <String, dynamic>{"icon": FontAwesome.leaf, "title": "Cancelar", "callback": () => Navigator.pop(context)},
     ];
     _deletions = <Map<String, dynamic>>[
       <String, dynamic>{
         "icon": Icons.delete_forever,
-        "title": "REMOVE",
+        "title": "ELIMINAR",
         "callback": (BuildContext context, QueryDocumentSnapshot<Map<String, dynamic>> doc, Map<String, dynamic> data) async {
           _counter = 0;
           if (data["type"] == "audio") {
@@ -118,14 +118,13 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
           }
 
           await doc.reference.delete();
-          // ignore: use_build_context_synchronously
-          showSnack("Message Deleted");
+          showSnack("Mensaje borrado");
           // ignore: use_build_context_synchronously
           Navigator.pop(context);
           _counter = 0;
         }
       },
-      <String, dynamic>{"icon": FontAwesome.leaf, "title": "CANCEL", "callback": () => Navigator.pop(context)},
+      <String, dynamic>{"icon": FontAwesome.leaf, "title": "CANCELAR", "callback": () => Navigator.pop(context)},
     ];
     super.initState();
   }
@@ -204,7 +203,6 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                     );
                   } catch (e) {
                     _counter = 0;
-                    // ignore: use_build_context_synchronously
                     showSnack(e.toString());
                   }
                 },
@@ -222,6 +220,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.any);
     if (result != null && result.files.single.path != null) {
       final String id = List<int>.generate(20, (int index) => Random().nextInt(10)).join();
+      showSnack("Espere por favor");
       await FirebaseStorage.instance.ref().child("/files/${id}__${result.files.single.name}").putFile(File(result.files.single.path!), SettableMetadata(contentType: lookupMimeType(result.files.single.path!)!)).then(
         (TaskSnapshot snap) async {
           _counter = 0;
@@ -246,6 +245,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
     if (result != null) {
       final Uint8List bytes = await result.readAsBytes();
       final String id = List<int>.generate(20, (int index) => Random().nextInt(10)).join();
+      showSnack("Espere por favor");
       await FirebaseStorage.instance.ref().child("/images/${id}__${result.name}").putFile(File(result.path), SettableMetadata(contentType: lookupMimeType(result.path)!)).then(
         (TaskSnapshot snap) async {
           _counter = 0;
@@ -258,7 +258,6 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
             mimeType: lookupMimeType(result.path)!,
           );
           await FirebaseFirestore.instance.collection("chats").doc(_uid).collection("messages").add(message.toJson());
-          showSnack("Image Uploaded");
           _counter = 0;
         },
       );
@@ -283,11 +282,11 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
         }
       }
       await Clipboard.setData(ClipboardData(text: message['content']));
-      showSnack("File URL Copied To Clipboard");
+      showSnack("URL del archivo copiada al portapapeles");
       await OpenFilex.open(localPath);
     } else if (message['type'] == "text") {
       await Clipboard.setData(ClipboardData(text: message['content']));
-      showSnack("Text Copied To Clipboard");
+      showSnack("Texto copiado al portapapeles");
     } else if (message['type'] == "image") {
       Navigator.push(
         context,
@@ -303,7 +302,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
         ),
       );
       await Clipboard.setData(ClipboardData(text: message['content']));
-      showSnack("Image URL Copied To Clipboard");
+      showSnack("URL de la imagen copiada al portapapeles");
     }
     _counter = 0;
   }
@@ -354,7 +353,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                     children: <Widget>[
                       LottieBuilder.asset("assets/lotties/empty.json", width: 200, height: 200),
                       const SizedBox(height: 10),
-                      const Text("NO CHAT YET", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: accent1)),
+                      const Text("NO HAY CHAT AÚN", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: accent1)),
                     ],
                   ),
                 ),
@@ -504,7 +503,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                           _sendButtonKey.currentState!.setState(() {});
                         }
                       },
-                      decoration: const InputDecoration(border: InputBorder.none, hintText: "Type something...", hintStyle: TextStyle(color: accent1)),
+                      decoration: const InputDecoration(border: InputBorder.none, hintText: "Escribe algo...", hintStyle: TextStyle(color: accent1)),
                     ),
                   ),
                   StatefulBuilder(

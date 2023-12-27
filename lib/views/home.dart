@@ -103,7 +103,7 @@ class _HomeState extends State<Home> {
               flex: 2,
               child: GestureDetector(
                 onTap: () async {
-                  await FirebaseFirestore.instance.collection("chats").doc(userLocalSettings!.get("RUT")).collection("messages").add(TextMessageModel(uid: userLocalSettings!.get("RUT"), createdAt: DateTime.now().millisecondsSinceEpoch, content: "UNDERSTOOD").toJson());
+                  await FirebaseFirestore.instance.collection("chats").doc(userLocalSettings!.get("RUT")).collection("messages").add(TextMessageModel(uid: userLocalSettings!.get("RUT"), createdAt: DateTime.now().millisecondsSinceEpoch, content: "COMPRENDIDO").toJson());
                   showSnack("Enviado");
                 },
                 child: Container(

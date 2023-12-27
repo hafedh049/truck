@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:terrestra/helpers/utils/globals.dart';
 import 'package:terrestra/helpers/utils/methods.dart';
@@ -47,7 +48,7 @@ class _SignInState extends State<SignIn> {
                     hintText: "RUT",
                     prefixIcon: const Icon(Bootstrap.lock_fill, color: accent1, size: 15),
                     contentPadding: const EdgeInsets.all(24),
-                    hintStyle: TextStyle(color: accent1.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w400),
+                    hintStyle: GoogleFonts.ibmPlexSans(color: accent1.withOpacity(.5), fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                 ),
               ),
@@ -83,7 +84,11 @@ class _SignInState extends State<SignIn> {
                       }
                     },
                     child: Container(
-                      decoration: BoxDecoration(color: accent1, borderRadius: BorderRadius.circular(25)),
+                      decoration: BoxDecoration(
+                        color: accent1,
+                        borderRadius: BorderRadius.circular(25),
+                        boxShadow: <BoxShadow>[BoxShadow(color: foregroundColor.withOpacity(.1), offset: const Offset(2, 4), blurStyle: BlurStyle.outer)],
+                      ),
                       width: MediaQuery.sizeOf(context).width,
                       padding: const EdgeInsets.all(20),
                       child: Center(child: Text(_signInState ? "Espera..." : "Entrar", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500))),
