@@ -3,8 +3,6 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_bubbles/bubbles/bubble_normal_image.dart';
-import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -92,9 +90,6 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
         }
         if (_counter >= 60) {
           Navigator.pop(context);
-        }
-        if (_counter >= 57) {
-          showSnack(_counter.toString());
         }
       },
     );
@@ -292,7 +287,23 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
     } else if (message['type'] == "text") {
       await Clipboard.setData(ClipboardData(text: message['content']));
       showSnack("Text Copied To Clipboard");
-    } else if (message['type'] == "image") {}
+    } else if (message['type'] == "image") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => Scaffold(
+            body: Stack(
+              children: <Widget>[
+                InteractiveViewer(alignment: Alignment.center, minScale: 1, child: Image.network(message['content'], fit: BoxFit.cover, width: MediaQuery.sizeOf(context).width, height: MediaQuery.sizeOf(context).height)),
+                Positioned(top: 36, child: IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(FontAwesome.chevron_left, size: 20, color: Colors.green))),
+              ],
+            ),
+          ),
+        ),
+      );
+      await Clipboard.setData(ClipboardData(text: message['content']));
+      showSnack("Image URL Copied To Clipboard");
+    }
     _counter = 0;
   }
 
@@ -314,225 +325,200 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
         _counter = 0;
       },
       child: Scaffold(
-        body: Stack(
+        extendBodyBehindAppBar: false,
+        appBar: AppBar(
+          backgroundColor: backgroundColor,
+          leading: IconButton(
+            onPressed: () {
+              if (_counter < 60) {
+                Navigator.pop(context);
+              }
+            },
+            icon: const Icon(FontAwesome.chevron_left, size: 20, color: Colors.green),
+          ),
+          title: const Text("Central Room", style: TextStyle(color: foregroundColor, fontSize: 20)),
+        ),
+        body: Column(
           children: <Widget>[
-            Column(
-              children: <Widget>[
-                Expanded(
-                  child: FirestoreListView(
-                    reverse: true,
-                    padding: const EdgeInsets.all(16),
-                    loadingBuilder: (BuildContext context) => const Wait(),
-                    query: FirebaseFirestore.instance.collection("chats").doc(_uid).collection("messages").orderBy("createdAt", descending: true),
-                    emptyBuilder: (BuildContext context) => Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          LottieBuilder.asset("assets/lotties/empty.json", width: 200, height: 200),
-                          const SizedBox(height: 10),
-                          const Text("NO CHAT YET", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: accent1)),
-                        ],
+            Expanded(
+              child: FirestoreListView(
+                reverse: true,
+                padding: const EdgeInsets.all(16),
+                loadingBuilder: (BuildContext context) => const Wait(),
+                query: FirebaseFirestore.instance.collection("chats").doc(_uid).collection("messages").orderBy("createdAt", descending: true),
+                emptyBuilder: (BuildContext context) => Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      LottieBuilder.asset("assets/lotties/empty.json", width: 200, height: 200),
+                      const SizedBox(height: 10),
+                      const Text("NO CHAT YET", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: accent1)),
+                    ],
+                  ),
+                ),
+                errorBuilder: (BuildContext context, Object error, StackTrace stackTrace) => Wrong(errorMessage: error.toString()),
+                itemBuilder: (BuildContext context, QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+                  final Map<String, dynamic> data = doc.data();
+                  _counter = 0;
+                  if (data["type"] == "audio") {
+                    _audios.add(
+                      VoiceController(
+                        audioSrc: data["content"],
+                        maxDuration: Duration(milliseconds: data["duration"]),
+                        isFile: false,
+                        onComplete: () => _counter = 0,
+                        onPause: () => _counter = 0,
+                        onPlaying: () => _counter = 0,
                       ),
-                    ),
-                    errorBuilder: (BuildContext context, Object error, StackTrace stackTrace) => Wrong(errorMessage: error.toString()),
-                    itemBuilder: (BuildContext context, QueryDocumentSnapshot<Map<String, dynamic>> doc) {
-                      final Map<String, dynamic> data = doc.data();
+                    );
+                  }
+                  return GestureDetector(
+                    onTap: () {
+                      _handleMessageTap(data);
                       _counter = 0;
-                      if (data["type"] == "audio") {
-                        _audios.add(
-                          VoiceController(
-                            audioSrc: data["content"],
-                            maxDuration: Duration(milliseconds: data["duration"]),
-                            isFile: false,
-                            onComplete: () => _counter = 0,
-                            onPause: () => _counter = 0,
-                            onPlaying: () => _counter = 0,
-                          ),
-                        );
-                      }
-                      return GestureDetector(
-                        onTap: () {
-                          _handleMessageTap(data);
-                          _counter = 0;
-                        },
-                        onLongPress: data['uid'] != _uid
-                            ? null
-                            : () async {
-                                _counter = 0;
-                                await showModalBottomSheet<void>(
-                                  context: context,
-                                  builder: (BuildContext context) => SafeArea(
-                                    child: SizedBox(
-                                      height: 145,
+                    },
+                    onLongPress: data['uid'] != _uid
+                        ? null
+                        : () async {
+                            _counter = 0;
+                            await showModalBottomSheet<void>(
+                              context: context,
+                              builder: (BuildContext context) => SafeArea(
+                                child: SizedBox(
+                                  height: 145,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      for (final Map<String, dynamic> item in _deletions)
+                                        InkWell(
+                                          hoverColor: transparent,
+                                          splashColor: transparent,
+                                          highlightColor: transparent,
+                                          onTap: () {
+                                            item["title"] == "REMOVE" ? item["callback"](context, doc, data) : item["callback"]();
+                                            _counter = 0;
+                                          },
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              Icon(item["icon"], size: 15, color: accent1),
+                                              const SizedBox(height: 10),
+                                              Text(item["title"], style: const TextStyle(color: accent1, fontSize: 16, fontWeight: FontWeight.w400)),
+                                            ],
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                            _counter = 0;
+                          },
+                    child: (data["type"] == "text")
+                        ? Align(
+                            alignment: data["uid"] == _uid ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(vertical: 8),
+                              constraints: BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width * .7),
+                              decoration: BoxDecoration(color: data["uid"] == _uid ? accent1 : const Color.fromARGB(255, 200, 200, 200), borderRadius: BorderRadius.circular(5)),
+                              padding: const EdgeInsets.all(8),
+                              child: Text(data["content"], style: TextStyle(fontSize: 16, color: data["uid"] == _uid ? backgroundColor : foregroundColor, fontWeight: FontWeight.w400)),
+                            ),
+                          )
+                        : (data["type"] == "image")
+                            ? Align(
+                                alignment: data["uid"] == _uid ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(vertical: 8),
+                                  height: 200,
+                                  width: 150,
+                                  decoration: BoxDecoration(color: accent1, borderRadius: BorderRadius.circular(5), border: Border.all(color: accent1, width: 2)),
+                                  child: CachedNetworkImage(imageUrl: data["content"], width: 200, height: 350, fit: BoxFit.cover),
+                                ),
+                              )
+                            : (data["type"] == "audio")
+                                ? Align(
+                                    alignment: data["uid"] == _uid ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
+                                    child: Container(
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: accent1, width: 2)),
+                                      child: VoiceMessageView(
+                                        isSender: data["uid"] == _uid,
+                                        backgroundColor: transparent,
+                                        activeSliderColor: accent1,
+                                        circlesColor: accent1,
+                                        notActiveSliderColor: transparent,
+                                        controller: _audios.last,
+                                        innerPadding: 4,
+                                      ),
+                                    ),
+                                  )
+                                : Align(
+                                    alignment: data["uid"] == _uid ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
+                                    child: Container(
+                                      constraints: BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width * .7),
+                                      padding: const EdgeInsets.all(16),
+                                      margin: const EdgeInsets.symmetric(vertical: 8),
+                                      decoration: BoxDecoration(
+                                        color: accent1,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: const Radius.circular(15),
+                                          bottomRight: Radius.circular(data["uid"] == _uid ? 0 : 15),
+                                          bottomLeft: Radius.circular(data["uid"] == _uid ? 15 : 0),
+                                          topRight: const Radius.circular(15),
+                                        ),
+                                      ),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        mainAxisSize: MainAxisSize.min,
                                         children: <Widget>[
-                                          for (final Map<String, dynamic> item in _deletions)
-                                            InkWell(
-                                              hoverColor: transparent,
-                                              splashColor: transparent,
-                                              highlightColor: transparent,
-                                              onTap: () {
-                                                item["title"] == "REMOVE" ? item["callback"](context, doc, data) : item["callback"]();
-                                                _counter = 0;
-                                              },
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Icon(item["icon"], size: 15, color: accent1),
-                                                  const SizedBox(height: 10),
-                                                  Text(item["title"], style: const TextStyle(color: accent1, fontSize: 16, fontWeight: FontWeight.w400)),
-                                                ],
-                                              ),
-                                            ),
+                                          const Icon(FontAwesome.file, size: 15, color: accent1),
+                                          const SizedBox(width: 10),
+                                          Flexible(child: Text(data["name"], style: const TextStyle(color: backgroundColor))),
                                         ],
                                       ),
                                     ),
                                   ),
-                                );
-                                _counter = 0;
-                              },
-                        child: (data["type"] == "text")
-                            ? BubbleSpecialOne(
-                                text: data["content"],
-                                isSender: data["uid"] == _uid,
-                                color: accent1,
-                                textStyle: const TextStyle(fontSize: 16, color: backgroundColor, fontWeight: FontWeight.w400),
-                              )
-                            : (data["type"] == "image")
-                                ? BubbleNormalImage(
-                                    id: doc.id,
-                                    isSender: data["uid"] == _uid,
-                                    image: CachedNetworkImage(imageUrl: data["content"], width: 200, height: 350, fit: BoxFit.cover),
-                                    color: accent1,
-                                    onTap: () async {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (BuildContext context) => Scaffold(
-                                            body: Stack(
-                                              children: <Widget>[
-                                                InteractiveViewer(
-                                                  alignment: Alignment.center,
-                                                  minScale: 1,
-                                                  child: Image.network(data['content'], fit: BoxFit.cover, width: MediaQuery.sizeOf(context).width, height: MediaQuery.sizeOf(context).height),
-                                                ),
-                                                Positioned(top: 36, child: IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(FontAwesome.chevron_left, size: 20, color: Colors.green))),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                      await Clipboard.setData(ClipboardData(text: data['content']));
-                                      showSnack("Image URL Copied To Clipboard");
-                                    },
-                                  )
-                                : (data["type"] == "audio")
-                                    ? Align(
-                                        alignment: data["uid"] == _uid ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
-                                        child: VoiceMessageView(
-                                          isSender: data["uid"] == _uid,
-                                          backgroundColor: transparent,
-                                          activeSliderColor: accent1,
-                                          circlesColor: accent1,
-                                          notActiveSliderColor: transparent,
-                                          size: 29,
-                                          controller: _audios.last,
-                                          innerPadding: 4,
-                                        ),
-                                      )
-                                    : Align(
-                                        alignment: data["uid"] == _uid ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
-                                        child: Container(
-                                          width: MediaQuery.sizeOf(context).width * .7,
-                                          padding: const EdgeInsets.all(16),
-                                          margin: const EdgeInsets.symmetric(vertical: 8),
-                                          decoration: BoxDecoration(
-                                            color: accent1,
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: const Radius.circular(15),
-                                              bottomRight: Radius.circular(data["uid"] == _uid ? 0 : 15),
-                                              bottomLeft: Radius.circular(data["uid"] == _uid ? 15 : 0),
-                                              topRight: const Radius.circular(15),
-                                            ),
-                                          ),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              const Icon(FontAwesome.file, size: 15, color: accent1),
-                                              const SizedBox(width: 10),
-                                              Flexible(child: Text(data["name"], style: const TextStyle(color: backgroundColor))),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
+                  );
+                },
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                border: Border.all(width: .3, color: accent1),
+                boxShadow: <BoxShadow>[BoxShadow(color: accent1.withOpacity(.1), blurStyle: BlurStyle.outer, offset: const Offset(-3, -3))],
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+              ),
+              child: Row(
+                children: <Widget>[
+                  IconButton(onPressed: _handleAttachmentPressed, icon: const Icon(FontAwesome.folder_plus, size: 15, color: accent1)),
+                  Flexible(
+                    child: TextField(
+                      controller: _inputController,
+                      onChanged: (String value) {
+                        _counter = 0;
+                        if (_inputController.text.trim().length <= 1) {
+                          _sendButtonKey.currentState!.setState(() {});
+                        }
+                      },
+                      decoration: const InputDecoration(border: InputBorder.none, hintText: "Type something...", hintStyle: TextStyle(color: accent1)),
+                    ),
+                  ),
+                  StatefulBuilder(
+                    key: _sendButtonKey,
+                    builder: (BuildContext context, void Function(void Function()) _) {
+                      _counter = 0;
+                      return AnimatedOpacity(
+                        opacity: _inputController.text.trim().isEmpty ? 0 : 1,
+                        duration: 500.ms,
+                        child: IconButton(
+                          onPressed: _inputController.text.trim().isEmpty ? null : _handleSendPressed,
+                          icon: const Icon(FontAwesome.paper_plane, size: 15, color: accent1),
+                        ),
                       );
                     },
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(4),
-                  margin: const EdgeInsets.symmetric(horizontal: 8),
-                  decoration: BoxDecoration(
-                    border: Border.all(width: .3, color: accent1),
-                    boxShadow: <BoxShadow>[BoxShadow(color: accent1.withOpacity(.1), blurStyle: BlurStyle.outer, offset: const Offset(-3, -3))],
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(5),
-                      topRight: Radius.circular(5),
-                      bottomLeft: Radius.circular(15),
-                      bottomRight: Radius.circular(15),
-                    ),
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      IconButton(onPressed: _handleAttachmentPressed, icon: const Icon(FontAwesome.folder_plus, size: 15, color: accent1)),
-                      Flexible(
-                        child: TextField(
-                          controller: _inputController,
-                          onChanged: (String value) {
-                            _counter = 0;
-                            if (_inputController.text.trim().length <= 1) {
-                              _sendButtonKey.currentState!.setState(() {});
-                            }
-                          },
-                          decoration: const InputDecoration(border: InputBorder.none, hintText: "Type something..."),
-                        ),
-                      ),
-                      StatefulBuilder(
-                        key: _sendButtonKey,
-                        builder: (BuildContext context, void Function(void Function()) _) {
-                          _counter = 0;
-                          return AnimatedOpacity(
-                            opacity: _inputController.text.trim().isEmpty ? 0 : 1,
-                            duration: 500.ms,
-                            child: IconButton(
-                              onPressed: _inputController.text.trim().isEmpty ? null : _handleSendPressed,
-                              icon: const Icon(FontAwesome.paper_plane, size: 15, color: accent1),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 30),
-              height: 40,
-              child: Row(
-                children: <Widget>[
-                  IconButton(
-                    onPressed: () {
-                      if (_counter < 60) {
-                        Navigator.pop(context);
-                      }
-                    },
-                    icon: const Icon(FontAwesome.chevron_left, size: 20, color: Colors.green),
-                  ),
-                  const Center(child: Text("Central Room", style: TextStyle(color: foregroundColor, fontSize: 20))),
                 ],
               ),
             ),
