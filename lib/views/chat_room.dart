@@ -10,6 +10,7 @@ import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:image_picker/image_picker.dart';
@@ -336,7 +337,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
             },
             icon: const Icon(FontAwesome.chevron_left, size: 20, color: Colors.green),
           ),
-          title: const Text("Central Room", style: TextStyle(color: foregroundColor, fontSize: 20)),
+          title: const Text("Unidad Control Operativa", style: TextStyle(color: foregroundColor, fontSize: 20)),
         ),
         body: Column(
           children: <Widget>[
@@ -486,8 +487,8 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
             Container(
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                border: Border.all(width: .3, color: accent1),
-                boxShadow: <BoxShadow>[BoxShadow(color: accent1.withOpacity(.1), blurStyle: BlurStyle.outer, offset: const Offset(-3, -3))],
+                color: accent1.withOpacity(.3),
+                border: Border.all(color: accent1),
                 borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
               ),
               child: Row(
@@ -495,6 +496,7 @@ class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
                   IconButton(onPressed: _handleAttachmentPressed, icon: const Icon(FontAwesome.folder_plus, size: 15, color: accent1)),
                   Flexible(
                     child: TextField(
+                      style: GoogleFonts.ibmPlexSans(color: accent1),
                       controller: _inputController,
                       onChanged: (String value) {
                         _counter = 0;

@@ -20,7 +20,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final FlutterTts _tts = FlutterTts();
+  final FlutterTts _tts = FlutterTts()..setLanguage("es-ES");
   late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>> _notificationStream;
   final AssetsAudioPlayer _assetsAudioPlayer = AssetsAudioPlayer();
 
@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
               width: MediaQuery.sizeOf(context).width * .98,
               padding: const EdgeInsets.symmetric(vertical: 16),
               decoration: BoxDecoration(color: backgroundColor, borderRadius: BorderRadius.circular(5)),
-              child: const Center(child: Text("New Message", style: TextStyle(color: accent1))),
+              child: const Center(child: Text("Nuevo mensaje", style: TextStyle(color: accent1))),
             ),
             context: context,
             onTap: () {},
@@ -73,12 +73,12 @@ class _HomeState extends State<Home> {
                       } else if (messages.first.get("type") == "audio") {
                         _assetsAudioPlayer.open(Audio.network(messages.first.get("content")));
                       } else if (messages.first.get("type") == "image") {
-                        await _tts.speak("LAST MESSAGE IS AN IMAGE");
+                        await _tts.speak("EL ÚLTIMO MENSAJE ES UNA IMAGEN");
                       } else {
-                        await _tts.speak("LAST MESSAGE IS AN ATTACHMENT");
+                        await _tts.speak("EL ÚLTIMO MENSAJE ES UN ADJUNTO");
                       }
                     } else {
-                      showSnack("No messages yet.");
+                      showSnack("Aún no hay mensajes.");
                     }
                   }
                 },
@@ -91,7 +91,7 @@ class _HomeState extends State<Home> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       SizedBox(width: 10),
-                      Text("Repeat Last\nMessage", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                      Text("Repetir último\nmensaje", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
                       Spacer(),
                       Icon(Bootstrap.repeat, size: 35),
                     ],
@@ -104,7 +104,7 @@ class _HomeState extends State<Home> {
               child: GestureDetector(
                 onTap: () async {
                   await FirebaseFirestore.instance.collection("chats").doc(userLocalSettings!.get("RUT")).collection("messages").add(TextMessageModel(uid: userLocalSettings!.get("RUT"), createdAt: DateTime.now().millisecondsSinceEpoch, content: "UNDERSTOOD").toJson());
-                  showSnack("Sent");
+                  showSnack("Enviado");
                 },
                 child: Container(
                   decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(15)),
@@ -114,7 +114,7 @@ class _HomeState extends State<Home> {
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Text("Message\nUnderstood", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                      Text("Mensaje\nEntendido", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
                       Spacer(),
                       Icon(Bootstrap.check, size: 55),
                     ],
@@ -124,7 +124,7 @@ class _HomeState extends State<Home> {
             ),
             Expanded(
               child: GestureDetector(
-                onTap: () => showSnack("Long Press To Continue"),
+                onTap: () => showSnack("Mantenga presionado para continuar"),
                 onLongPress: () {
                   _notificationStream.cancel();
                   _tts.stop();
@@ -138,7 +138,7 @@ class _HomeState extends State<Home> {
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Text("I Have A\nProblem", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                      Text("Tengo Un\nProblema", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
                       Spacer(),
                       Icon(FontAwesome.triangle_exclamation, size: 35),
                     ],
@@ -160,7 +160,7 @@ class _HomeState extends State<Home> {
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Text("Sign Out", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                      Text("Desconectar", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
                       Spacer(),
                       Icon(Icons.exit_to_app, size: 35),
                     ],

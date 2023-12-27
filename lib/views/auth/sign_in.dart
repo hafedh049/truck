@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:terrestra/helpers/utils/globals.dart';
 import 'package:terrestra/helpers/utils/methods.dart';
@@ -38,7 +37,7 @@ class _SignInState extends State<SignIn> {
               const Text("Hola !", style: TextStyle(fontSize: 45, fontWeight: FontWeight.w500, color: accent1, letterSpacing: 2)),
               const SizedBox(height: 40),
               Container(
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), border: Border.all(width: .6, color: accent1)),
+                decoration: BoxDecoration(color: accent1.withOpacity(.2), borderRadius: BorderRadius.circular(12), border: Border.all(width: .6, color: accent1)),
                 child: TextField(
                   style: const TextStyle(color: accent1),
                   cursorColor: accent1,
@@ -65,27 +64,26 @@ class _SignInState extends State<SignIn> {
                           _(() => _signInState = true);
                           final DocumentSnapshot<Map<String, dynamic>> query = await FirebaseFirestore.instance.collection("users").doc(_rut.text.trim()).get();
                           if (query.exists) {
-                            showSnack("Welcome");
+                            showSnack("Bienvenido");
                             userLocalSettings!.put("RUT", _rut.text.trim());
                             _(() => _signInState = false);
                             // ignore: use_build_context_synchronously
                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Hold()));
                           } else {
                             _(() => _signInState = false);
-                            showSnack("USER DOES NOT EXIST, PLEASE CONTACT THE OPERATION CENTER");
+                            showSnack("EL USUARIO NO EXISTE, POR FAVOR CONTACTAR AL CENTRO DE OPERACIONES");
                           }
                         } else {
                           _(() => _signInState = false);
-                          showSnack("THE RUT CODE SHOULD NOT BE EMPTY");
+                          showSnack("EL CÓDIGO RUT NO DEBE ESTAR VACÍO");
                         }
                       } catch (e) {
                         _(() => _signInState = false);
                         showSnack(e.toString());
                       }
                     },
-                    child: AnimatedContainer(
-                      duration: 700.ms,
-                      decoration: BoxDecoration(color: accent1, borderRadius: BorderRadius.circular(15)),
+                    child: Container(
+                      decoration: BoxDecoration(color: accent1, borderRadius: BorderRadius.circular(25)),
                       width: MediaQuery.sizeOf(context).width,
                       padding: const EdgeInsets.all(20),
                       child: Center(child: Text(_signInState ? "Espera..." : "Entrar", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500))),
