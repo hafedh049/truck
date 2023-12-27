@@ -128,6 +128,7 @@ class _HomeState extends State<Home> {
                 onLongPress: () {
                   _notificationStream.cancel();
                   _tts.stop();
+                  _assetsAudioPlayer.stop();
                   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const ChatRoom()));
                 },
                 child: Container(
