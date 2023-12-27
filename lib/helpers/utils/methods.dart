@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:terrestra/views/helpers/utils/globals.dart';
+import 'package:terrestra/helpers/utils/globals.dart';
 
 Future<bool> loadUserLocalSettings() async {
   try {

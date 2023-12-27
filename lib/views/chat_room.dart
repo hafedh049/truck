@@ -22,10 +22,10 @@ import 'package:terrestra/models/messages/audio_message_model.dart';
 import 'package:terrestra/models/messages/file_message_model.dart';
 import 'package:terrestra/models/messages/image_message_module.dart';
 import 'package:terrestra/models/messages/text_message_model.dart';
-import 'package:terrestra/views/helpers/utils/globals.dart';
-import 'package:terrestra/views/helpers/utils/methods.dart';
-import 'package:terrestra/views/helpers/wait.dart';
-import 'package:terrestra/views/helpers/wrong.dart';
+import 'package:terrestra/helpers/utils/globals.dart';
+import 'package:terrestra/helpers/utils/methods.dart';
+import 'package:terrestra/helpers/wait.dart';
+import 'package:terrestra/helpers/wrong.dart';
 import 'package:voice_message_package/voice_message_package.dart';
 
 class ChatRoom extends StatefulWidget {

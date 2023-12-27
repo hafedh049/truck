@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:terrestra/views/helpers/utils/globals.dart';
-import 'package:terrestra/views/helpers/utils/methods.dart';
-import 'package:terrestra/views/home.dart';
+import 'package:terrestra/helpers/utils/globals.dart';
+import 'package:terrestra/helpers/utils/methods.dart';
+import 'package:terrestra/views/hold.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -69,7 +69,7 @@ class _SignInState extends State<SignIn> {
                             userLocalSettings!.put("RUT", _rut.text.trim());
                             _(() => _signInState = false);
                             // ignore: use_build_context_synchronously
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Home()));
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => const Hold()));
                           } else {
                             _(() => _signInState = false);
                             showSnack("USER DOES NOT EXIST, PLEASE CONTACT THE OPERATION CENTER");

@@ -9,8 +9,8 @@ import 'package:in_app_notification/in_app_notification.dart';
 import 'package:terrestra/models/messages/text_message_model.dart';
 import 'package:terrestra/views/auth/sign_in.dart';
 import 'package:terrestra/views/chat_room.dart';
-import 'package:terrestra/views/helpers/utils/globals.dart';
-import 'package:terrestra/views/helpers/utils/methods.dart';
+import 'package:terrestra/helpers/utils/globals.dart';
+import 'package:terrestra/helpers/utils/methods.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
